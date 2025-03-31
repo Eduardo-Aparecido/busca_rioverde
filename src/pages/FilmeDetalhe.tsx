@@ -1,3 +1,11 @@
+/**
+ * Importação dos componentes e dependências necessárias
+ * - Hooks do React e React Router
+ * - motion: Biblioteca de animações Framer Motion
+ * - Ícones do Lucide
+ * - Componentes UI personalizados
+ * - Hooks personalizados para curtidas e compartilhamento
+ */
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,7 +14,7 @@ import {
   Clock, 
   MapPin, 
   Heart, 
-  Share2,
+  Share2, 
   ArrowLeft,
   Theater,
   Info
@@ -15,18 +23,38 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { YouTubeTrailer } from "@/components/ui/youtube-trailer";
 import { useCurtida } from "@/hooks/useCurtida";
+import { useCompartilhar } from "@/hooks/useCompartilhar";
+import { ShareButton } from "@/components/ui/share-button";
 
+/**
+ * Interface para horários simples
+ * @property dia - Data do horário
+ * @property horarios - Lista de horários disponíveis
+ */
 interface Horario {
   dia: string;
   horarios: string[];
 }
 
+/**
+ * Interface para horários de uma sala específica
+ * @property sala - Número ou nome da sala
+ * @property tipos - Tipos de exibição (2D, 3D, DUB, LEG)
+ * @property horarios - Lista de horários disponíveis
+ */
 interface SalaHorario {
   sala: string;
   tipos: string[];
   horarios: string[];
 }
 
+/**
+ * Interface para informações de um cinema
+ * @property nome - Nome do cinema
+ * @property endereco - Endereço completo
+ * @property logo - URL do logotipo
+ * @property salas - Lista de salas e seus horários
+ */
 interface CinemaHorario {
   nome: string;
   endereco: string;
@@ -34,6 +62,34 @@ interface CinemaHorario {
   salas: SalaHorario[];
 }
 
+/**
+ * Interface para datas disponíveis
+ * @property dia - Data no formato DD/MM
+ * @property diaSemana - Dia da semana abreviado
+ * @property cinemas - Lista de cinemas com horários
+ */
+interface DataDisponivel {
+  dia: string;
+  diaSemana: string;
+  cinemas: CinemaHorario[];
+}
+
+/**
+ * Interface para informações completas do filme
+ * @property id - Identificador único do filme
+ * @property titulo - Nome do filme
+ * @property imagem - URL do poster
+ * @property data - Data de estreia
+ * @property classificacao - Classificação indicativa
+ * @property duracao - Duração do filme
+ * @property descricao - Sinopse do filme
+ * @property elenco - Lista de atores principais
+ * @property diretor - Nome do diretor
+ * @property genero - Gêneros do filme
+ * @property videoId - ID do trailer no YouTube (opcional)
+ * @property linkVenda - URL para compra de ingressos
+ * @property datasDisponiveis - Lista de datas e horários disponíveis
+ */
 interface Filme {
   id: string;
   titulo: string;
@@ -46,92 +102,498 @@ interface Filme {
   diretor: string;
   genero: string;
   videoId?: string;
-  cinemas: CinemaHorario[];
+  linkVenda: string;
+  datasDisponiveis: DataDisponivel[];
 }
 
-// Dados simulados para desenvolvimento
+/**
+ * Configuração dos cinemas e suas salas por filme
+ */
+const CINEMAS = {
+  CINEFLIX: {
+            nome: "CINEFLIX",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+    filmes: {
+      "1": { // Minecraft
+        salas: {
+          sala1: {
+            nome: "Sala 1",
+                tipos: ["DUB", "3D"],
+            horarios: {
+              segunda: ["14:30", "16:50", "00:00"],
+              terca: ["14:30", "16:50"],
+              quarta: ["14:30", "16:50"],
+              quinta: ["14:30", "16:50"],
+              sexta: ["14:30", "16:50"],
+              sabado: ["14:30", "16:50"],
+              domingo: ["14:30", "23:50"]
+            }
+          }
+        }
+      },
+      "2": { // Branca de Neve
+        salas: {
+          sala2: {
+            nome: "Sala 2",
+                tipos: ["DUB", "2D"],
+            horarios: {
+              segunda: ["16:20", "18:40", "21:00"],
+              terca: ["16:20", "18:40"],
+              quarta: ["16:20", "18:40", "21:00"],
+              quinta: ["16:20", "18:40", "21:00"],
+              sexta: ["16:20", "18:40", "21:00"],
+              sabado: ["16:20", "18:40", "21:00"],
+              domingo: ["16:20", "18:40", "21:00"]
+            }
+          },
+          sala3: {
+            nome: "Sala 3",
+                tipos: ["LEG", "2D"],
+            horarios: {
+              segunda: ["15:00", "19:30"],
+              terca: ["15:00", "19:30"],
+              quarta: ["15:00", "19:30"],
+              quinta: ["15:00", "19:30"],
+              sexta: ["15:00", "19:30"],
+              sabado: ["15:00", "19:30"],
+              domingo: ["15:00", "19:30"]
+            }
+          }
+        }
+      },
+      "3": { // Vitória
+        salas: {
+          sala4: {
+            nome: "Sala 4",
+                tipos: ["DUB", "2D"],
+            horarios: {
+              segunda: ["16:10", "18:40", "21:10"],
+              terca: ["16:10", "18:40", "21:10"],
+              quarta: ["16:10", "18:40", "21:10"],
+              quinta: ["16:10", "18:40", "21:10"],
+              sexta: ["16:10", "18:40", "21:10"],
+              sabado: ["16:10", "18:40", "21:10"],
+              domingo: ["16:10", "18:40", "21:10"]
+            }
+          }
+        }
+      }
+    }
+  },
+  CINEA: {
+    nome: "CINE A (Shopping Rio Verde)",
+    endereco: "Shopping Rio Verde, Av. Presidente Vargas, 2121 - Jardim Presidente, Rio Verde - GO",
+    logo: "/images/cinea-logo.png",
+    filmes: {
+      "3": { // Interestelar
+        salas: {
+          salaVIP: {
+            nome: "Sala VIP",
+            tipos: ["DUB", "VIP"],
+            horarios: {
+              segunda: ["14:00", "17:30", "21:15"],
+              terca: ["14:00", "17:30", "21:15"],
+              quarta: ["14:00", "17:30", "21:15"],
+              quinta: ["14:00", "17:30", "21:15"],
+              sexta: ["14:00", "17:30", "21:15"],
+              sabado: ["14:00", "17:30", "21:15"],
+              domingo: ["14:00", "17:30", "21:15"]
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+// Interfaces para a estrutura de salas e horários
+interface SalaConfig {
+  nome: string;
+  tipos: string[];
+  horarios: {
+    [key: string]: string[];
+  };
+}
+
+interface FilmeConfig {
+  salas: {
+    [key: string]: SalaConfig;
+  };
+}
+
+interface CinemaConfig {
+  nome: string;
+  endereco: string;
+  logo: string;
+  filmes: {
+    [key: string]: FilmeConfig;
+  };
+}
+
+interface CinemasConfig {
+  CINEFLIX: CinemaConfig;
+  CINEA: CinemaConfig;
+}
+
+/**
+ * Função para obter os horários da sala baseado no dia da semana
+ */
+function getHorariosSala(cinema: string, filmeId: string, nomeSala: string, data: Date): string[] {
+  const diasSemana = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
+  const diaSemana = diasSemana[data.getDay()];
+  
+  const cinemaConfig = CINEMAS[cinema as keyof typeof CINEMAS];
+  if (!cinemaConfig?.filmes?.[filmeId]?.salas) return [];
+
+  const sala = Object.values(cinemaConfig.filmes[filmeId].salas).find(s => s.nome === nomeSala);
+  if (!sala?.horarios?.[diaSemana]) return [];
+  
+  return sala.horarios[diaSemana];
+}
+
+/**
+ * Função para gerar datas dinâmicas
+ */
+function gerarDatasDisponiveis(cinemaId: "CINEFLIX" | "CINEA", filmeId: string): DataDisponivel[] {
+  const diasSemana = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'];
+  const hoje = new Date();
+  const cinema = CINEMAS[cinemaId];
+  
+  if (!cinema?.filmes?.[filmeId]?.salas) {
+    return [];
+  }
+  
+  const filmeConfig = cinema.filmes[filmeId];
+  
+  return Array.from({ length: 7 }).map((_, index) => {
+    const data = new Date();
+    data.setDate(hoje.getDate() + index);
+    
+    const dia = data.getDate().toString().padStart(2, '0');
+    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+    const diaSemana = diasSemana[data.getDay()];
+    
+    let textoSemana = diaSemana;
+    if (index === 0) textoSemana = "HOJE";
+    else if (index === 1) textoSemana = "AMANHÃ";
+
+    // Gera as salas com horários específicos para o filme e dia
+    const salas = Object.values(filmeConfig.salas)
+      .map(sala => ({
+        sala: sala.nome,
+        tipos: sala.tipos,
+        horarios: getHorariosSala(cinemaId, filmeId, sala.nome, data)
+      }))
+      .filter(sala => sala.horarios.length > 0);
+
+    return {
+      dia: `${dia}/${mes}`,
+      diaSemana: textoSemana,
+      cinemas: [{
+        nome: cinema.nome,
+        endereco: cinema.endereco,
+        logo: cinema.logo,
+        salas: salas
+      }]
+    };
+  });
+}
+
+/**
+ * Dados simulados para desenvolvimento
+ * Estruturas de dados que simulam o conteúdo que viria de uma API
+ */
 const filmesCineflix = [
   {
     id: "1",
-    titulo: "Spider-Man: Sem Volta para Casa",
-    imagem: "spider-man.jpg",
-    data: "Em cartaz",
-    classificacao: "12+",
-    duracao: "2h 28min",
+    titulo: "Um Filme Minecraft",
+    imagem: "/images/cinemas/cineflix/minecraft.png",
+    data: "03 Abr 2025",
+    classificacao: "Livre",
+    duracao: "1h 41min",
     descricao: `
-      Peter Parker é desmascarado e não consegue mais separar sua vida normal 
-      dos grandes riscos de ser um super-herói. Quando ele recorre ao Doutor 
-      Estranho para ajudar, os riscos se tornam ainda mais perigosos, e o 
-      forçam a descobrir o que realmente significa ser o Homem-Aranha.
+      Quatro desajustados — Garrett "The Garbage Man" Garrison, Henry, Natalie e Dawn — são misteriosamente transportados para o Overworld, um mundo cúbico onde a criatividade é essencial para a sobrevivência. Nesse ambiente repleto de perigos como Piglins e Zumbis, eles devem aprender a dominar suas habilidades criativas para encontrar um caminho de volta para casa, 
+      enquanto enfrentam ameaças que podem destruir tanto o Overworld quanto o mundo real.
+
     `,
     elenco: `
-      Tom Holland, Zendaya, Benedict Cumberbatch, Jon Favreau, Jacob Batalon
+      Jack Black, Jason Momoa, Danielle Brooks
     `,
-    diretor: "Jon Watts",
-    genero: "Ação, Aventura, Ficção Científica",
-    videoId: "JfVOs4VSpmA",
-    cinemas: [
+    diretor: "Jared Hess",
+    genero: "Aventura, Comédia,",
+    videoId: "SZMub74Xd-Q",
+    linkVenda: "https://vendaonline.cineflix.com.br/sessions/minecraft/RVD/",
+    datasDisponiveis: [] // Será preenchido dinamicamente
+  },
+  {
+    id: "2",
+    titulo: "Branca de Neve",
+    imagem: "/images/cinemas/cineflix/brancadeneve.png",
+    data: "Em cartaz",
+    classificacao: "12+",
+    duracao: "3h 2min",
+    descricao: `
+      Inspirado no conto clássico dos Irmãos Grimm, Branca de Neve ganha uma 
+      nova adaptação live-action da Disney. 
+
+      A história acompanha a jovem princesa Branca de Neve (Rachel Zegler), cuja beleza desperta a inveja de sua madrasta, a Rainha Má (Gal Gadot). 
+      Determinada a eliminar a enteada, a vilã ordena sua morte, mas Branca de Neve consegue escapar e 
+      se refugia na floresta. Lá, encontra uma cabana onde vivem sete anões amigáveis, 
+      que a acolhem e se tornam seus aliados. No entanto, o perigo ainda ronda a princesa, 
+      pois a Rainha Má tem um plano cruel para eliminá-la de vez: uma maçã envenenada. 
+      Além de recontar a icônica jornada da princesa, o filme traz uma abordagem renovada 
+      com novas canções originais compostas por Benj Pasek e Justin Paul, responsáveis pelas 
+      trilhas de La La Land e O Rei do Show.
+    `,
+    elenco: `
+       Rachel Zegler, Gal Gadot, Andrew Burnap
+    `,
+    diretor: " Marc Webb | Roteiro Erin Cressida Wilson",
+    genero: "Aventura, Fantasia, Comédia Musical",
+    videoId: "X3o9GyKda1k",
+    linkVenda: "https://vendaonline.cineflix.com.br/sessions/branca-de-neve/RVD/",
+    datasDisponiveis: [
       {
-        nome: "CINEFLIX (Buriti Shopping)",
-        endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
-        logo: "/images/cineflix-logo.png",
-        salas: [
+        dia: "27/03",
+        diaSemana: "QUI",
+        cinemas: [
           {
-            sala: "Sala 1",
-            tipos: ["DUB"],
-            horarios: ["14:30", "17:45", "21:00"]
+            nome: "CINEFLIX",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [
+              {
+                sala: "Sala 1",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:30", "16:50", "19:10"]
+              },
+              {
+                sala: "Sala 2",
+                tipos: ["DUB", "2D"],
+                horarios: ["16:20", "18:40", "19:10", "21:00"]
+              }
+            ]
           }
         ]
       },
       {
-        nome: "CINE A (Shopping Rio Verde)",
-        endereco: "Shopping Rio Verde, Av. Presidente Vargas, 2121 - Jardim Presidente, Rio Verde - GO",
-        logo: "/images/cinea-logo.png",
-        salas: [
+        dia: "28/03",
+        diaSemana: "SEX",
+        cinemas: [
           {
-            sala: "Sala VIP",
-            tipos: ["DUB", "VIP"],
-            horarios: ["17:00", "19:20", "21:40"]
-          },
+            nome: "CINEFLIX",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [
+              {
+                sala: "Sala 5",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:00"]
+              },
+              {
+                sala: "Sala 1",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:30", "16:50", "19:10"]
+              },
+              {
+                sala: "Sala 2",
+                tipos: ["DUB", "2D"],
+                horarios: ["16:20", "18:40", "21:00"]
+              },
+              {
+                sala: "Sala 3",
+                tipos: ["DUB", "2D"],
+                horarios: ["15:00"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        dia: "29/03",
+        diaSemana: "SAB",
+        cinemas: [
           {
-            sala: "Sala IMAX",
-            tipos: ["DUB", "TELA GIGANTE"],
-            horarios: ["14:20", "16:40", "19:00", "21:20"]
+            nome: "CINEFLIX",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [
+              {
+                sala: "Sala 5",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:00"]
+              },
+              {
+                sala: "Sala 1",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:30", "16:50", "19:10"]
+              },
+              {
+                sala: "Sala 2",
+                tipos: ["DUB", "2D"],
+                horarios: ["16:20", "18:40", "21:00"]
+              },
+              {
+                sala: "Sala 3",
+                tipos: ["DUB", "2D"],
+                horarios: ["15:00"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        dia: "30/03",
+        diaSemana: "DOM",
+        cinemas: [
+          {
+            nome: "CINEFLIX",
+    endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [
+              {
+                sala: "Sala 5",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:00"]
+              },
+              {
+                sala: "Sala 1",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:30", "16:50", "19:10"]
+              },
+              {
+                sala: "Sala 2",
+                tipos: ["DUB", "2D"],
+                horarios: ["16:20", "18:40", "21:00"]
+              },
+              {
+                sala: "Sala 3",
+                tipos: ["DUB", "2D"],
+                horarios: ["15:00"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        dia: "31/03",
+        diaSemana: "SEG",
+        cinemas: [
+          {
+            nome: "CINEFLIX",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [              
+              {
+                sala: "Sala 1",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:30", "16:50", "19:10"]
+              },
+              {
+                sala: "Sala 2",
+                tipos: ["DUB", "2D"],
+                horarios: ["16:20", "18:40", "21:00"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        dia: "01/04",
+        diaSemana: "TER",
+        cinemas: [
+          {
+            nome: "CINEFLIX",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [              
+              {
+                sala: "Sala 1",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:30", "16:50", "19:10"]
+              },
+              {
+                sala: "Sala 2",
+                tipos: ["DUB", "2D"],
+                horarios: ["16:20", "18:40", "21:00"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        dia: "02/04",
+        diaSemana: "QUA",
+        cinemas: [
+          {
+            nome: "CINEFLIX",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [              
+              {
+                sala: "Sala 1",
+                tipos: ["DUB", "2D"],
+                horarios: ["14:30", "16:50", "19:10"]
+              }
+            ]
           }
         ]
       }
     ]
   },
   {
-    id: "2",
-    titulo: "Vingadores: Ultimato",
-    imagem: "vingadores-ultimato.jpg",
+    id: "3",
+    titulo: "Vitória",
+    imagem: "/images/cinemas/cineflix/vitoria.png",
     data: "Em cartaz",
-    classificacao: "12+",
-    duracao: "3h 2min",
+    classificacao: "16+",
+    duracao: "1h 52min",
     descricao: `
-      Em Vingadores: Ultimato, após Thanos eliminar metade das criaturas 
-      vivas, os heróis precisam lidar com a perda de amigos e entes queridos. 
-      Com Tony Stark vagando perdido no espaço sem água e comida, Steve Rogers 
-      e Natasha Romanova lideram a resistência contra o titã louco.
+      A história real de uma aposentada que desmontou uma quadrilha carioca de traficantes e policiais a partir de filmagens feitas da janela do seu apartamento no Rio de Janeiro.
+
     `,
     elenco: `
-      Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, 
-      Scarlett Johansson, Jeremy Renner
+        Fernanda Montenegro, Silvio Guindane, Jeniffer Dias
     `,
-    diretor: "Anthony Russo, Joe Russo",
-    genero: "Ação, Aventura, Ficção Científica",
-    videoId: "TcMBFSGVi1c",
-    cinemas: [
+    diretor: "Andrucha Waddington |  Paula Fiuza, Breno Silveira",
+    genero: " Policial, Drama",
+    videoId: "3Zr6YJ02r5g",
+    linkVenda: "https://vendaonline.cineflix.com.br/sessions/vitoria/RVD/",
+    datasDisponiveis: [
       {
-        nome: "CINEFLIX (Buriti Shopping)",
-        endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
-        logo: "/images/cineflix-logo.png",
-        salas: [
+        dia: "25/03",
+        diaSemana: "TER",
+        cinemas: [
           {
-            sala: "Sala 2",
-            tipos: ["DUB", "3D"],
-            horarios: ["15:30", "18:45", "22:00"]
+            nome: "CINEFLIX",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [
+              {
+                sala: "Sala 4",
+                tipos: ["DUB", "2D"],
+                horarios: ["16:10", "18:40", "21:10"]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        dia: "26/03",
+        diaSemana: "QUA",
+        cinemas: [
+          {
+            nome: "CINEFLIX",
+    endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+            salas: [
+              {
+                sala: "Sala 4",
+                tipos: ["DUB", "2D"],
+                horarios: ["16:10", "18:40", "21:10"]
+              }
+            ]
           }
         ]
       }
@@ -152,16 +614,23 @@ const filmesCineA = [
     diretor: "Christopher Nolan",
     genero: "Ficção Científica, Drama, Aventura",
     videoId: "zSWdZVtXT7E",
-    cinemas: [
+    linkVenda: "https://vendaonline.cineflix.com.br/sessions/interestelar/RVD/",
+    datasDisponiveis: [
       {
-        nome: "CINE A (Shopping Rio Verde)",
-        endereco: "Shopping Rio Verde, Av. Presidente Vargas, 2121 - Jardim Presidente, Rio Verde - GO",
-        logo: "/images/cinea-logo.png",
-        salas: [
+        dia: "25/03",
+        diaSemana: "SEG",
+        cinemas: [
           {
-            sala: "Sala VIP",
-            tipos: ["DUB", "VIP"],
-            horarios: ["14:00", "17:30", "21:15"]
+            nome: "CINE A (Shopping Rio Verde)",
+    endereco: "Shopping Rio Verde, Av. Presidente Vargas, 2121 - Jardim Presidente, Rio Verde - GO",
+            logo: "/images/cinea-logo.png",
+            salas: [
+              {
+                sala: "Sala VIP",
+                tipos: ["DUB", "VIP"],
+                horarios: ["14:00", "17:30", "21:15"]
+              }
+            ]
           }
         ]
       }
@@ -171,230 +640,259 @@ const filmesCineA = [
 
 const todosFilmes = [...filmesCineflix, ...filmesCineA];
 
+/**
+ * Página FilmeDetalhe
+ * 
+ * Página de detalhes de um filme em cartaz
+ * Exibe informações completas e permite compra de ingressos
+ * 
+ * Características:
+ * - Hero section com poster e informações principais
+ * - Trailer do filme (quando disponível)
+ * - Sinopse e informações técnicas
+ * - Seleção de data e horário
+ * - Compra de ingressos por cinema
+ * - Botões de curtir e compartilhar
+ * - Design responsivo
+ * 
+ * Estados:
+ * - dataAtiva: Data selecionada para exibição dos horários
+ * - curtido: Estado de curtida do filme
+ * - filme: Dados do filme atual
+ */
 export default function FilmeDetalhe() {
   const { id } = useParams();
   const [filme, setFilme] = useState<Filme | null>(null);
-  const [carregando, setCarregando] = useState(true);
-  const [diaAtual, setDiaAtual] = useState(new Date());
+  const [dataAtiva, setDataAtiva] = useState<string>("");
+  const { curtido, handleCurtir } = useCurtida({ id: id || "" });
+  const { compartilhar } = useCompartilhar();
   
-  const { curtido, contagemCurtidas, handleCurtir } = useCurtida({ 
-    itemId: id || '', 
-    tipo: 'filme' 
-  });
-  
-  const diasDaSemana = Array.from({ length: 7 }, (_, i) => {
-    const data = new Date();
-    data.setDate(data.getDate() + i);
-    return data;
-  });
-
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    if (!id) return;
 
-  useEffect(() => {
-    const filmeEncontrado = todosFilmes.find(f => f.id === id);
-    
+    // Procura o filme em todos os cinemas
+    const filmeEncontrado = {...todosFilmes.find(f => f.id === id)};
     if (filmeEncontrado) {
+      // Determina de qual cinema é o filme
+      const isCineflix = filmesCineflix.some(f => f.id === id);
+      // Gera datas dinâmicas para o cinema correto
+      const datas = gerarDatasDisponiveis(isCineflix ? "CINEFLIX" : "CINEA", id);
+      filmeEncontrado.datasDisponiveis = datas;
       setFilme(filmeEncontrado);
+      if (datas.length > 0) {
+        setDataAtiva(datas[0].dia);
+      }
     }
-    
-    setTimeout(() => {
-      setCarregando(false);
-    }, 300);
   }, [id]);
 
-  const formatarData = (data: Date) => {
-    const dia = data.getDate().toString().padStart(2, '0');
-    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-    const diaSemana = data.toLocaleDateString('pt-BR', { weekday: 'short' }).toUpperCase();
-    return `${diaSemana}\n${dia}/${mes}`;
-  };
-
-  if (!filme && !carregando) {
-    return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <h2 className="text-2xl font-bold mb-4">Filme não encontrado</h2>
-        <p className="mb-8">O filme que você está procurando não existe ou foi removido.</p>
-        <Link to="/cinema">
-          <Button>Voltar para a lista de filmes</Button>
-        </Link>
-      </div>
-    );
+  if (!filme) {
+    return null;
   }
 
-  if (!filme) return null;
-
   return (
-    <div className="min-h-screen bg-background">
-      <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
-        <img
-          src={filme.imagem}
-          alt={filme.titulo}
-          className="w-full h-[50vh] object-cover"
-        />
-      </div>
+    <div className="min-h-screen bg-secondary/50 dark:bg-black">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
+        {/* Botão Voltar */}
+        <Button
+          variant="outline"
+          className="mb-8"
+          onClick={() => window.history.back()}
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Voltar
+        </Button>
 
-      <div className="container mx-auto px-4 -mt-32 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div>
-            <h1 className="text-4xl font-bold mb-4 text-white">{filme.titulo}</h1>
-            
-            <div className="flex flex-wrap gap-4 mb-6">
-              <Badge variant="secondary" className="bg-primary/20 text-primary">
-                {filme.classificacao}
+        {/* Breadcrumb */}
+        <div className="text-sm text-zinc-600 dark:text-zinc-400 mb-8">
+          <span>Cinema</span>
+          <span className="mx-2">›</span>
+          <span>{filme.genero}</span>
+        </div>
+
+        {/* Hero Image */}
+        <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+            <img
+              src={filme.imagem}
+              alt={filme.titulo}
+              className="w-full h-full object-cover"
+            />
+          <div className="absolute bottom-2 left-2 text-xs text-white/60">
+            Reprodução | Disney
+          </div>
+            </div>
+
+        <div className="flex justify-end mt-4">
+          <Badge variant="outline" className="bg-zinc-800 text-white border-none">
+                Semana de estreia
               </Badge>
-              <span className="text-muted-foreground flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                {filme.duracao}
-              </span>
-              <span className="text-muted-foreground flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                {filme.data}
-              </span>
             </div>
 
-            <div className="space-y-4 text-muted-foreground">
-              <p className="text-lg whitespace-pre-line leading-relaxed">
-                {filme.descricao}
-              </p>
-              
-              <div>
-                <h3 className="text-foreground font-semibold mb-1">Gênero</h3>
-                <p>{filme.genero}</p>
-              </div>
-              
-              <div>
-                <h3 className="text-foreground font-semibold mb-1">Direção</h3>
-                <p>{filme.diretor}</p>
-              </div>
-              
-              <div>
-                <h3 className="text-foreground font-semibold mb-1">Elenco</h3>
-                <p>{filme.elenco}</p>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <Button 
-                variant="outline" 
-                size="lg" 
-                onClick={handleCurtir} 
-                className="w-full sm:w-auto"
-              >
-                <Heart className={`h-4 w-4 mr-2 ${curtido ? "fill-red-500 text-red-500" : ""}`} />
-                {curtido ? "Favoritado" : "Favoritar"}
-                {contagemCurtidas > 0 && (
-                  <span className="ml-2 text-sm text-muted-foreground">
-                    ({contagemCurtidas})
-                  </span>
-                )}
-              </Button>
-            </div>
+        <h1 className="text-3xl font-bold text-white mt-6">{filme.titulo}</h1>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {filme.genero.split(",").map((genero, index) => (
+            <span key={index} className="text-cyan-500">
+              {genero.trim()}
+            </span>
+          ))}
           </div>
 
-          <div className="space-y-6">
-            {filme.videoId && (
-              <div className="rounded-lg overflow-hidden">
-                <YouTubeTrailer
-                  videoId={filme.videoId}
-                  title={`Trailer - ${filme.titulo}`}
-                  className="w-full aspect-video"
-                />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
+          {filme.videoId && (
+            <div className="aspect-video w-full">
+              <YouTubeTrailer 
+                videoId={filme.videoId} 
+                title={filme.titulo}
+              />
               </div>
-            )}
+          )}
+
+          <div className="bg-zinc-900 rounded-lg p-4 space-y-4">
+            <div>
+              <div className="text-zinc-400 text-sm">Classificação:</div>
+              <div className="text-white">{filme.classificacao}</div>
+                </div>
+            <div>
+              <div className="text-zinc-400 text-sm">Duração:</div>
+              <div className="text-white">{filme.duracao}</div>
+                </div>
+            <div>
+              <div className="text-zinc-400 text-sm">Direção:</div>
+              <div className="text-white">{filme.diretor}</div>
+                </div>
+            <div>
+              <div className="text-zinc-400 text-sm">No elenco:</div>
+              <div className="text-white">{filme.elenco}</div>
+            </div>
+            <div>
+              <div className="text-zinc-400 text-sm">Ano:</div>
+              <div className="text-white">2025</div>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-semibold flex items-center gap-2">
-              🍿 Salas e horários
-            </h2>
+        <div className="mt-6 text-white/80 leading-relaxed max-w-prose">
+          {filme.descricao}
           </div>
 
-          {filme.cinemas && filme.cinemas.length > 0 ? (
-            <>
-              <div className="flex gap-2 overflow-x-auto pb-4 mb-6">
-                {diasDaSemana.map((data, index) => (
-                  <Button
-                    key={index}
-                    variant={data.toDateString() === diaAtual.toDateString() ? "default" : "outline"}
-                    className="min-w-[100px] flex flex-col py-6"
-                    onClick={() => setDiaAtual(data)}
-                  >
-                    <span className="text-xs uppercase">
-                      {data.toLocaleDateString('pt-BR', { weekday: 'short' })}
-                    </span>
-                    <span className="text-lg font-bold">
-                      {data.getDate()}/{(data.getMonth() + 1).toString().padStart(2, '0')}
-                    </span>
-                  </Button>
-                ))}
-              </div>
-
-              <div className="space-y-6">
-                {filme.cinemas.map((cinema, cinemaIndex) => (
-                  <div key={cinemaIndex} className="bg-card rounded-lg p-6 border border-border">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-4">
-                        <img src={cinema.logo} alt={cinema.nome} className="h-8" />
-                        <h3 className="text-xl font-semibold">{cinema.nome}</h3>
-                      </div>
-                      <Button variant="outline" size="sm" className="text-primary border-primary">
-                        <Info className="h-4 w-4 mr-2" />
-                        Preços e Infos
-                      </Button>
-                    </div>
-
-                    <div className="space-y-4">
-                      {cinema.salas.map((sala, salaIndex) => (
-                        <div key={salaIndex}>
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-sm text-muted-foreground">{sala.sala}</span>
-                            {sala.tipos.map((tipo, tipoIndex) => (
-                              <Badge 
-                                key={tipoIndex} 
-                                variant="secondary" 
-                                className={`
-                                  ${tipo === 'DUB' ? 'bg-emerald-500/10 text-emerald-500' : ''}
-                                  ${tipo === 'VIP' ? 'bg-orange-500/10 text-orange-500' : ''}
-                                  ${tipo === 'TELA GIGANTE' ? 'bg-orange-500/10 text-orange-500' : ''}
-                                `}
-                              >
-                                {tipo}
-                              </Badge>
-                            ))}
-                          </div>
-                          <div className="flex flex-wrap gap-2">
-                            {sala.horarios.map((horario, horarioIndex) => (
-                              <Button 
-                                key={horarioIndex} 
-                                variant="outline" 
-                                className="hover:bg-primary hover:text-white"
-                              >
-                                {horario}
-                              </Button>
-                            ))}
-                          </div>
+        {/* Horários */}
+        <div className="mt-12 pb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <span className="text-2xl">🍿</span>
+            <h2 className="text-2xl font-medium text-white">Salas e horários</h2>
+          </div>
+          
+          {/* Datas */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 mb-8">
+            {filme.datasDisponiveis.map((data) => (
+                    <Button
+                key={data.dia}
+                variant="outline"
+                className={`
+                  w-full h-[52px] rounded-full border-2 flex flex-col items-center justify-center p-0
+                  ${dataAtiva === data.dia 
+                    ? "bg-cyan-500 text-black border-cyan-500" 
+                    : "border-cyan-500 text-white hover:bg-cyan-500/20"
+                  }
+                `}
+                onClick={() => setDataAtiva(data.dia)}
+              >
+                <div className="text-[10px] leading-none">{data.diaSemana}</div>
+                <div className="text-[11px] font-medium mt-1">{data.dia}</div>
+                    </Button>
+                  ))}
+                </div>
+                
+          {/* Lista de Cinemas */}
+                <div className="space-y-6">
+                  {filme.datasDisponiveis
+              .find(data => data.dia === dataAtiva)
+              ?.cinemas.map((cinema) => (
+                <div 
+                  key={cinema.nome}
+                  className="bg-zinc-950 rounded-lg border border-zinc-800"
+                >
+                  {/* Header do Cinema */}
+                  <div className="flex items-center justify-between p-4 border-b border-zinc-800">
+                        <div className="flex items-center gap-4">
+                      <img 
+                        src={cinema.logo} 
+                        alt={cinema.nome}
+                        className="h-8 w-auto"
+                      />
+                      <h3 className="text-white font-medium">{cinema.nome}</h3>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                      className="border-cyan-500 text-cyan-500 hover:bg-cyan-500/20"
+                      asChild
+                    >
+                      <Link 
+                        to={filme.linkVenda}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >
+                          PREÇOS E INFOS
+                      </Link>
+                        </Button>
+                      </div>
 
-              <div className="mt-4 text-muted-foreground text-sm flex items-center gap-2">
-                <span className="text-yellow-500">⭐</span>
-                Dica: você pode tocar nos horários para comprar ingressos.
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              Não há sessões disponíveis para este filme no momento.
-            </div>
-          )}
+                  {/* Lista de Salas */}
+                  <div className="divide-y divide-zinc-800">
+                    {cinema.salas.map((sala, index) => (
+                      <div key={`${sala.sala}-${index}`} className="p-4 space-y-4">
+                        {/* Tipos de exibição */}
+                        <div className="flex flex-wrap gap-2 items-center">
+                          <span className="text-white font-medium">{sala.sala}</span>
+                          <span className="text-zinc-400">•</span>
+                          {sala.tipos.map((tipo, idx) => {
+                            let bgColor = "bg-green-700";
+                            if (tipo === "LEG") {
+                              bgColor = "bg-red-700";
+                            } else if (tipo.includes("3D") || tipo.includes("2D")) {
+                              bgColor = "bg-orange-500";
+                            }
+                            return (
+                                <Badge 
+                                key={idx}
+                                className={`${bgColor} text-white border-none px-3 py-1`}
+                                >
+                                  {tipo}
+                                </Badge>
+                            );
+                          })}
+                            </div>
+                        {/* Horários */}
+                            <div className="flex flex-wrap gap-2">
+                          {sala.horarios.map((horario, idx) => (
+                                <Button 
+                              key={idx}
+                                  variant="outline" 
+                                  size="sm"
+                              className="bg-black text-white border-white hover:bg-white hover:text-black min-w-[90px] px-6 py-4"
+                              asChild
+                            >
+                              <Link 
+                                to={filme.linkVenda}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >
+                                  {horario}
+                              </Link>
+                                </Button>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+          <div className="mt-6 flex items-center gap-2 text-white/60 text-sm">
+            <span className="text-yellow-500">⭐</span>
+            <span>Dica: você pode tocar nos horários para comprar ingressos</span>
+          </div>
         </div>
       </div>
     </div>

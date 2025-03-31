@@ -1,18 +1,42 @@
+/**
+ * Importação dos componentes e dependências necessárias
+ * - useState: Hook do React para gerenciamento de estado
+ * - motion: Biblioteca de animações Framer Motion
+ * - Componentes UI personalizados
+ */
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SectionHeader from "@/components/ui/section-header";
 import { LocalCard } from "@/components/LocalCard";
+import { CardCarousel } from "@/components/ui/card-carousel";
+import { useSearch } from "@/hooks/useSearch";
+import { HighlightText } from "@/components/ui/highlight-text";
 
-// Dados simulados para desenvolvimento
+/**
+ * Dados simulados para desenvolvimento
+ * Estruturas de dados que simulam o conteúdo que viria de uma API
+ */
+
+/**
+ * Lista de estabelecimentos
+ * Array de objetos contendo informações sobre os locais
+ * @property id - Identificador único do local
+ * @property nome - Nome do estabelecimento
+ * @property imagem - URL da imagem do local
+ * @property endereco - Endereço completo
+ * @property categoria - Tipo do estabelecimento
+ * @property avaliacao - Nota de 0 a 5
+ */
 const locais = [
   {
     id: "1",
-    nome: "Café Artesanal",
-    imagem: "cafe-artesanal.jpg",
-    endereco: "Rua Principal, 123 - Centro",
+    nome: "Finnegans",
+    imagem: "/images/onde_ir/finnegans/finnegans_07.png",
+    endereco: "Centro",
     categoria: "Restaurantes",
     avaliacao: 4.8,
   },
@@ -58,6 +82,11 @@ const locais = [
   }
 ];
 
+/**
+ * Lista de categorias disponíveis
+ * Array de strings com as categorias de estabelecimentos
+ * Usado para filtrar os locais e gerar as tabs
+ */
 const categorias = [
   "Todos",
   "Restaurantes",
@@ -67,21 +96,42 @@ const categorias = [
   "Música ao Vivo"
 ];
 
+/**
+ * Página OndeIr
+ * 
+ * Página de listagem de estabelecimentos e pontos turísticos
+ * Permite buscar e filtrar locais por categoria
+ * 
+ * Características:
+ * - Header com título e descrição
+ * - Barra de busca centralizada
+ * - Filtro por categorias em tabs
+ * - Grid responsivo de cards
+ * - Carrossel em telas mobile
+ * - Busca inteligente com Fuse.js
+ * - Highlight dos termos buscados
+ * - Design responsivo
+ * 
+ * Estados:
+ * - categoriaAtiva: Categoria selecionada nas tabs
+ */
 const OndeIr = () => {
-  const [busca, setBusca] = useState("");
+  // Estado para controle da categoria ativa
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
-
-  const locaisFiltrados = locais.filter(local => {
-    const matchBusca = local.nome.toLowerCase().includes(busca.toLowerCase());
-    const matchCategoria = categoriaAtiva === "Todos" || local.categoria === categoriaAtiva;
-    return matchBusca && matchCategoria;
-  });
+  
+  /**
+   * Filtra os locais pela categoria selecionada
+   * Retorna todos os locais se a categoria for "Todos"
+   */
+  const locaisFiltrados = locais.filter(local => 
+    categoriaAtiva === "Todos" || local.categoria === categoriaAtiva
+  );
 
   return (
-    <div>
-      {/* Header */}
-      <section className="py-12 md:py-16 bg-secondary/50">
-        <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
+      {/* Header da página */}
+      <section className="py-12 md:py-16 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -96,52 +146,27 @@ const OndeIr = () => {
         </div>
       </section>
 
-      {/* Filtros e Busca */}
-      <section className="py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-center">
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-              <Input
-                type="text"
-                placeholder="Buscar lugares..."
-                className="pl-10"
-                value={busca}
-                onChange={(e) => setBusca(e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Lista de Locais */}
-      <section className="py-8 pb-16 md:pb-24">
-        <div className="container mx-auto px-4">
-          <Tabs defaultValue="Todos" className="w-full" onValueChange={setCategoriaAtiva}>
-            <TabsList className="mb-8 w-full md:w-auto overflow-x-auto scrollbar-hidden">
+      <section className="py-12 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+          <Tabs defaultValue="Todos" onValueChange={setCategoriaAtiva}>
+            <TabsList className="mb-8">
               {categorias.map((categoria) => (
-                <TabsTrigger key={categoria} value={categoria} className="flex-shrink-0">
+                <TabsTrigger key={categoria} value={categoria}>
                   {categoria}
                 </TabsTrigger>
               ))}
             </TabsList>
-            
-            <TabsContent value={categoriaAtiva} className="mt-4">
-              {locaisFiltrados.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {locaisFiltrados.map((local) => (
-                    <LocalCard
-                      key={local.id}
-                      {...local}
-                      patrocinado={true}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-16">
-                  <p className="text-muted-foreground">Nenhum local encontrado para sua busca.</p>
-                </div>
-              )}
+
+            <TabsContent value={categoriaAtiva}>
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                {locaisFiltrados.map((local) => (
+                  <LocalCard 
+                    key={local.id} 
+                    {...local}
+                  />
+                ))}
+              </div>
             </TabsContent>
           </Tabs>
         </div>

@@ -1,128 +1,98 @@
+/**
+ * Importação dos componentes e dependências necessárias
+ * - Link: Componente de navegação do React Router
+ * - ArrowRight: Ícone de seta do Lucide
+ * - motion: Biblioteca de animações Framer Motion
+ * - Componentes UI personalizados
+ * - Componentes de Card específicos
+ */
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Theater, Calendar, Newspaper, MapPin, Tag, Wrench } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { EventoCard } from "@/components/EventoCard";
 import { NoticiaCard } from "@/components/NoticiaCard";
 import SectionHeader from "@/components/ui/section-header";
 import { StoriesContainer } from "@/components/ui/stories-container";
+import { CardCarousel } from "@/components/ui/card-carousel";
+import { StoryModal } from "@/components/ui/story-modal";
+import { useState } from "react";
+import { CardBase } from "@/components/ui/card-base";
+import { Story, StoryContent } from "@/types/story";
+import { Search, Filter } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSearch } from "@/hooks/useSearch";
+import { HighlightText } from "@/components/ui/highlight-text";
 
-// Dados simulados para desenvolvimento
-const storiesDestaque = [
+/**
+ * Dados simulados para desenvolvimento
+ * Estruturas de dados que simulam o conteúdo que viria de uma API
+ */
+
+/**
+ * Stories em destaque
+ * Array de objetos contendo informações sobre os stories
+ * Cada story pode ter um ou mais conteúdos (imagens ou vídeos)
+ */
+const storiesDestaque: Story[] = [
   {
     id: "1",
-    titulo: "Café Novo",
-    imagem: "/images/cafe-capa.jpg",
-    link: "/onde-ir?categoria=cafes",
+    titulo: "Cinema",
+    imagem: "/images/cinemas/cineflix/brancadeneve.png",
+    link: "/cinema",
     conteudo: [
       {
         tipo: "imagem" as const,
-        url: "/images/cafe-story-1.jpg",
-        duracao: 5 // 5 segundos
-      },
-      {
-        tipo: "imagem" as const,
-        url: "/images/cafe-story-2.jpg",
-        duracao: 5 // 5 segundos
-      },
-      {
-        tipo: "video" as const,
-        url: "/videos/cafe-story.mp4",
-        duracao: 10 // 10 segundos
+        url: "/images/cinemas/cineflix/brancadeneve_02.png",
+        duracao: 5,
+        descricao: "Confira os últimos lançamentos do cinema!"
       }
     ]
   },
   {
     id: "2",
-    titulo: "Shows",
-    imagem: "/images/shows-capa.jpg",
+    titulo: "Classificados",
+    imagem: "/images/servicos/anuncie_aqui.png",
     link: "/eventos?categoria=shows",
     conteudo: [
       {
         tipo: "imagem" as const,
-        url: "/images/show-story-1.jpg",
-        duracao: 5
-      },
-      {
-        tipo: "video" as const,
-        url: "/videos/show-story.mp4",
-        duracao: 15
-      },
-      {
-        tipo: "imagem" as const,
-        url: "/images/show-story-2.jpg",
-        duracao: 5
+        url: "/images/classificados/iphone13promax_03.jpg",
+        duracao: 5,
+        descricao: "Vendo iPhone 13 Pro Max 256GB, cor Graphite, com garantia"
       }
+      // {
+      //   tipo: "video" as const,
+      //   url: "/videos/show-story.mp4",
+      //   duracao: 15
+      // },
+      // {
+      //   tipo: "imagem" as const,
+      //   url: "/images/show-story-2.jpg",
+      //   duracao: 5
+      // }
     ]
   },
   {
     id: "3",
     titulo: "Restaurantes",
-    imagem: "/images/restaurantes-story.jpg",
+    imagem: "/images/onde_ir/finnegans/finnegans_06.png",
     link: "/onde-ir?categoria=restaurantes",
     conteudo: {
-      tipo: "video" as const,
-      url: "/videos/restaurantes-story.mp4",
-      duracao: 10 // 10 segundos
-    }
-  },
-  {
-    id: "4",
-    titulo: "Bares",
-    imagem: "/images/bares-story.jpg",
-    link: "/onde-ir?categoria=bares",
-    conteudo: {
       tipo: "imagem" as const,
-      url: "/images/bares-story-full.jpg"
-      // usando duração padrão de 5 segundos
-    }
-  },
-  {
-    id: "5",
-    titulo: "Parques",
-    imagem: "/images/parques-story.jpg",
-    link: "/onde-ir?categoria=parques",
-    conteudo: {
-      tipo: "video" as const,
-      url: "/videos/parques-story.mp4",
-      duracao: 12 // 12 segundos
-    }
-  },
-  {
-    id: "6",
-    titulo: "Teatros",
-    imagem: "/images/teatros-story.jpg",
-    link: "/eventos?categoria=teatro",
-    conteudo: {
-      tipo: "imagem" as const,
-      url: "/images/teatros-story-full.jpg",
-      duracao: 7 // 7 segundos
-    }
-  },
-  {
-    id: "7",
-    titulo: "Esportes",
-    imagem: "/images/esportes-story.jpg",
-    link: "/eventos?categoria=esportes",
-    conteudo: {
-      tipo: "video" as const,
-      url: "/videos/esportes-story.mp4",
-      duracao: 8 // 8 segundos
-    }
-  },
-  {
-    id: "8",
-    titulo: "Festas",
-    imagem: "/images/festas-story.jpg",
-    link: "/eventos?categoria=festas",
-    conteudo: {
-      tipo: "imagem" as const,
-      url: "/images/festas-story-full.jpg",
-      duracao: 6 // 6 segundos
+      url: "/images/onde_ir/finnegans/finnegans_07.png",
+      duracao: 5
     }
   }
+  
 ];
 
+/**
+ * Eventos em destaque
+ * Array de objetos contendo informações sobre eventos principais
+ * Exibidos no carrossel de eventos da página inicial
+ */
 const eventosDestaque = [
   {
     id: "1",
@@ -145,16 +115,21 @@ const eventosDestaque = [
   },
   {
     id: "3",
-    titulo: "4° EDIÇÃO CAFÉ COM DEUS4° EDIÇÃO CAFÉ COM DEUS | ENCONTRO COM MULHERES | POR FERNANDA XIMENES",
+    titulo: "4° Edição Café Com Deus",
     imagem: "/images/eventos/cafe_com_deus/cafecomdeus.jpeg",
     data: "12 Abr 2025",
-    hora: "10:00 - 18:00",
-    local: "Rua Costa Gomes, 855, CENTRO, Jardim Goias",
+    hora: "10:00",
+    local: "Jardim Goias",
     categoria: "Espiritualidade",
     // patrocinado: true
   },
 ];
 
+/**
+ * Notícias recentes
+ * Array de objetos contendo as últimas notícias
+ * Exibidas na seção de notícias da página inicial
+ */
 const noticiasRecentes = [
   {
     id: "1",
@@ -175,159 +150,291 @@ const noticiasRecentes = [
   },
 ];
 
-const Home = () => {
-  return (
-    <div>
-      {/* Hero Section - Removed flash effect and animation states */}
-      <section className="relative h-[85vh] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "url(/images/hero-bg.jpg)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background" />
-        
-        <div className="relative container mx-auto h-full flex items-center px-4">
-          <div className="max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4">
-                Descubra os melhores eventos de Rio Verde
-              </h1>
-              
-              <p className="text-lg md:text-xl text-white/80 mb-8">
-                Filmes, shows, gastronomia e muito mais. Tudo em um só lugar para você aproveitar o melhor da cidade.
-              </p>
-              
-              <div className="flex flex-wrap gap-4">
-                <Button asChild size="lg" className="rounded-full">
-                  <Link to="/eventos">Ver Eventos</Link>
-                </Button>
-                
-                <Button asChild variant="outline" size="lg" className="rounded-full bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20">
-                  <Link to="/cinema">Cinema</Link>
-                </Button>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+/**
+ * Classificados em Destaque
+ * Array de objetos contendo informações sobre classificados
+ * Exibidos na seção de classificados da página inicial
+ */
+const classificados = [
+  {
+    id: "1",
+    titulo: "Iphone 13 Pro Max",
+    imagem: "/images/classificados/iphone13promax.jpg",
+    descricao: "Iphone 13 Pro Max 256GB, cor Graphite, com garantia",
+    preco: "R$ 4.999,00",
+    categoria: "Eletrônicos"
+  },
+  {
+    id: "2",
+    titulo: "Bicicleta Aro 29 KRW",
+    imagem: "/images/classificados/bicicleta.jpg",
+    descricao: "Bicicleta Alumínio Câmbios Shimano 21 Velocidades Freio a Disco Suspensão Mountain Bike S21",
+    preco: "R$ 200,00",
+    categoria: "Esportes"
+  },
+  {
+    id: "3",
+    titulo: "Guitarra Michael GM222N ST STONEHENGE",
+    imagem: "/images/classificados/guitarra.jpg",
+    descricao: "Guitarra Michael GM222N ST STONEHENGE",
+    preco: "R$ 1.200,00",
+    categoria: "Instrumentos"
+  }
+];
 
-      {/* Stories Section */}
-      <section className="py-8 bg-card border-y border-border">
-        <div className="container mx-auto">
-          <StoriesContainer stories={storiesDestaque} />
+/**
+ * Serviços em Destaque
+ * Array de objetos contendo informações sobre serviços
+ * Exibidos na seção de serviços da página inicial
+ */
+const servicos = [
+  {
+    id: "1",
+    titulo: "Serviço de Limpeza",
+    imagem: "/images/servicos/faxineira.jpg",
+    descricao: "Limpeza completa do seu lar",
+    categoria: "Serviços Domésticos",
+    prestador: {
+      nome: "Clean House",
+      telefone: "(11) 99999-9999",
+      whatsapp: "(11) 99999-9999",
+      email: "contato@cleanhouse.com"
+    }
+  },
+  {
+    id: "2",
+    titulo: "Serviço de Dj",
+    imagem: "/images/servicos/dj.jpg",
+    descricao: "Dj para festas. A pessoa certa para animar o seu evento",
+    categoria: "Entretenimento",
+    prestador: {
+      nome: "DJ Party",
+      telefone: "(11) 98888-8888",
+      whatsapp: "(11) 98888-8888",
+      email: "contato@djparty.com"
+    }
+  },
+  {
+    id: "3",
+    titulo: "Serviço de Pintura",
+    imagem: "/images/servicos/pintor.jpg",
+    descricao: "Pintura de paredes e tetos",
+    categoria: "Reforma",
+    prestador: {
+      nome: "João Silva",
+      telefone: "(64) 98888-8888",
+      whatsapp: "(64) 98888-8888",
+      email: "joao.pintor@email.com"
+    }
+  }
+];
+
+/**
+ * Página Home
+ * 
+ * Página inicial do Busca Rio Verde
+ * Apresenta as principais seções e conteúdos do site
+ * 
+ * Características:
+ * - Stories em destaque com modal interativo
+ * - Carrossel de eventos principais
+ * - Seção de notícias recentes
+ * - Links para todas as seções do site
+ * - Design responsivo
+ * - Animações de transição
+ * 
+ * Estados:
+ * - storyAtivo: Armazena o story ativo para exibição no modal
+ */
+const Home = () => {
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState<number>(-1);
+
+  const handleOpenStory = (index: number) => {
+    setSelectedStoryIndex(index);
+  };
+
+  const handleCloseStory = () => {
+    setSelectedStoryIndex(-1);
+  };
+
+  const handleStoryChange = (newIndex: number) => {
+    setSelectedStoryIndex(newIndex);
+  };
+
+  return (
+    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
+      {/* Stories */}
+      <section className="py-8 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+          <StoriesContainer stories={storiesDestaque} onStoryClick={handleOpenStory} />
         </div>
       </section>
 
       {/* Eventos em Destaque */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-10">
+      <section className="py-12 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
             <SectionHeader 
               titulo="Eventos em Destaque" 
-              subtitulo="Não perca os eventos mais aguardados da cidade"
+              subtitulo="Confira os principais eventos da cidade"
             />
-            
-            <Button asChild variant="outline" className="hidden md:flex">
-              <Link to="/eventos" className="flex items-center">
+            <Link to="/eventos">
+              <Button variant="ghost" className="gap-2">
                 Ver todos
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+                <ArrowRight size={16} />
+              </Button>
+            </Link>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {eventosDestaque.map((evento) => (
-              <EventoCard
-                key={evento.id}
-                {...evento}
-              />
+              <EventoCard key={evento.id} {...evento} />
             ))}
-          </div>
-          
-          <div className="mt-8 text-center md:hidden">
-            <Button asChild variant="outline">
-              <Link to="/eventos" className="flex items-center justify-center">
-                Ver todos os eventos
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
 
-      {/* Últimas Novidades */}
-      <section className="py-16 md:py-24 bg-secondary/50">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center mb-10">
+      {/* Últimas Notícias */}
+      <section className="py-12 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
             <SectionHeader 
-              titulo="Últimas Novidades" 
-              subtitulo="Fique por dentro das notícias mais recentes da cidade"
+              titulo="Últimas Notícias" 
+              subtitulo="Fique por dentro das novidades da cidade"
             />
-            
-            <Button asChild variant="outline" className="hidden md:flex">
-              <Link to="/novidades" className="flex items-center">
-                Ver mais
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            <Link to="/novidades">
+              <Button variant="ghost" className="gap-2">
+                Ver todas
+                <ArrowRight size={16} />
+              </Button>
+            </Link>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {noticiasRecentes.map((noticia) => (
-              <NoticiaCard
-                key={noticia.id}
-                {...noticia}
-              />
+              <NoticiaCard key={noticia.id} {...noticia} />
             ))}
-          </div>
-          
-          <div className="mt-8 text-center md:hidden">
-            <Button asChild variant="outline">
-              <Link to="/novidades" className="flex items-center justify-center">
-                Ver todas as novidades
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="rounded-2xl bg-accent/10 p-8 md:p-12">
-            <div className="max-w-3xl mx-auto text-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+      {/* Classificados */}
+      <section className="py-12 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <SectionHeader 
+              titulo="Classificados" 
+              subtitulo="Compre e venda na sua cidade"
+            />
+            <Link to="/classificados">
+              <Button variant="ghost" className="gap-2">
+                Ver todos
+                <ArrowRight size={16} />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+            {classificados.map((classificado) => (
+              <CardBase
+                key={classificado.id}
+                id={classificado.id}
+                titulo={classificado.titulo}
+                imagem={classificado.imagem}
+                link={`/classificados/${classificado.id}`}
               >
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
-                  Descubra os melhores lugares para visitar
-                </h2>
-                
-                <p className="text-lg text-muted-foreground mb-8">
-                  Restaurantes, bares, parques e muito mais. Encontre recomendações de lugares incríveis para visitar em Rio Verde.
-                </p>
-                
-                <Button asChild size="lg" className="rounded-full">
-                  <Link to="/onde-ir">Explorar Lugares</Link>
-                </Button>
-              </motion.div>
-            </div>
+                <div className="flex flex-col flex-grow">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{classificado.descricao}</p>
+                  <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                    <p className="text-base font-semibold text-primary">{classificado.preco}</p>
+                  </div>
+                </div>
+              </CardBase>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* Serviços */}
+      <section className="py-12 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <SectionHeader 
+              titulo="Serviços" 
+              subtitulo="Encontre os melhores profissionais"
+            />
+            <Link to="/servicos">
+              <Button variant="ghost" className="gap-2">
+                Ver todos
+                <ArrowRight size={16} />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+            {servicos.map((servico) => (
+              <CardBase
+                key={servico.id}
+                id={servico.id}
+                titulo={servico.titulo}
+                imagem={servico.imagem}
+                link={`/servico/${servico.id}`}
+                categoria={servico.categoria}
+              >
+                <div className="flex flex-col flex-grow">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{servico.descricao}</p>
+                  <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                    <p className="text-sm font-medium text-primary">{servico.prestador.nome}</p>
+                  </div>
+                </div>
+              </CardBase>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Menu de Navegação */}
+      <section className="py-12 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <Link to="/cinema" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+              <Theater className="h-6 w-6 text-primary mb-2" />
+              <span className="text-sm font-medium">Cinema</span>
+            </Link>
+            <Link to="/eventos" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+              <Calendar className="h-6 w-6 text-primary mb-2" />
+              <span className="text-sm font-medium">Eventos</span>
+            </Link>
+            <Link to="/novidades" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+              <Newspaper className="h-6 w-6 text-primary mb-2" />
+              <span className="text-sm font-medium">Novidades</span>
+            </Link>
+            <Link to="/onde-ir" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+              <MapPin className="h-6 w-6 text-primary mb-2" />
+              <span className="text-sm font-medium">Onde Ir</span>
+            </Link>
+            <Link to="/classificados" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+              <Tag className="h-6 w-6 text-primary mb-2" />
+              <span className="text-sm font-medium">Classificados</span>
+            </Link>
+            <Link to="/servicos" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+              <Wrench className="h-6 w-6 text-primary mb-2" />
+              <span className="text-sm font-medium">Serviços</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Modal de Story */}
+      {selectedStoryIndex >= 0 && (
+        <StoryModal
+          story={storiesDestaque[selectedStoryIndex]}
+          allStories={storiesDestaque}
+          currentIndex={selectedStoryIndex}
+          onClose={handleCloseStory}
+          onStoryChange={handleStoryChange}
+        />
+      )}
     </div>
   );
 };

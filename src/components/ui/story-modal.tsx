@@ -1,192 +1,306 @@
-import { useEffect, useState } from "react";
-import { X, ChevronLeft, ChevronRight, Pause, Play, Share2 } from "lucide-react";
+import { X } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useState, useEffect, useCallback } from "react";
+import { VisuallyHidden } from "@/components/ui/visually-hidden";
 
+/**
+ * Interface que define a estrutura de um conteúdo do story
+ * Usada tanto no StoryModal quanto no componente Story
+ * @property tipo - Define se o conteúdo é uma imagem ou vídeo
+ * @property url - URL do arquivo de mídia
+ * @property duracao - Tempo em segundos que o conteúdo deve ser exibido (padrão: 5s para imagens)
+ * @property descricao - Texto opcional que aparece sobreposto à imagem
+ */
 interface StoryContent {
   tipo: "video" | "imagem";
   url: string;
   duracao?: number;
+  descricao?: string;
 }
 
+/**
+ * Props do componente StoryModal
+ */
 interface StoryModalProps {
-  isOpen: boolean;
+  story: {
+    id: string;
+    titulo: string;
+    imagem: string;
+    link: string;
+    conteudo: StoryContent | StoryContent[];
+  };
+  allStories: Array<{
+    id: string;
+    titulo: string;
+    imagem: string;
+    link: string;
+    conteudo: StoryContent | StoryContent[];
+  }>;
+  currentIndex: number;
   onClose: () => void;
-  content: StoryContent[];
+  onStoryChange: (index: number) => void;
 }
 
-export function StoryModal({ isOpen, onClose, content }: StoryModalProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export function StoryModal({ story, allStories, currentIndex, onClose, onStoryChange }: StoryModalProps) {
+  const [currentStory, setCurrentStory] = useState(story);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  
-  const currentContent = content[currentIndex];
-  const duration = currentContent?.duracao || (currentContent?.tipo === "imagem" ? 5 : 0);
 
-  const goToNext = () => {
-    if (currentIndex < content.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setProgress(0);
-    } else {
-      onClose();
-    }
-  };
+  // Converte o conteúdo para array se for um único item
+  const content = Array.isArray(currentStory?.conteudo) 
+    ? currentStory.conteudo 
+    : [currentStory?.conteudo];
 
-  const goToPrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
-      setProgress(0);
-    }
-  };
-
+  // Atualiza o story atual quando as props mudam
   useEffect(() => {
-    if (!isOpen || isPaused) {
+    if (!story) {
+      setError('Story não fornecido');
+      onClose();
       return;
     }
 
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          goToNext();
-          return 0;
-        }
-        return prev + (100 / (duration * 1000)) * 100;
-      });
-    }, 100);
+    if (!story.conteudo) {
+      setError('Conteúdo do story não fornecido');
+      onClose();
+      return;
+    }
 
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
+    setCurrentStory(story);
+    setCurrentStoryIndex(0);
+    setProgress(0);
+    setIsLoading(false);
+  }, [story, onClose]);
+
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
+  // Função para navegar para o story anterior
+  const handlePreviousStory = useCallback(() => {
+    if (currentStoryIndex > 0) {
+      setCurrentStoryIndex(prev => prev - 1);
+      setProgress(0);
+    } else if (currentIndex > 0) {
+      onStoryChange(currentIndex - 1);
+    }
+  }, [currentStoryIndex, currentIndex, onStoryChange]);
+
+  // Função para navegar para o próximo story
+  const handleNextStory = useCallback(() => {
+    if (currentStoryIndex < content.length - 1) {
+      setCurrentStoryIndex(prev => prev + 1);
+      setProgress(0);
+    } else if (currentIndex < allStories.length - 1) {
+      onStoryChange(currentIndex + 1);
+    } else {
+      handleClose();
+    }
+  }, [currentStoryIndex, content.length, currentIndex, allStories.length, onStoryChange, handleClose]);
+
+  // Gerencia o progresso e avanço automático
+  useEffect(() => {
+    if (!content[currentStoryIndex] || isPaused) return;
+
+    const currentContent = content[currentStoryIndex];
+    const duration = currentContent.duracao ? currentContent.duracao * 1000 : 5000;
+    const interval = 100; // Atualiza o progresso a cada 100ms
+    const steps = duration / interval;
+
+    if (currentContent.tipo === "imagem") {
+      const timer = setInterval(() => {
+        setProgress(prev => {
+          const next = prev + (100 / steps);
+          if (next >= 100) {
+            clearInterval(timer);
+            handleNextStory();
+            return 0;
+          }
+          return next;
+        });
+      }, interval);
+
+      return () => clearInterval(timer);
+    }
+  }, [currentStoryIndex, content, isPaused, handleNextStory]);
+
+  // Manipuladores de eventos de mouse/touch
+  const handleMouseDown = useCallback(() => {
+    setIsPaused(true);
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    setIsPaused(false);
+  }, []);
+
+  // Adiciona suporte para navegação por teclado
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Evita conflitos com outros eventos de teclado
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (e.key) {
+        case 'ArrowLeft':
+          handlePreviousStory();
+          break;
+        case 'ArrowRight':
+          handleNextStory();
+          break;
+        case 'Escape':
+          handleClose();
+          break;
       }
     };
 
-    window.addEventListener("keydown", handleEsc);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handlePreviousStory, handleNextStory, handleClose]);
 
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, [isOpen, duration, currentIndex, isPaused]);
+  // Se não houver conteúdo válido, fecha o modal
+  if (!content?.length) {
+    handleClose();
+    return null;
+  }
 
-  useEffect(() => {
-    if (isOpen) {
-      setCurrentIndex(0);
-      setProgress(0);
-      setIsPaused(false);
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
+  const currentContent = content[currentStoryIndex];
 
   return (
-    <div
-      className="fixed top-[120px] left-0 right-0 z-50 flex items-start justify-center"
-      onClick={onClose}
-    >
-      {/* Fundo com blur */}
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-xl" />
-
-      {/* Container do modal com borda roxa */}
-      <div className="relative bg-gradient-to-br from-purple-500/20 to-blue-500/20 p-0.5 rounded-2xl z-10">
-        <div className="relative bg-gradient-to-br from-neutral-950 to-neutral-900 rounded-2xl overflow-hidden">
-          {/* Container do conteúdo */}
-          <div 
-            className="relative w-[90vw] max-w-[360px] aspect-[9/16] flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Botões de Navegação */}
-            {currentIndex > 0 && (
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  goToPrevious();
-                }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40 transition-colors"
-              >
-                <ChevronLeft className="h-6 w-6 text-white" />
-              </button>
-            )}
-            
-            {currentIndex < content.length - 1 && (
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  goToNext();
-                }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40 transition-colors"
-              >
-                <ChevronRight className="h-6 w-6 text-white" />
-              </button>
-            )}
-
-            {/* Barra de Progresso */}
-            <div className="absolute top-2 left-2 right-2 flex gap-1 z-20">
+    <Dialog open onOpenChange={handleClose}>
+      <DialogContent 
+        className="[&>button]:hidden max-w-md mx-auto h-[80vh] max-h-[800px] p-4 border-none bg-black/80"
+        onPointerDownOutside={handleClose}
+        onEscapeKeyDown={handleClose}
+      >
+        <VisuallyHidden>
+          <DialogTitle>Story: {currentStory.titulo}</DialogTitle>
+          <DialogDescription>Visualizador de stories do {currentStory.titulo}</DialogDescription>
+        </VisuallyHidden>
+        <div className="relative w-full h-full flex items-center justify-center">
+          <div className="relative w-full h-full rounded-xl p-[2px] bg-gradient-to-tr from-purple-600 via-pink-500 to-blue-600">
+            {/* Barra de progresso */}
+            <div className="absolute top-0 left-0 right-0 z-50 flex gap-1 p-2">
               {content.map((_, index) => (
                 <div 
                   key={index}
-                  className="h-0.5 bg-white/30 flex-1 rounded-full overflow-hidden"
+                  className="h-1 flex-1 bg-white/30 rounded-full overflow-hidden"
                 >
-                  <div
+                  <div 
                     className="h-full bg-white transition-all duration-100 ease-linear"
                     style={{ 
-                      width: index < currentIndex ? '100%' : 
-                             index === currentIndex ? `${progress}%` : '0%'
+                      width: index === currentStoryIndex ? `${progress}%` : 
+                             index < currentStoryIndex ? '100%' : '0%' 
                     }}
                   />
                 </div>
               ))}
             </div>
 
-            {/* Cabeçalho */}
-            <div className="absolute top-4 left-0 right-0 px-4 flex items-center justify-between z-20">
-              <button
-                onClick={() => setIsPaused(!isPaused)}
-                className="p-2 rounded-full hover:bg-black/20"
-              >
-                {isPaused ? (
-                  <Play className="h-5 w-5 text-white" />
-                ) : (
-                  <Pause className="h-5 w-5 text-white" />
-                )}
-              </button>
-              <button
-                onClick={onClose}
-                className="p-2 rounded-full hover:bg-black/20"
-              >
-                <X className="h-5 w-5 text-white" />
-              </button>
-            </div>
+            {/* Botão de fechar */}
+            <button
+              type="button"
+              onClick={handleClose}
+              className="absolute -top-8 -right-8 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
+            >
+              <X className="h-5 w-5 text-white" />
+            </button>
 
-            {/* Conteúdo */}
-            <div className="w-full h-full">
-              {currentContent.tipo === "video" ? (
-                <video
-                  key={currentContent.url}
-                  src={currentContent.url}
-                  className="w-full h-full object-contain"
-                  autoPlay
-                  onEnded={goToNext}
-                  controls={false}
-                  playsInline
-                  muted={isPaused}
-                />
-              ) : (
-                <img
-                  key={currentContent.url}
-                  src={currentContent.url}
-                  alt="Story"
-                  className="w-full h-full object-contain"
-                />
+            {/* Área de toque para pausar/continuar com feedback visual */}
+            <div 
+              className={`absolute inset-0 z-40 transition-colors duration-200 ${isPaused ? 'bg-black/20 backdrop-blur-[2px]' : ''}`}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onTouchStart={handleMouseDown}
+              onTouchEnd={handleMouseUp}
+            >
+              {isPaused && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="p-4 rounded-full bg-white/20 backdrop-blur-sm">
+                    <svg 
+                      className="w-8 h-8 text-white" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path 
+                        d="M8 5v14l11-7z" 
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                </div>
               )}
             </div>
 
-            {/* Rodapé */}
-            <div className="absolute bottom-4 right-4 z-20">
-              <button className="p-2 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/40">
-                <Share2 className="h-5 w-5 text-white" />
+            {/* Botões de navegação */}
+            {(currentStoryIndex > 0 || currentIndex > 0) && (
+              <button
+                type="button"
+                onClick={handlePreviousStory}
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
               </button>
+            )}
+            {(currentStoryIndex < content.length - 1 || currentIndex < allStories.length - 1) && (
+              <button
+                type="button"
+                onClick={handleNextStory}
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                </svg>
+              </button>
+            )}
+
+            {/* Container interno com fundo preto */}
+            <div className="relative w-full h-full bg-black rounded-xl overflow-hidden">
+              {isLoading ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-white">Carregando...</p>
+                </div>
+              ) : error ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-white">{error}</p>
+                </div>
+              ) : (
+                <div className="relative w-full h-full">
+                  {currentContent.tipo === "video" ? (
+                    <video
+                      key={currentContent.url}
+                      src={currentContent.url}
+                      className="w-full h-full object-contain"
+                      controls={false}
+                      onEnded={handleNextStory}
+                      autoPlay
+                      muted
+                      playsInline
+                    />
+                  ) : (
+                    <img
+                      key={currentContent.url}
+                      src={currentContent.url}
+                      alt={currentStory.titulo}
+                      className="w-full h-full object-contain"
+                    />
+                  )}
+                  {currentContent.descricao && (
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 text-white">
+                      {currentContent.descricao}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

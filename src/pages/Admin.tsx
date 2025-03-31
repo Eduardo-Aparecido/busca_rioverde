@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -166,9 +165,15 @@ const Admin = () => {
                     <Textarea id="descricaoLocal" placeholder="Descrição do local" rows={5} />
                   </div>
                   
-                  <div className="space-y-2">
-                    <label htmlFor="imagemLocal" className="text-sm font-medium">Imagem</label>
-                    <Input id="imagemLocal" type="file" accept="image/*" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label htmlFor="bannerLocal" className="text-sm font-medium">Banner</label>
+                      <Input id="bannerLocal" type="file" accept="image/*" />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="logoLocal" className="text-sm font-medium">Logo</label>
+                      <Input id="logoLocal" type="file" accept="image/*" />
+                    </div>
                   </div>
                   
                   <Button type="submit" className="w-full" disabled={isLoading}>

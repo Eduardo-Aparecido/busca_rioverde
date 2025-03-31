@@ -1,3 +1,10 @@
+/**
+ * Importação dos componentes e dependências necessárias
+ * - useState: Hook do React para gerenciamento de estado
+ * - motion: Biblioteca de animações Framer Motion
+ * - Ícones: Search, Filter, Calendar do Lucide
+ * - Componentes UI personalizados
+ */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Filter, Calendar } from "lucide-react";
@@ -5,205 +12,135 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CardCinema } from "@/components/ui/card-cinema";
+import SectionHeader from "@/components/ui/section-header";
 
-// Dados simulados para desenvolvimento
+/**
+ * Dados simulados para desenvolvimento
+ * Estruturas de dados que simulam o conteúdo que viria de uma API
+ */
+
+/**
+ * Filmes em cartaz no CINEFLIX
+ * Array de objetos contendo informações sobre os filmes
+ * @property id - Identificador único do filme
+ * @property titulo - Nome do filme
+ * @property imagem - URL do poster do filme
+ * @property cinema - Nome do cinema
+ * @property horarios - Array com horários das sessões
+ * @property data - Status do filme (Em cartaz/Em breve) e data
+ * @property classificacao - Classificação indicativa
+ * @property duracao - Duração do filme
+ */
 const filmesCineflix = [
   {
     id: "1",
-    titulo: "Spider-Man: Sem Volta para Casa",
-    imagem: "spider-man.jpg",
-    cinema: "CINEFLIX (Buriti Shopping)",
-    horarios: ["14:30", "17:45", "21:00", "23:30"],
-    data: "Em cartaz",
-    classificacao: "12+",
-    duracao: "2h 28min",
+    titulo: "Um Filme Minecraft",
+    imagem: "/images/cinemas/cineflix/minecraft.png",
+    cinema: "CINEFLIX",
+    data: "Em breve | 03/04",
+    classificacao: "Livre",
+    duracao: "120 MIN",
+    genero: "AÇÃO, ANIMAÇÃO",
+    descricao: "Quatro desajustados - Garrett 'The Garbage Man' Garrison, Henry, Natalie e Dawn - são..."
   },
   {
     id: "2",
-    titulo: "Vingadores: Ultimato",
-    imagem: "vingadores-ultimato.jpg",
-    cinema: "CINEFLIX (Buriti Shopping)",
-    horarios: ["14:30", "17:45", "21:00", "23:30"],
+    titulo: "Câncer com Ascendente em Virgem",
+    imagem: "/images/cinemas/cineflix/brancadeneve_02.png",
+    cinema: "CINEFLIX",
     data: "Em cartaz",
-    classificacao: "12+",
-    duracao: "3h 2min",
+    classificacao: "10+",
+    duracao: "95 MIN",
+    genero: "DRAMA",
+    descricao: "Professora de matemática, mãe de adolescente, divorciada e baladeira, Clara gosta de ter as..."
   },
   {
     id: "3",
-    titulo: "Duna",
-    imagem: "duna.jpg",
-    cinema: "CINEFLIX (Buriti Shopping)",
-    horarios: ["15:00", "18:15", "21:30"],
+    titulo: "Novocaine: À Prova De Dor",
+    imagem: "/images/cinemas/cineflix/vitoria.png",
+    cinema: "CINEFLIX",
     data: "Em cartaz",
-    classificacao: "14+",
-    duracao: "2h 35min",
+    classificacao: "16+",
+    duracao: "110 MIN",
+    genero: "AÇÃO",
+    descricao: "Nathan Caine possui uma condição rara que o impede de sentir dor. Ele se apaixona por uma..."
   }
 ];
 
+/**
+ * Filmes em cartaz no CINE A
+ * Array de objetos contendo informações sobre os filmes
+ * Mesma estrutura dos filmes do CINEFLIX
+ */
 const filmesCineA = [
   {
     id: "4",
-    titulo: "Interestelar",
+    titulo: "Resgate Implacável",
     imagem: "interestelar.jpg",
-    cinema: "CINE A (Shopping Rio Verde)",
-    horarios: ["14:00", "17:30", "21:15"],
+    cinema: "CINE A",
     data: "Em cartaz",
-    classificacao: "10+",
-    duracao: "2h 49min",
+    classificacao: "16+",
+    duracao: "120 MIN",
+    genero: "AÇÃO",
+    descricao: "Um ex-agente especial precisa resgatar sua filha sequestrada por uma organização criminosa..."
   },
   {
     id: "5",
-    titulo: "Pantera Negra",
+    titulo: "Zerbasseone The First Tour [Timeless World] in Cinemas",
     imagem: "pantera-negra.jpg",
-    cinema: "CINE A (Shopping Rio Verde)",
-    horarios: ["14:45", "18:00", "21:45"],
+    cinema: "CINE A",
     data: "Em cartaz",
     classificacao: "12+",
-    duracao: "2h 15min",
+    duracao: "150 MIN",
+    genero: "MUSICAL",
+    descricao: "Acompanhe a primeira turnê mundial da sensação do K-pop Zerbasseone em uma experiência única..."
   }
 ];
 
+/**
+ * Página Cinema
+ * 
+ * Página de programação dos cinemas de Rio Verde
+ * Exibe os filmes em cartaz e permite filtrar por cinema e data
+ * 
+ * Características:
+ * - Hero section com imagem de fundo e título
+ * - Barra de busca para filtrar filmes
+ * - Seletor de datas (hoje, amanhã, etc)
+ * - Tabs para alternar entre cinemas
+ * - Lista de filmes com horários
+ * - Animações de transição
+ * - Design responsivo
+ * 
+ * Estados:
+ * - cinemaAtivo: Cinema selecionado nas tabs
+ * - dataAtiva: Data selecionada nos filtros
+ */
 const Cinema = () => {
-  const [busca, setBusca] = useState("");
+  // Estados para controle dos filtros
   const [cinemaAtivo, setCinemaAtivo] = useState("cineflix");
-  const [dataAtiva, setDataAtiva] = useState("hoje");
 
-  const filmesFiltrados = cinemaAtivo === "cineflix"
-    ? filmesCineflix.filter(filme => filme.titulo.toLowerCase().includes(busca.toLowerCase()))
-    : filmesCineA.filter(filme => filme.titulo.toLowerCase().includes(busca.toLowerCase()));
+  /**
+   * Retorna os filmes do cinema ativo
+   */
+  const filmesFiltrados = cinemaAtivo === "cineflix" ? filmesCineflix : filmesCineA;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-zinc-900 to-background">
-      {/* Hero Section */}
-      <section className="relative h-[40vh] overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[url('/images/cinema-hero.jpg')] bg-cover bg-center opacity-30" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-zinc-900" />
+    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <SectionHeader 
+            titulo="Em Cartaz" 
+            subtitulo="Confira os filmes em cartaz nos cinemas da cidade"
+          />
         </div>
-        
-        <div className="container mx-auto px-4 h-full relative">
-          <div className="flex flex-col justify-center h-full">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="max-w-2xl"
-            >
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Cinema em Rio Verde
-              </h1>
-              <p className="text-lg text-zinc-300">
-                Confira a programação dos melhores cinemas da cidade e garanta seu ingresso
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
-      {/* Filtros e Busca */}
-      <section className="py-8 bg-zinc-900/50">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
-            {/* Busca */}
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 h-5 w-5" />
-              <Input
-                type="text"
-                placeholder="Buscar filmes..."
-                className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-zinc-500"
-                value={busca}
-                onChange={(e) => setBusca(e.target.value)}
-              />
-            </div>
-
-            {/* Datas */}
-            <div className="flex gap-2">
-              {["hoje", "amanhã", "sábado", "domingo"].map((data) => (
-                <Button
-                  key={data}
-                  variant={dataAtiva === data ? "secondary" : "outline"}
-                  size="sm"
-                  onClick={() => setDataAtiva(data)}
-                  className={`
-                    gap-2 capitalize
-                    ${dataAtiva === data 
-                      ? "bg-white text-black hover:bg-white/90" 
-                      : "border-white/10 text-white hover:bg-white/5"
-                    }
-                  `}
-                >
-                  <Calendar className="h-4 w-4" />
-                  {data}
-                </Button>
-              ))}
-            </div>
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+          {filmesFiltrados.map((filme) => (
+            <CardCinema key={filme.id} {...filme} />
+          ))}
         </div>
-      </section>
-
-      {/* Lista de Filmes */}
-      <section className="py-8 pb-16">
-        <div className="container mx-auto px-4">
-          <Tabs 
-            defaultValue="cineflix" 
-            className="w-full" 
-            onValueChange={setCinemaAtivo}
-          >
-            <TabsList className="mb-8 w-full md:w-auto bg-white/5 border-b border-white/10">
-              <TabsTrigger 
-                value="cineflix" 
-                className="flex-1 md:flex-none data-[state=active]:bg-white data-[state=active]:text-black"
-              >
-                CINEFLIX (Buriti Shopping)
-              </TabsTrigger>
-              <TabsTrigger 
-                value="cinea" 
-                className="flex-1 md:flex-none data-[state=active]:bg-white data-[state=active]:text-black"
-              >
-                CINE A (Shopping Rio Verde)
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="cineflix" className="space-y-6 mt-4">
-              {filmesFiltrados.length > 0 ? (
-                filmesFiltrados.map((filme) => (
-                  <motion.div
-                    key={filme.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <CardCinema {...filme} />
-                  </motion.div>
-                ))
-              ) : (
-                <div className="text-center py-16">
-                  <p className="text-zinc-400">Nenhum filme encontrado para sua busca.</p>
-                </div>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="cinea" className="space-y-6 mt-4">
-              {filmesFiltrados.length > 0 ? (
-                filmesFiltrados.map((filme) => (
-                  <motion.div
-                    key={filme.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <CardCinema {...filme} />
-                  </motion.div>
-                ))
-              ) : (
-                <div className="text-center py-16">
-                  <p className="text-zinc-400">Nenhum filme encontrado para sua busca.</p>
-                </div>
-              )}
-            </TabsContent>
-          </Tabs>
-        </div>
-      </section>
+      </div>
     </div>
   );
 };

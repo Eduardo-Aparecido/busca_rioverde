@@ -1,4 +1,4 @@
-import { Calendar, Clock, Theater } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
@@ -7,88 +7,67 @@ interface CardCinemaProps {
   titulo: string;
   imagem: string;
   cinema: string;
-  horarios: string[];
   data: string;
   classificacao: string;
   duracao: string;
+  genero?: string;
+  descricao?: string;
 }
 
-const CardCinema = ({
+export function CardCinema({
   id,
   titulo,
   imagem,
   cinema,
-  horarios,
   data,
   classificacao,
   duracao,
-}: CardCinemaProps) => {
+  genero,
+  descricao
+}: CardCinemaProps) {
   return (
-    <div className="group bg-black/80 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10">
-      <div className="flex flex-col md:flex-row">
-        {/* Poster do Filme */}
-        <Link 
-          to={`/filme/${id}`} 
-          className="relative md:w-[220px] aspect-[2/3] overflow-hidden"
-        >
+    <Link to={`/filme/${id}`}>
+      <div className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
+        {/* Imagem com proporção 16:9 */}
+        <div className="relative aspect-video overflow-hidden">
           <img
-            src={`/images/${imagem}`}
+            src={imagem}
             alt={titulo}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            loading="lazy"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          <div className="absolute top-3 left-3">
-            <Badge 
-              variant="secondary" 
-              className="bg-yellow-500 text-black font-bold border-none"
-            >
+          {/* Classificação no canto superior esquerdo */}
+          <div className="absolute top-2 left-2">
+            <Badge variant="secondary" className="bg-white/90 text-black text-xs font-medium">
               {classificacao}
             </Badge>
           </div>
-        </Link>
-
-        {/* Informações do Filme */}
-        <div className="flex-1 p-6">
-          <div className="mb-4">
-            <Link to={`/filme/${id}`} className="group-hover:opacity-75 transition-opacity">
-              <h3 className="text-2xl font-bold text-white mb-2">{titulo}</h3>
-            </Link>
-            
-            <div className="flex flex-wrap gap-4 text-zinc-400 text-sm">
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>{duracao}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Theater className="h-4 w-4" />
-                <span>{cinema}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>{data}</span>
-              </div>
+          {/* Tag "Estreia" se aplicável */}
+          {data.includes("Em breve") && (
+            <div className="absolute bottom-0 left-0 right-0 bg-black/50 py-1 px-3">
+              <span className="text-xs text-white">Estreia em {data.split("|")[1].trim()}</span>
             </div>
-          </div>
+          )}
+        </div>
 
-          {/* Horários */}
-          <div>
-            <h4 className="text-sm font-medium text-zinc-400 mb-3">Horários disponíveis:</h4>
-            <div className="flex flex-wrap gap-2">
-              {horarios.map((horario, index) => (
-                <button
-                  key={index}
-                  className="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white text-sm font-medium transition-colors"
-                >
-                  {horario}
-                </button>
-              ))}
+        {/* Informações do filme */}
+        <div className="p-4">
+          <h3 className="text-base font-medium mb-1 line-clamp-2 text-zinc-900 dark:text-white">
+            {titulo}
+          </h3>
+          {descricao && (
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-2 line-clamp-2">
+              {descricao}
+            </p>
+          )}
+          <div className="flex flex-col gap-1 text-xs text-zinc-600 dark:text-zinc-400">
+            {genero && <span>{genero}</span>}
+            <div className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              <span>{duracao}</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
-
-export { CardCinema };

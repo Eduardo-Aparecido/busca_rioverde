@@ -1,23 +1,59 @@
 export const theme = {
   colors: {
-    background: "#13141A",
-    foreground: "#FFFFFF",
-    card: "#000000",
-    "card-foreground": "#FFFFFF",
-    popover: "#000000",
-    "popover-foreground": "#FFFFFF",
+    background: {
+      light: "hsl(30, 25%, 98%)",
+      dark: "#13141A",
+    },
+    foreground: {
+      light: "hsl(20, 15%, 15%)",
+      dark: "#FFFFFF",
+    },
+    card: {
+      light: "#FFFFFF",
+      dark: "#000000",
+    },
+    "card-foreground": {
+      light: "hsl(20, 15%, 15%)",
+      dark: "#FFFFFF",
+    },
+    popover: {
+      light: "#FFFFFF",
+      dark: "#000000",
+    },
+    "popover-foreground": {
+      light: "hsl(20, 15%, 15%)",
+      dark: "#FFFFFF",
+    },
     primary: "#A90448",
     "primary-foreground": "#FFFFFF",
-    secondary: "#1A1B21",
-    "secondary-foreground": "#FFFFFF",
-    muted: "#282A36",
-    "muted-foreground": "#A1A1AA",
+    secondary: {
+      light: "hsl(30, 20%, 96%)",
+      dark: "#1A1B21",
+    },
+    "secondary-foreground": {
+      light: "hsl(20, 15%, 15%)",
+      dark: "#FFFFFF",
+    },
+    muted: {
+      light: "hsl(30, 20%, 96%)",
+      dark: "#282A36",
+    },
+    "muted-foreground": {
+      light: "hsl(20, 10%, 35%)",
+      dark: "#A1A1AA",
+    },
     accent: "#FB3640",
     "accent-foreground": "#FFFFFF",
     destructive: "#FB3640",
     "destructive-foreground": "#FFFFFF",
-    border: "#27272A",
-    input: "#27272A",
+    border: {
+      light: "hsl(30, 15%, 90%)",
+      dark: "#27272A",
+    },
+    input: {
+      light: "hsl(30, 15%, 90%)",
+      dark: "#27272A",
+    },
     ring: "#A90448",
     success: "#17C69B",
     warning: "#FDA543",

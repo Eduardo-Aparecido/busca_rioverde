@@ -1,3 +1,11 @@
+/**
+ * Importação dos componentes e dependências necessárias
+ * - useState: Hook do React para gerenciamento de estado
+ * - motion: Biblioteca de animações Framer Motion
+ * - Ícones: Search, Filter do Lucide
+ * - Componentes UI personalizados
+ * - useSearch: Hook personalizado para busca com Fuse.js
+ */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Filter } from "lucide-react";
@@ -6,17 +14,35 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SectionHeader from "@/components/ui/section-header";
 import { EventoCard } from "@/components/EventoCard";
+import { CardCarousel } from "@/components/ui/card-carousel";
+import { useSearch } from "@/hooks/useSearch";
+import { HighlightText } from "@/components/ui/highlight-text";
 
-// Dados simulados para desenvolvimento
+/**
+ * Dados simulados para desenvolvimento
+ * Estruturas de dados que simulam o conteúdo que viria de uma API
+ */
+
+/**
+ * Lista de eventos próximos
+ * Array de objetos contendo informações sobre os eventos
+ * @property id - Identificador único do evento
+ * @property titulo - Nome do evento
+ * @property imagem - URL da imagem do evento
+ * @property data - Data do evento
+ * @property hora - Horário do evento
+ * @property local - Local onde será realizado
+ * @property categoria - Tipo do evento
+ */
 const eventosProximos = [
   {
     id: "1",
     titulo: "Carol Delgado em Love is Magic",
-    imagem: "/images/eventos/caroldelgado.png",
-    data: "24 Nov 2023",
-    hora: "19:00",
-    local: "Praça Central",
-    categoria: "Gastronomia",
+    imagem: "/images/eventos/carol_delgado/caroldelgado.png",
+    data: "06 Jun 2025",
+    hora: "20:00",
+    local: "The Haus Coffee&Beer - Rio Verde",
+    categoria: "Comédia Stand-Up",
   },
   {
     id: "2",
@@ -65,23 +91,58 @@ const eventosProximos = [
   },
 ];
 
-const categorias = ["Todos", "Gastronomia", "Música", "Cultura", "Esporte", "Educação"];
+/**
+ * Lista de categorias disponíveis
+ * Array de strings com as categorias de eventos
+ * Usado para filtrar os eventos e gerar as tabs
+ */
+const categorias = [
+  "Todos",
+  "Comédia Stand-Up",
+  "Música",
+  "Cultura",
+  "Esporte",
+  "Educação"
+];
 
+/**
+ * Página Eventos
+ * 
+ * Página de listagem de eventos da cidade
+ * Permite buscar e filtrar eventos por categoria
+ * 
+ * Características:
+ * - Header com título e descrição
+ * - Barra de busca com filtro por data
+ * - Filtro por categorias em tabs
+ * - Grid responsivo de cards
+ * - Carrossel em telas mobile
+ * - Busca inteligente com Fuse.js
+ * - Highlight dos termos buscados
+ * - Design responsivo
+ * 
+ * Estados:
+ * - categoriaAtiva: Categoria selecionada nas tabs
+ * - searchTerm: Termo de busca atual (gerenciado pelo hook useSearch)
+ * - results: Resultados filtrados da busca (gerenciado pelo hook useSearch)
+ */
 const Eventos = () => {
-  const [busca, setBusca] = useState("");
+  // Estado para controle da categoria ativa
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
-
-  const eventosFiltrados = eventosProximos.filter(evento => {
-    const matchBusca = evento.titulo.toLowerCase().includes(busca.toLowerCase());
-    const matchCategoria = categoriaAtiva === "Todos" || evento.categoria === categoriaAtiva;
-    return matchBusca && matchCategoria;
-  });
+  
+  /**
+   * Filtra os eventos pela categoria selecionada
+   * Retorna todos os eventos se a categoria for "Todos"
+   */
+  const eventosFiltrados = eventosProximos.filter(evento => 
+    categoriaAtiva === "Todos" || evento.categoria === categoriaAtiva
+  );
 
   return (
-    <div>
-      {/* Header */}
-      <section className="py-12 md:py-16 bg-secondary/50">
-        <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
+      {/* Header da página */}
+      <section className="py-12 md:py-16 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,65 +150,34 @@ const Eventos = () => {
           >
             <SectionHeader 
               titulo="Eventos" 
-              subtitulo="Descubra os próximos eventos em Rio Verde e região"
+              subtitulo="Confira os principais eventos da cidade"
               centered
             />
           </motion.div>
         </div>
       </section>
 
-      {/* Filtros e Busca */}
-      <section className="py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-              <Input
-                type="text"
-                placeholder="Buscar eventos..."
-                className="pl-10"
-                value={busca}
-                onChange={(e) => setBusca(e.target.value)}
-              />
-            </div>
-            <div className="hidden md:flex">
-              <Button variant="outline" size="sm" className="gap-2">
-                <Filter className="h-4 w-4" />
-                Filtrar por data
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Lista de Eventos */}
-      <section className="py-8 pb-16 md:pb-24">
-        <div className="container mx-auto px-4">
-          <Tabs defaultValue="Todos" className="w-full" onValueChange={setCategoriaAtiva}>
-            <TabsList className="mb-8 w-full md:w-auto overflow-x-auto scrollbar-hidden">
+      <section className="py-12 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+          <Tabs defaultValue="Todos" onValueChange={setCategoriaAtiva}>
+            <TabsList className="mb-8">
               {categorias.map((categoria) => (
-                <TabsTrigger key={categoria} value={categoria} className="flex-shrink-0">
+                <TabsTrigger key={categoria} value={categoria}>
                   {categoria}
                 </TabsTrigger>
               ))}
             </TabsList>
-            
-            <TabsContent value={categoriaAtiva} className="mt-4">
-              {eventosFiltrados.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {eventosFiltrados.map((evento) => (
-                    <EventoCard
-                      key={evento.id}
-                      {...evento}
-                      patrocinado={true}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-16">
-                  <p className="text-muted-foreground">Nenhum evento encontrado para sua busca.</p>
-                </div>
-              )}
+
+            <TabsContent value={categoriaAtiva}>
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                {eventosFiltrados.map((evento) => (
+                  <EventoCard 
+                    key={evento.id} 
+                    {...evento}
+                  />
+                ))}
+              </div>
             </TabsContent>
           </Tabs>
         </div>

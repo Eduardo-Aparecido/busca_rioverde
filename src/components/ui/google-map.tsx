@@ -36,9 +36,16 @@ export function GoogleMap({ endereco, className = "" }: GoogleMapProps) {
   const marker = useRef<google.maps.Marker | null>(null);
 
   useEffect(() => {
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    
+    if (!apiKey) {
+      console.error("Chave da API do Google Maps não encontrada");
+      return;
+    }
+
     if (!window.google) {
       scriptRef.current = document.createElement("script");
-      scriptRef.current.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&callback=initMap`;
+      scriptRef.current.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
       scriptRef.current.async = true;
       scriptRef.current.defer = true;
       document.head.appendChild(scriptRef.current);

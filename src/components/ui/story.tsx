@@ -5,50 +5,35 @@ interface StoryProps {
   id: string;
   imagem: string;
   titulo: string;
-  link: string;
   visto?: boolean;
-  conteudo: {
-    tipo: "video" | "imagem";
-    url: string;
-    duracao?: number;
-  } | Array<{
-    tipo: "video" | "imagem";
-    url: string;
-    duracao?: number;
-  }>;
+  onClick?: () => void;
 }
 
-export function Story({ id, imagem, titulo, conteudo, visto = false }: StoryProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+export function Story({ id, imagem, titulo, visto = false, onClick }: StoryProps) {
   return (
-    <>
-      <button 
-        onClick={() => setIsModalOpen(true)} 
-        className="flex flex-col items-center gap-2 w-24"
-      >
-        <div className={`p-[3px] rounded-full ${visto ? 'bg-muted' : 'bg-gradient-to-tr from-primary to-accent'}`}>
-          <div className="p-0.5 rounded-full bg-background">
-            <div className="relative w-20 h-20 rounded-full overflow-hidden">
-              <img
-                src={imagem}
-                alt={titulo}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
+    <button
+      onClick={onClick}
+      className="w-full flex flex-col items-center gap-2"
+    >
+      {/* Container do círculo */}
+      <div className="w-[96px] h-[96px] md:w-[112px] md:h-[112px] rounded-full p-1 bg-gradient-to-tr from-purple-600 via-pink-500 to-blue-600">
+        {/* Círculo interno com a imagem */}
+        <div className={`
+          w-full h-full rounded-full overflow-hidden
+          ${visto ? 'p-1 bg-zinc-800' : 'p-[2px] bg-black'}
+        `}>
+          <img
+            src={imagem}
+            alt={titulo}
+            className="w-full h-full object-cover rounded-full"
+          />
         </div>
-        <span className="text-sm text-foreground/80 truncate w-full text-center">
-          {titulo}
-        </span>
-      </button>
+      </div>
 
-      <StoryModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        content={Array.isArray(conteudo) ? conteudo : [conteudo]}
-      />
-    </>
+      {/* Título */}
+      <span className="text-xs text-center line-clamp-2 text-zinc-700 dark:text-zinc-300">
+        {titulo}
+      </span>
+    </button>
   );
 } 

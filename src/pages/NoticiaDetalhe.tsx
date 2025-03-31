@@ -3,17 +3,35 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
   Calendar, 
-  Heart, 
-  Share2, 
-  MessageSquare,
-  ArrowLeft
+  ArrowLeft,
+  MapPin
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { ImageModal } from "@/components/ui/image-modal";
+import { Map } from "@/components/ui/map";
+
+// Interface para a estrutura de uma notícia
+interface Noticia {
+  id: string;
+  titulo: string;
+  imagem: string;
+  galeria: string[];
+  resumo: string;
+  conteudo: string;
+  data: string;
+  autor: string;
+  autorImagem: string;
+  categoria: string;
+  tags: string[];
+  endereco: string;
+  latitude: number;
+  longitude: number;
+}
 
 // Dados simulados para desenvolvimento
-const noticias = [
+const noticias: Noticia[] = [
   {
     id: "1",
     titulo: "Novo café artesanal abre as portas no centro da cidade",
@@ -29,7 +47,10 @@ const noticias = [
     autor: "Maria Oliveira",
     autorImagem: "avatar-maria.jpg",
     categoria: "Gastronomia",
-    tags: ["café", "gastronomia", "inauguração"]
+    tags: ["café", "gastronomia", "inauguração"],
+    endereco: "Rua Principal, 123 - Centro",
+    latitude: -17.79942422405687,
+    longitude: -50.93200656856998
   },
   {
     id: "2",
@@ -46,67 +67,57 @@ const noticias = [
     autor: "Carlos Mendes",
     autorImagem: "avatar-carlos.jpg",
     categoria: "Esportes",
-    tags: ["parque", "esportes", "lazer"]
+    tags: ["parque", "esportes", "lazer"],
+    endereco: "Av. dos Esportes, 456 - Setor Olímpico",
+    latitude: -17.80142422405687,
+    longitude: -50.93400656856998
   }
 ];
 
 const NoticiaDetalhe = () => {
   const { id } = useParams();
-  const [noticia, setNoticia] = useState<any>(null);
-  const [imagemPrincipal, setImagemPrincipal] = useState("");
-  const [curtido, setCurtido] = useState(false);
-  const [contagemCurtidas, setContagemCurtidas] = useState(0);
-  const [comentario, setComentario] = useState("");
-  const [comentarios, setComentarios] = useState<any[]>([]);
+  const [noticia, setNoticia] = useState<Noticia | null>(null);
   const [carregando, setCarregando] = useState(true);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [imagemSelecionadaIndex, setImagemSelecionadaIndex] = useState(0);
   
   useEffect(() => {
-    const noticiaEncontrada = noticias.find(n => n.id === id);
-    
-    if (noticiaEncontrada) {
-      setNoticia(noticiaEncontrada);
-      setImagemPrincipal(noticiaEncontrada.galeria[0]);
-      setContagemCurtidas(Math.floor(Math.random() * 50) + 10);
-      setComentarios([
-        {
-          id: "1",
-          usuario: "Julia Santos",
-          avatar: "https://randomuser.me/api/portraits/women/12.jpg",
-          data: "Ontem",
-          texto: "Excelente notícia! Precisávamos de mais locais assim na cidade.",
-        },
-        {
-          id: "2",
-          usuario: "Pedro Almeida",
-          avatar: "https://randomuser.me/api/portraits/men/34.jpg",
-          data: "2 dias atrás",
-          texto: "Já visitei e recomendo muito! Ótima iniciativa.",
-        },
-      ]);
-    }
-    
     setTimeout(() => {
+      const noticiaEncontrada = noticias.find(n => n.id === id);
+      setNoticia(noticiaEncontrada || null);
       setCarregando(false);
     }, 300);
   }, [id]);
 
-  const handleCurtir = () => {
-    if (curtido) {
-      setContagemCurtidas(prev => prev - 1);
-    } else {
-      setContagemCurtidas(prev => prev + 1);
+  const abrirModal = (index: number) => {
+    setImagemSelecionadaIndex(index);
+    setModalAberto(true);
+  };
+
+  const proximaImagem = () => {
+    if (noticia && imagemSelecionadaIndex < noticia.galeria.length - 1) {
+      setImagemSelecionadaIndex(prev => prev + 1);
     }
-    setCurtido(!curtido);
   };
 
-  const handleEnviarComentario = () => {
-    if (!comentario.trim()) return;
-    
-    alert("Funcionalidade de comentários será implementada em breve!");
-    setComentario("");
+  const imagemAnterior = () => {
+    if (imagemSelecionadaIndex > 0) {
+      setImagemSelecionadaIndex(prev => prev - 1);
+    }
   };
 
-  if (!noticia && !carregando) {
+  if (carregando) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4" />
+          <p className="text-zinc-600 dark:text-zinc-400">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!noticia) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <h2 className="text-2xl font-bold mb-4">Notícia não encontrada</h2>
@@ -119,173 +130,136 @@ const NoticiaDetalhe = () => {
   }
 
   return (
-    <div>
-      <section className="relative h-[40vh] md:h-[50vh] overflow-hidden">
-        {carregando ? (
-          <div className="absolute inset-0 bg-background" />
-        ) : (
-          <>
-            <div
-              className="absolute inset-0 transition-all duration-500"
-              style={{
-                backgroundImage: `url(/images/${imagemPrincipal})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background" />
-          </>
-        )}
-        
-        <div className="container mx-auto px-4 h-full relative">
-          <div className="absolute bottom-8 left-4">
-            <Link to="/novidades" className="text-white/80 hover:text-white flex items-center gap-1 mb-4">
-              <ArrowLeft className="h-4 w-4" />
-              <span>Voltar para novidades</span>
-            </Link>
-            
-            {!carregando && (
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-white">
-                {noticia?.titulo}
-              </h1>
-            )}
+    <div className="min-h-screen bg-secondary/50 dark:bg-black">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
+        {/* Botão Voltar */}
+        <Button
+          variant="outline"
+          className="mb-8"
+          onClick={() => window.history.back()}
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Voltar
+        </Button>
+
+        {/* Breadcrumb */}
+        <div className="text-sm text-zinc-600 dark:text-zinc-400 mb-8">
+          <span>Notícias</span>
+          <span className="mx-2">›</span>
+          <span>{noticia.categoria}</span>
+        </div>
+
+        {/* Banner Principal */}
+        <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] rounded-b-2xl overflow-hidden mb-6 md:mb-8">
+          <img
+            src={`/images/${noticia.imagem}`}
+            alt={noticia.titulo}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Status e Data */}
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-0 mb-6 md:mb-8">
+          <Badge 
+            variant="secondary" 
+            className="text-sm md:text-lg font-semibold bg-zinc-200 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 px-3 py-1 md:px-6 md:py-2 w-fit"
+          >
+            {noticia.categoria}
+          </Badge>
+          <span className="text-zinc-900 dark:text-zinc-400 text-xs md:text-sm flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            {noticia.data}
+          </span>
+        </div>
+
+        {/* Cabeçalho da Notícia */}
+        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8 bg-zinc-200 dark:bg-zinc-900 p-3 md:p-4 rounded-lg">
+          <Avatar className="w-12 h-12 md:w-16 md:h-16">
+            <AvatarImage src={`/images/${noticia.autorImagem}`} alt={noticia.autor} />
+            <AvatarFallback>{noticia.autor.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div>
+            <h1 className="text-xl md:text-2xl font-bold text-black dark:text-white">{noticia.titulo}</h1>
+            <p className="text-cyan-600 dark:text-cyan-400 text-sm md:text-base">{noticia.autor}</p>
           </div>
         </div>
-      </section>
 
-      {!carregando && noticia && (
-        <section className="py-8 md:py-12">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2">
-                <div className="bg-card rounded-xl border border-border p-6 mb-8">
-                  <div className="flex items-center space-x-4 mb-6">
-                    <Avatar>
-                      <AvatarImage src={noticia.autorImagem} alt={noticia.autor} />
-                      <AvatarFallback>{noticia.autor.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-medium">{noticia.autor}</div>
-                      <div className="text-sm text-muted-foreground flex items-center">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        {noticia.data}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    {noticia.conteudo.split('\n\n').map((paragraph: string, index: number) => (
-                      <p key={index} className="text-muted-foreground">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mt-6">
-                    {noticia.tags.map((tag: string) => (
-                      <span 
-                        key={tag} 
-                        className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-xs"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="bg-card rounded-xl border border-border p-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-xl font-semibold">Comentários ({comentarios.length})</h3>
-                    <Button variant="outline" size="sm" onClick={handleCurtir}>
-                      <Heart className={`h-4 w-4 mr-2 ${curtido ? "fill-red-500 text-red-500" : ""}`} />
-                      {contagemCurtidas}
-                    </Button>
-                  </div>
-                  
-                  <div className="space-y-6 mb-6">
-                    {comentarios.map((comentario) => (
-                      <div key={comentario.id} className="flex gap-4">
-                        <img
-                          src={comentario.avatar}
-                          alt={comentario.usuario}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-medium">{comentario.usuario}</span>
-                            <span className="text-xs text-muted-foreground">{comentario.data}</span>
-                          </div>
-                          <p className="text-sm text-muted-foreground">{comentario.texto}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="border-t border-border pt-6">
-                    <h4 className="font-medium mb-3">Deixe seu comentário</h4>
-                    <Textarea
-                      placeholder="Escreva um comentário..."
-                      className="mb-3 min-h-[100px]"
-                      value={comentario}
-                      onChange={(e) => setComentario(e.target.value)}
-                    />
-                    <div className="flex justify-end">
-                      <Button onClick={handleEnviarComentario}>
-                        <MessageSquare className="h-4 w-4 mr-2" />
-                        Comentar
-                      </Button>
-                    </div>
-                  </div>
-                </div>
+        {/* Conteúdo */}
+        <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-3 md:p-4 mb-6 md:mb-8">
+          <div className="space-y-4 text-zinc-900 dark:text-zinc-300">
+            {noticia.conteudo.split('\n\n').map((paragraph, index) => (
+              <p key={index} className="text-sm md:text-base">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {noticia.tags.map((tag) => (
+            <div 
+              key={tag} 
+              className="bg-zinc-200 dark:bg-zinc-900 px-3 py-2 rounded-lg text-xs md:text-sm text-zinc-900 dark:text-zinc-300 flex items-center gap-2"
+            >
+              #{tag}
+            </div>
+          ))}
+        </div>
+
+        <hr className="border-zinc-200 dark:border-zinc-800 my-8" />
+
+        {/* Galeria */}
+        <div className="mb-12">
+          <h2 className="text-xl font-semibold text-black dark:text-white mb-6">Galeria de Fotos</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {noticia.galeria.map((imagem, index) => (
+              <div 
+                key={index} 
+                className="aspect-square rounded-lg overflow-hidden cursor-pointer"
+                onClick={() => abrirModal(index)}
+              >
+                <img
+                  src={`/images/${imagem}`}
+                  alt={`${noticia.titulo} - Imagem ${index + 1}`}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
               </div>
-              
-              <div>
-                <div className="bg-card rounded-xl border border-border p-6 mb-8">
-                  <h3 className="text-xl font-semibold mb-4">Galeria</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {noticia.galeria.map((imagem: string, index: number) => (
-                      <div
-                        key={index}
-                        className={`${
-                          index === 0 ? "col-span-2" : "col-span-1"
-                        } rounded-lg overflow-hidden cursor-pointer`}
-                        onClick={() => setImagemPrincipal(imagem)}
-                      >
-                        <img
-                          src={`/images/${imagem}`}
-                          alt={`Foto ${index + 1} da notícia`}
-                          className={`w-full h-full object-cover transition-all duration-300 ${
-                            imagemPrincipal === imagem ? "ring-2 ring-accent" : "hover:brightness-75"
-                          }`}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="bg-card rounded-xl border border-border p-6 mb-8">
-                  <h3 className="text-xl font-semibold mb-4">Compartilhar</h3>
-                  <div className="flex flex-wrap gap-3">
-                    <Button variant="outline" className="flex-1">
-                      <Share2 className="h-4 w-4 mr-2" />
-                      Compartilhar
-                    </Button>
-                  </div>
-                </div>
-                
-                <div className="bg-accent/10 rounded-xl p-6">
-                  <h3 className="text-xl font-semibold mb-4">Informações</h3>
-                  <ul className="space-y-3 text-muted-foreground">
-                    <li>Categoria: {noticia.categoria}</li>
-                    <li>Publicado em: {noticia.data}</li>
-                    <li>Autor: {noticia.autor}</li>
-                  </ul>
-                </div>
-              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Localização */}
+        <div className="mb-24">
+          <h2 className="text-xl font-semibold text-black dark:text-white mb-4">Localização</h2>
+          <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-3 md:p-4">
+            <div className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <span className="break-words">{noticia.endereco}</span>
+            </div>
+            <div className="h-[250px] sm:h-[300px] md:h-[400px] w-full rounded-lg overflow-hidden">
+              <Map 
+                latitude={noticia.latitude}
+                longitude={noticia.longitude}
+                title={noticia.titulo}
+                description={noticia.endereco}
+              />
             </div>
           </div>
-        </section>
-      )}
+        </div>
+
+        {/* Modal de imagem */}
+        <ImageModal
+          isOpen={modalAberto}
+          onClose={() => setModalAberto(false)}
+          imageUrl={`/images/${noticia.galeria[imagemSelecionadaIndex]}`}
+          alt={`${noticia.titulo} - Imagem ${imagemSelecionadaIndex + 1}`}
+          onNext={proximaImagem}
+          onPrevious={imagemAnterior}
+          hasNext={imagemSelecionadaIndex < noticia.galeria.length - 1}
+          hasPrevious={imagemSelecionadaIndex > 0}
+        />
+      </div>
     </div>
   );
 };
