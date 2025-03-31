@@ -1,69 +1,71 @@
-# Welcome to your Lovable project
+# Buscar Rio Verde
 
-## Project info
+Um site de busca e informações sobre a cidade de Rio Verde - GO.
 
-**URL**: https://lovable.dev/projects/5c67527e-92bb-4d6c-9783-4a4dd335158f
+## 🚀 Sobre o Projeto
 
-## How can I edit this code?
+O Buscar Rio Verde é uma plataforma web desenvolvida para facilitar a busca por informações, serviços e estabelecimentos na cidade de Rio Verde, Goiás. O projeto visa conectar moradores e visitantes aos recursos e serviços disponíveis na cidade.
 
-There are several ways of editing your application.
+## 🛠️ Tecnologias Utilizadas
 
-**Use Lovable**
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Google Maps API
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5c67527e-92bb-4d6c-9783-4a4dd335158f) and start prompting.
+## 📦 Funcionalidades
 
-Changes made via Lovable will be committed automatically to this repo.
+- Busca de estabelecimentos
+- Classificados
+- Serviços
+- Gastronomia
+- Integração com Google Maps
+- Interface responsiva
 
-**Use your preferred IDE**
+## 🔧 Instalação
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. Clone o repositório:
+```bash
+git clone https://github.com/Eduardo-Aparecido/busca_rioverde.git
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. Instale as dependências:
+```bash
+cd busca_rioverde
+npm install
+```
 
-Follow these steps:
+3. Configure as variáveis de ambiente:
+- Crie um arquivo `.env` na raiz do projeto
+- Adicione sua chave da API do Google Maps:
+```env
+VITE_GOOGLE_MAPS_API_KEY=sua_chave_aqui
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+4. Execute o projeto:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🌐 Deploy
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+O projeto está disponível em: [buscarvd.free.nf](http://buscarvd.free.nf)
 
-**Use GitHub Codespaces**
+## 📄 Licença
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Este projeto está sob a licença MIT - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
 
-## What technologies are used for this project?
+## 👤 Autor
 
-This project is built with .
+Eduardo Aparecido
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🤝 Contribuição
 
-## How can I deploy this project?
+Contribuições são sempre bem-vindas! Para contribuir:
 
-Simply open [Lovable](https://lovable.dev/projects/5c67527e-92bb-4d6c-9783-4a4dd335158f) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+1. Faça um Fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
