@@ -114,8 +114,8 @@ const ServicoDetalhe = () => {
   }
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8 bg-white dark:bg-black rounded-lg">
         {/* Botão Voltar */}
         <Button
           variant="outline"
@@ -143,7 +143,7 @@ const ServicoDetalhe = () => {
               transition={{ duration: 0.5 }}
             >
               {/* Imagem */}
-              <div className="aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+              <div className="aspect-video rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900">
                 <img
                   src={servico.imagem}
                   alt={servico.titulo}
@@ -159,7 +159,7 @@ const ServicoDetalhe = () => {
                 <div className="flex items-center gap-2 mt-2">
                   <div className="flex items-center">
                     <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-                    <span className="ml-1 font-medium">{servico.avaliacao}</span>
+                    <span className="ml-1 font-medium text-zinc-900 dark:text-white">{servico.avaliacao}</span>
                   </div>
                   <span className="text-zinc-600 dark:text-zinc-400">
                     ({servico.avaliacoes} avaliações)
@@ -168,7 +168,7 @@ const ServicoDetalhe = () => {
               </div>
 
               {/* Preço */}
-              <div className="text-2xl font-bold text-primary mt-4 break-words">
+              <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-500 mt-4 break-words">
                 {servico.preco}
               </div>
 
@@ -193,7 +193,7 @@ const ServicoDetalhe = () => {
                       key={index}
                       className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
                     >
-                      <div className="h-1.5 w-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-cyan-500 mt-2 flex-shrink-0" />
                       <span className="break-words">{item}</span>
                     </li>
                   ))}
@@ -217,7 +217,7 @@ const ServicoDetalhe = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 sticky top-24">
+              <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-6 sticky top-24">
                 <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-6">
                   Informações de contato
                 </h2>
@@ -236,7 +236,7 @@ const ServicoDetalhe = () => {
                   {/* Telefone */}
                   <Button
                     variant="outline"
-                    className="w-full justify-start gap-2 break-all"
+                    className="w-full justify-start gap-2 break-all text-zinc-900 dark:text-white"
                     asChild
                   >
                     <a href={`tel:${servico.contato.telefone}`}>
@@ -248,7 +248,7 @@ const ServicoDetalhe = () => {
                   {/* Email */}
                   <Button
                     variant="outline"
-                    className="w-full justify-start gap-2 break-all"
+                    className="w-full justify-start gap-2 break-all text-zinc-900 dark:text-white"
                     asChild
                   >
                     <a href={`mailto:${servico.contato.email}`}>

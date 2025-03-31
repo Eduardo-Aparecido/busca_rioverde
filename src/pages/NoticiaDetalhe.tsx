@@ -130,8 +130,8 @@ const NoticiaDetalhe = () => {
   }
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8 bg-white dark:bg-black rounded-lg">
         {/* Botão Voltar */}
         <Button
           variant="outline"
@@ -150,7 +150,7 @@ const NoticiaDetalhe = () => {
         </div>
 
         {/* Banner Principal */}
-        <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] rounded-b-2xl overflow-hidden mb-6 md:mb-8">
+        <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] rounded-lg overflow-hidden mb-6 md:mb-8">
           <img
             src={`/images/${noticia.imagem}`}
             alt={noticia.titulo}
@@ -162,31 +162,31 @@ const NoticiaDetalhe = () => {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-0 mb-6 md:mb-8">
           <Badge 
             variant="secondary" 
-            className="text-sm md:text-lg font-semibold bg-zinc-200 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 px-3 py-1 md:px-6 md:py-2 w-fit"
+            className="text-sm md:text-lg font-semibold bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 px-3 py-1 md:px-6 md:py-2 w-fit"
           >
             {noticia.categoria}
           </Badge>
-          <span className="text-zinc-900 dark:text-zinc-400 text-xs md:text-sm flex items-center gap-1">
+          <span className="text-zinc-600 dark:text-zinc-400 text-xs md:text-sm flex items-center gap-1">
             <Calendar className="h-3 w-3" />
             {noticia.data}
           </span>
         </div>
 
         {/* Cabeçalho da Notícia */}
-        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8 bg-zinc-200 dark:bg-zinc-900 p-3 md:p-4 rounded-lg">
+        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8 bg-zinc-100 dark:bg-zinc-900 p-3 md:p-4 rounded-lg">
           <Avatar className="w-12 h-12 md:w-16 md:h-16">
             <AvatarImage src={`/images/${noticia.autorImagem}`} alt={noticia.autor} />
             <AvatarFallback>{noticia.autor.charAt(0)}</AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-black dark:text-white">{noticia.titulo}</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white">{noticia.titulo}</h1>
             <p className="text-cyan-600 dark:text-cyan-400 text-sm md:text-base">{noticia.autor}</p>
           </div>
         </div>
 
         {/* Conteúdo */}
-        <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-3 md:p-4 mb-6 md:mb-8">
-          <div className="space-y-4 text-zinc-900 dark:text-zinc-300">
+        <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-3 md:p-4 mb-6 md:mb-8">
+          <div className="space-y-4 text-zinc-800 dark:text-zinc-300">
             {noticia.conteudo.split('\n\n').map((paragraph, index) => (
               <p key={index} className="text-sm md:text-base">
                 {paragraph}
@@ -200,7 +200,7 @@ const NoticiaDetalhe = () => {
           {noticia.tags.map((tag) => (
             <div 
               key={tag} 
-              className="bg-zinc-200 dark:bg-zinc-900 px-3 py-2 rounded-lg text-xs md:text-sm text-zinc-900 dark:text-zinc-300 flex items-center gap-2"
+              className="bg-zinc-100 dark:bg-zinc-900 px-3 py-2 rounded-lg text-xs md:text-sm text-zinc-800 dark:text-zinc-300 flex items-center gap-2"
             >
               #{tag}
             </div>
@@ -211,7 +211,7 @@ const NoticiaDetalhe = () => {
 
         {/* Galeria */}
         <div className="mb-12">
-          <h2 className="text-xl font-semibold text-black dark:text-white mb-6">Galeria de Fotos</h2>
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Galeria de Fotos</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {noticia.galeria.map((imagem, index) => (
               <div 
@@ -231,8 +231,8 @@ const NoticiaDetalhe = () => {
 
         {/* Localização */}
         <div className="mb-24">
-          <h2 className="text-xl font-semibold text-black dark:text-white mb-4">Localização</h2>
-          <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-3 md:p-4">
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Localização</h2>
+          <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-3 md:p-4">
             <div className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400 mb-4">
               <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
               <span className="break-words">{noticia.endereco}</span>

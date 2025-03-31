@@ -326,7 +326,7 @@ const Home = () => {
               titulo="Classificados" 
               subtitulo="Compre e venda na sua cidade"
             />
-            <Link to="/classificados">
+            <Link to="/classificado">
               <Button variant="ghost" className="gap-2">
                 Ver todos
                 <ArrowRight size={16} />
@@ -341,7 +341,7 @@ const Home = () => {
                 id={classificado.id}
                 titulo={classificado.titulo}
                 imagem={classificado.imagem}
-                link={`/classificados/${classificado.id}`}
+                link={`/classificado/${classificado.id}`}
               >
                 <div className="flex flex-col flex-grow">
                   <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{classificado.descricao}</p>
@@ -413,7 +413,7 @@ const Home = () => {
               <MapPin className="h-6 w-6 text-primary mb-2" />
               <span className="text-sm font-medium">Onde Ir</span>
             </Link>
-            <Link to="/classificados" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+            <Link to="/classificado" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <Tag className="h-6 w-6 text-primary mb-2" />
               <span className="text-sm font-medium">Classificados</span>
             </Link>

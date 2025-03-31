@@ -21,7 +21,7 @@ import { CardBase } from "@/components/ui/card-base";
  */
 const classificados = [
   {
-    id: 1,
+    id: "1",
     titulo: "iPhone 13 Pro Max",
     preco: "R$ 4.999,00",
     descricao: "iPhone 13 Pro Max 256GB, cor Graphite, com garantia",
@@ -34,7 +34,7 @@ const classificados = [
     imagem: "/images/classificados/iphone13promax.jpg"
   },
   {
-    id: 2,
+    id: "2",
     titulo: "Bicicleta Aro 29 KRW",
     preco: "R$ 200,00",
     descricao: "Bicicleta Alumínio Câmbios Shimano 21 Velocidades Freio a Disco Suspensão Mountain Bike S21",
@@ -47,7 +47,7 @@ const classificados = [
     imagem: "/images/classificados/bicicleta.jpg"
   },
   {
-    id: 3,
+    id: "3",
     titulo: "Guitarra Michael GM222N ST STONEHENGE",
     preco: "R$ 1.200,00",
     descricao: "Guitarra Michael GM222N ST STONEHENGE",

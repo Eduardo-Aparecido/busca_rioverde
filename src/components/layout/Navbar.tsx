@@ -74,8 +74,8 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 hidden md:block ${
           isScrolled
-            ? "bg-background/80 backdrop-blur-md shadow-sm"
-            : "bg-transparent"
+            ? "bg-white dark:bg-background/80 backdrop-blur-md shadow-sm"
+            : "bg-white dark:bg-transparent"
         }`}
       >
         <div className="container mx-auto px-4 py-3">
@@ -151,7 +151,7 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
         - Apenas logo e botões de ação
         - Visível apenas em telas mobile
       */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border md:hidden">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-background border-b border-border md:hidden">
         <div className="container mx-auto">
           <div className="flex items-center justify-between py-3 px-4">
             {/* Logo Mobile */}

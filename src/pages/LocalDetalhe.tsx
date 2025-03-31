@@ -351,8 +351,8 @@ export default function LocalDetalhe() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8 bg-white dark:bg-black rounded-lg">
         {/* Botão Voltar */}
         <Button
           variant="outline"
@@ -376,7 +376,7 @@ export default function LocalDetalhe() {
           - Altura responsiva
           - Cantos arredondados
         */}
-        <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] rounded-b-2xl overflow-hidden mb-6 md:mb-8">
+        <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] rounded-2xl overflow-hidden mb-6 md:mb-8">
           <img
             src={local.banner}
             alt={local.nome}
@@ -391,7 +391,7 @@ export default function LocalDetalhe() {
           - Telefone
           - Website
         */}
-        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8 bg-zinc-200 dark:bg-zinc-900 p-3 md:p-4 rounded-lg">
+        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8 bg-zinc-100 dark:bg-zinc-900 p-3 md:p-4 rounded-lg">
           <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-lg overflow-hidden flex-shrink-0">
             <img
               src={local.logo}
@@ -400,7 +400,7 @@ export default function LocalDetalhe() {
             />
           </div>
           <div className="flex-1 min-w-0">
-            <h1 className="text-xl md:text-2xl font-bold text-black dark:text-white truncate">{local.nome}</h1>
+            <h1 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white truncate">{local.nome}</h1>
             <p className="text-cyan-600 dark:text-cyan-400 text-sm md:text-base truncate">{local.endereco}</p>
           </div>
         </div>
@@ -422,7 +422,7 @@ export default function LocalDetalhe() {
           >
             {estaAberto(local.horariosFuncionamento) ? 'ABERTO AGORA' : 'FECHADO AGORA'}
           </Badge>
-          <span className="text-zinc-600 dark:text-zinc-400 text-xs md:text-sm">
+          <span className="text-zinc-400 text-xs md:text-sm">
             Atualizado em {new Date(local.ultimaAtualizacao).toLocaleString('pt-BR', {
               day: '2-digit',
               month: '2-digit',
@@ -431,19 +431,19 @@ export default function LocalDetalhe() {
               minute: '2-digit'
             })}
           </span>
-            </div>
+        </div>
 
         {/* 
           Descrição
           - Texto formatado
           - Estilo responsivo
         */}
-        <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-3 md:p-4 mb-6 md:mb-8">
+        <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-3 md:p-4 mb-6 md:mb-8">
           <div className="flex items-center gap-2 mb-2 md:mb-3">
             <Clock className="h-4 w-4 md:h-5 md:w-5 text-zinc-900 dark:text-zinc-400" />
-            <span className="text-black dark:text-white text-sm md:text-base">Horários de funcionamento</span>
-                  </div>
-          <div className="space-y-1 text-xs md:text-sm text-zinc-900 dark:text-zinc-300">
+            <span className="text-zinc-900 dark:text-white text-sm md:text-base">Horários de funcionamento</span>
+          </div>
+          <div className="space-y-1 text-xs md:text-sm text-zinc-800 dark:text-zinc-300">
             {local.horariosFuncionamento.map((horario, index) => (
               horario.horarios.length > 0 && (
                 <div key={index}>
@@ -452,8 +452,8 @@ export default function LocalDetalhe() {
                 </div>
               )
             ))}
-                </div>
-              </div>
+          </div>
+        </div>
 
         {/* 
           Comodidades
@@ -464,7 +464,7 @@ export default function LocalDetalhe() {
           {local.comodidades.map((comodidade, index) => (
             <div 
               key={index}
-              className="bg-zinc-200 dark:bg-zinc-900 px-3 py-2 rounded-lg text-xs md:text-sm text-zinc-900 dark:text-zinc-300 flex items-center gap-2"
+              className="bg-zinc-100 dark:bg-zinc-900 px-3 py-2 rounded-lg text-xs md:text-sm text-zinc-800 dark:text-zinc-300 flex items-center gap-2"
             >
               {getComodidadeIcon(comodidade)}
               <span>{comodidade}</span>
@@ -477,7 +477,7 @@ export default function LocalDetalhe() {
           - Texto formatado
           - Estilo responsivo
         */}
-        <div className="mb-12 text-zinc-900 dark:text-zinc-300 space-y-4">
+        <div className="mb-12 text-zinc-800 dark:text-zinc-300 space-y-4">
           <p className="whitespace-pre-line">{local.descricao}</p>
           <p>
             Os pedidos de garrafas, growlers e latas podem ser feitos pelo{" "}
@@ -501,7 +501,7 @@ export default function LocalDetalhe() {
           - Efeito hover nas imagens
         */}
         <div className="mb-12">
-          <h2 className="text-xl font-semibold text-black dark:text-white mb-6">Eventos</h2>
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Eventos</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {local.galeria.map((imagem, index) => (
               <div 
@@ -525,8 +525,8 @@ export default function LocalDetalhe() {
           - Marcador personalizado
         */}
         <div className="mb-24">
-          <h2 className="text-xl font-semibold text-black dark:text-white mb-4">Localização</h2>
-          <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-3 md:p-4">
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Localização</h2>
+          <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-3 md:p-4">
             <div className="h-[250px] sm:h-[300px] md:h-[400px] w-full rounded-lg overflow-hidden">
               <Map 
                 latitude={local.latitude}

@@ -690,8 +690,8 @@ export default function FilmeDetalhe() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
+    <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8 bg-white dark:bg-black rounded-lg">
         {/* Botão Voltar */}
         <Button
           variant="outline"
@@ -710,7 +710,7 @@ export default function FilmeDetalhe() {
         </div>
 
         {/* Hero Image */}
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+        <div className="relative w-full aspect-video rounded-2xl overflow-hidden">
             <img
               src={filme.imagem}
               alt={filme.titulo}
@@ -719,22 +719,22 @@ export default function FilmeDetalhe() {
           <div className="absolute bottom-2 left-2 text-xs text-white/60">
             Reprodução | Disney
           </div>
-            </div>
+        </div>
 
         <div className="flex justify-end mt-4">
-          <Badge variant="outline" className="bg-zinc-800 text-white border-none">
-                Semana de estreia
-              </Badge>
-            </div>
+          <Badge variant="outline" className="bg-zinc-900 dark:bg-zinc-800 text-white border-none">
+            Semana de estreia
+          </Badge>
+        </div>
 
-        <h1 className="text-3xl font-bold text-white mt-6">{filme.titulo}</h1>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mt-6">{filme.titulo}</h1>
         <div className="flex flex-wrap gap-2 mt-2">
           {filme.genero.split(",").map((genero, index) => (
-            <span key={index} className="text-cyan-500">
+            <span key={index} className="text-cyan-600 dark:text-cyan-500">
               {genero.trim()}
             </span>
           ))}
-          </div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
           {filme.videoId && (
@@ -743,87 +743,87 @@ export default function FilmeDetalhe() {
                 videoId={filme.videoId} 
                 title={filme.titulo}
               />
-              </div>
+            </div>
           )}
 
-          <div className="bg-zinc-900 rounded-lg p-4 space-y-4">
+          <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4 space-y-4">
             <div>
-              <div className="text-zinc-400 text-sm">Classificação:</div>
-              <div className="text-white">{filme.classificacao}</div>
-                </div>
-            <div>
-              <div className="text-zinc-400 text-sm">Duração:</div>
-              <div className="text-white">{filme.duracao}</div>
-                </div>
-            <div>
-              <div className="text-zinc-400 text-sm">Direção:</div>
-              <div className="text-white">{filme.diretor}</div>
-                </div>
-            <div>
-              <div className="text-zinc-400 text-sm">No elenco:</div>
-              <div className="text-white">{filme.elenco}</div>
+              <div className="text-zinc-500 dark:text-zinc-400 text-sm">Classificação:</div>
+              <div className="text-zinc-900 dark:text-white">{filme.classificacao}</div>
             </div>
             <div>
-              <div className="text-zinc-400 text-sm">Ano:</div>
-              <div className="text-white">2025</div>
+              <div className="text-zinc-500 dark:text-zinc-400 text-sm">Duração:</div>
+              <div className="text-zinc-900 dark:text-white">{filme.duracao}</div>
+            </div>
+            <div>
+              <div className="text-zinc-500 dark:text-zinc-400 text-sm">Direção:</div>
+              <div className="text-zinc-900 dark:text-white">{filme.diretor}</div>
+            </div>
+            <div>
+              <div className="text-zinc-500 dark:text-zinc-400 text-sm">No elenco:</div>
+              <div className="text-zinc-900 dark:text-white">{filme.elenco}</div>
+            </div>
+            <div>
+              <div className="text-zinc-500 dark:text-zinc-400 text-sm">Ano:</div>
+              <div className="text-zinc-900 dark:text-white">2025</div>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 text-white/80 leading-relaxed max-w-prose">
+        <div className="mt-6 text-zinc-800 dark:text-zinc-300 leading-relaxed max-w-prose">
           {filme.descricao}
-          </div>
+        </div>
 
         {/* Horários */}
         <div className="mt-12 pb-12">
           <div className="flex items-center gap-2 mb-6">
             <span className="text-2xl">🍿</span>
-            <h2 className="text-2xl font-medium text-white">Salas e horários</h2>
+            <h2 className="text-2xl font-medium text-zinc-900 dark:text-white">Salas e horários</h2>
           </div>
           
           {/* Datas */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 mb-8">
             {filme.datasDisponiveis.map((data) => (
-                    <Button
+              <Button
                 key={data.dia}
                 variant="outline"
                 className={`
                   w-full h-[52px] rounded-full border-2 flex flex-col items-center justify-center p-0
                   ${dataAtiva === data.dia 
                     ? "bg-cyan-500 text-black border-cyan-500" 
-                    : "border-cyan-500 text-white hover:bg-cyan-500/20"
+                    : "border-cyan-500 text-zinc-900 dark:text-white hover:bg-cyan-500/20"
                   }
                 `}
                 onClick={() => setDataAtiva(data.dia)}
               >
                 <div className="text-[10px] leading-none">{data.diaSemana}</div>
                 <div className="text-[11px] font-medium mt-1">{data.dia}</div>
-                    </Button>
-                  ))}
-                </div>
+              </Button>
+            ))}
+          </div>
                 
           {/* Lista de Cinemas */}
-                <div className="space-y-6">
-                  {filme.datasDisponiveis
+          <div className="space-y-6">
+            {filme.datasDisponiveis
               .find(data => data.dia === dataAtiva)
               ?.cinemas.map((cinema) => (
                 <div 
                   key={cinema.nome}
-                  className="bg-zinc-950 rounded-lg border border-zinc-800"
+                  className="bg-zinc-100 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800"
                 >
                   {/* Header do Cinema */}
-                  <div className="flex items-center justify-between p-4 border-b border-zinc-800">
-                        <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-between p-4 border-b border-zinc-200 dark:border-zinc-800">
+                    <div className="flex items-center gap-4">
                       <img 
                         src={cinema.logo} 
                         alt={cinema.nome}
                         className="h-8 w-auto"
                       />
-                      <h3 className="text-white font-medium">{cinema.nome}</h3>
-                        </div>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
+                      <h3 className="text-zinc-900 dark:text-white font-medium">{cinema.nome}</h3>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
                       className="border-cyan-500 text-cyan-500 hover:bg-cyan-500/20"
                       asChild
                     >
@@ -831,20 +831,20 @@ export default function FilmeDetalhe() {
                         to={filme.linkVenda}
                         target="_blank"
                         rel="noopener noreferrer"
-                        >
-                          PREÇOS E INFOS
+                      >
+                        PREÇOS E INFOS
                       </Link>
-                        </Button>
-                      </div>
+                    </Button>
+                  </div>
 
                   {/* Lista de Salas */}
-                  <div className="divide-y divide-zinc-800">
+                  <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
                     {cinema.salas.map((sala, index) => (
                       <div key={`${sala.sala}-${index}`} className="p-4 space-y-4">
                         {/* Tipos de exibição */}
                         <div className="flex flex-wrap gap-2 items-center">
-                          <span className="text-white font-medium">{sala.sala}</span>
-                          <span className="text-zinc-400">•</span>
+                          <span className="text-zinc-900 dark:text-white font-medium">{sala.sala}</span>
+                          <span className="text-zinc-500 dark:text-zinc-400">•</span>
                           {sala.tipos.map((tipo, idx) => {
                             let bgColor = "bg-green-700";
                             if (tipo === "LEG") {
@@ -863,36 +863,55 @@ export default function FilmeDetalhe() {
                           })}
                             </div>
                         {/* Horários */}
-                            <div className="flex flex-wrap gap-2">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
                           {sala.horarios.map((horario, idx) => (
-                                <Button 
+                            <Button
                               key={idx}
-                                  variant="outline" 
-                                  size="sm"
-                              className="bg-black text-white border-white hover:bg-white hover:text-black min-w-[90px] px-6 py-4"
+                              variant="outline"
+                              className="bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white hover:bg-cyan-500/20 border-cyan-500"
                               asChild
                             >
                               <Link 
                                 to={filme.linkVenda}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                >
-                                  {horario}
+                              >
+                                {horario}
                               </Link>
-                                </Button>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
+                            </Button>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
+              ))}
+          </div>
 
-          <div className="mt-6 flex items-center gap-2 text-white/60 text-sm">
+          <div className="mt-6 flex items-center gap-2 text-zinc-600 dark:text-zinc-400 text-sm">
             <span className="text-yellow-500">⭐</span>
             <span>Dica: você pode tocar nos horários para comprar ingressos</span>
           </div>
+        </div>
+
+        {/* Botões de ação */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-black border-t border-zinc-200 dark:border-zinc-800 p-4 flex justify-center gap-4">
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 text-zinc-900 dark:text-white"
+            onClick={handleCurtir}
+          >
+            <Heart className={`h-4 w-4 ${curtido ? 'fill-red-500 text-red-500' : ''}`} />
+            {curtido ? 'Curtido' : 'Curtir'}
+          </Button>
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 text-zinc-900 dark:text-white"
+            onClick={compartilhar}
+          >
+            <Share2 className="h-4 w-4" />
+            Compartilhar
+          </Button>
         </div>
       </div>
     </div>

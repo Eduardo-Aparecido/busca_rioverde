@@ -14,13 +14,13 @@ import {
   Clock, 
   MapPin, 
   Heart, 
-  Share2, 
   ArrowLeft,
   Ticket,
   MessageSquare,
   ChevronLeft,
   ChevronRight,
-  X
+  X,
+  Pencil
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,10 @@ import { useCurtida } from "@/hooks/useCurtida";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
+import { ImageGallery } from "@/components/ui/image-gallery";
+import { Map } from "@/components/ui/map";
+import { useAuth } from "@/hooks/useAuth";
 
 /**
  * Dados simulados para desenvolvimento
@@ -66,7 +70,10 @@ const eventos = [
     categoria: "Comédia Stand-Up",
     descricao: "Carol Delgado apresenta seu novo show 'Love is Magic', uma noite especial com muito humor e diversão.",
     ingressos: "R$ 60,00 (meia solidária) / R$ 160,00 (4 lugares) / R$ 100,00 (ingresso duplo)",
-    avaliacao: 4.7
+    avaliacao: 4.7,
+    latitude: -17.79942422405687,
+    longitude: -50.93200656856998,
+    endereco: "Rua Rafael Nascimento, 219 - Centro"
   },
   {
     id: "2",
@@ -83,7 +90,10 @@ const eventos = [
     categoria: "Musica",
     descricao: "Banda da cidade de Goiânia que vem conquistando seu espaço no cenário do metal nacional.",
     ingressos: "R$ 25,00",
-    avaliacao: 4.8
+    avaliacao: 4.8,
+    latitude: -17.79942422405687,
+    longitude: -50.93200656856998,
+    endereco: "Rua Rafael Nascimento, 219 - Centro"
   },
   {
     id: "3",
@@ -100,7 +110,10 @@ const eventos = [
     categoria: "Espiritualidade",
     descricao: "O Café com Deus é mais do que um encontro, é um momento de renovação para mulheres que desejam se conectar profundamente com Deus ,em um ambiente acolhedor e inspirador. Compartilhamos da palavra, testemunhos, reflexões e louvores. Cada detalhe é pensado para fortalecer a fé, restaurar corações e reafirmar a identidade em Cristo. Mais do que um evento, é um chamado para mulheres que querem viver seu propósito com coragem, leveza e plenitude.",
     ingressos: " ",
-    avaliacao: 4.8
+    avaliacao: 4.8,
+    latitude: -17.79942422405687,
+    longitude: -50.93200656856998,
+    endereco: "Rua Costa Gomes, 855, CENTRO, Jardim Goias"
   }
 ];
 
@@ -134,8 +147,10 @@ interface ImagemGaleria {
  * - comentarios: Lista de comentários do evento
  */
 const EventoDetalhe = () => {
-  // Obtém o ID do evento da URL
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
+  const { user } = useAuth();
+  useScrollToTop();
+  const evento = eventos.find(e => e.id === id);
 
   // Estados para controle da página
   const [carregando, setCarregando] = useState(true);
@@ -144,10 +159,7 @@ const EventoDetalhe = () => {
   const [imagemPrincipal, setImagemPrincipal] = useState("");
   const [comentario, setComentario] = useState("");
   const [comentarios, setComentarios] = useState([]);
-  const [imagemSelecionada, setImagemSelecionada] = useState<ImagemGaleria | null>(null);
-  
-  // Busca o evento pelo ID
-  const evento = eventos.find(e => e.id === id);
+  const [imagemSelecionada, setImagemSelecionada] = useState<string | null>(null);
   
   // Hook para gerenciar curtidas
   const { curtido, contagemCurtidas, handleCurtir } = useCurtida({ 
@@ -199,143 +211,192 @@ const EventoDetalhe = () => {
     }
   };
 
-  // Retorna mensagem se o evento não for encontrado
   if (!evento) {
-    return <div>Evento não encontrado</div>;
-  }
-
-  return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-4">
-        <Button
-          variant="ghost"
-          className="gap-2"
-          onClick={() => window.history.back()}
-        >
-          <ArrowLeft size={16} />
-          Voltar
-        </Button>
-      </div>
-
-      {/* Imagem Principal */}
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
-        <div className="aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900">
-          <img
-            src={evento.imagem}
-            alt={evento.titulo}
-            className="w-full h-full object-cover"
-          />
+    return (
+      <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">Evento não encontrado</h1>
+          <Button onClick={() => window.history.back()}>Voltar</Button>
         </div>
       </div>
+    );
+  }
 
+  // Verifica se o evento tem localização
+  const temLocalizacao = evento.latitude && 
+    typeof evento.latitude === 'number' && 
+    typeof evento.longitude === 'number' && 
+    evento.endereco;
+
+  return (
+    <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
       <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-start justify-between gap-4">
-              <h1 className="text-2xl font-bold">{evento.titulo}</h1>
-              <Button variant="ghost" size="icon">
-                <Share2 className="h-5 w-5" />
-              </Button>
-            </div>
-
-            <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4">
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  <Calendar className="h-4 w-4" />
-                  <span>{evento.data}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  <Clock className="h-4 w-4" />
-                  <span>{evento.hora}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  <MapPin className="h-4 w-4" />
-                  <span>{evento.local}</span>
-                </div>
-              </div>
-            </div>
+        <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden">
+          {/* Botão Voltar */}
+          <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
+            <Button
+              variant="ghost"
+              className="gap-2"
+              onClick={() => window.history.back()}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Voltar
+            </Button>
           </div>
 
-          {/* Descrição */}
-          <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4">
-            <div className="prose dark:prose-invert max-w-none">
-              <h2>Sobre o Evento</h2>
-              <p>{evento.descricao}</p>
-            </div>
+          {/* Imagem Principal */}
+          <div className="aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900 mb-8">
+            <img
+              src={evento.imagem}
+              alt={evento.titulo}
+              className="w-full h-full object-cover"
+            />
           </div>
 
-          {/* Galeria */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold">Galeria</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {evento.galeria.map((imagem, index) => (
-                <button
-                  key={index}
-                  onClick={() => abrirModal(index)}
-                  className="aspect-square rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-800 hover:opacity-80 transition-opacity"
+          {/* Conteúdo Principal */}
+          <div className="p-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Coluna da Esquerda - Imagens e Informações */}
+              <div className="lg:col-span-2 space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  <img
-                    src={imagem.url}
-                    alt={imagem.descricao || `Imagem ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{evento.titulo}</h1>
+                    </div>
 
-          {/* Modal da Galeria */}
-          <Dialog open={modalAberto} onOpenChange={setModalAberto}>
-            <DialogContent className="max-w-5xl p-0">
-              <div className="relative flex items-center bg-zinc-900">
-                {/* Botão Fechar */}
-                <button
-                  onClick={() => setModalAberto(false)}
-                  className="absolute top-4 right-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
-                >
-                  <X className="h-5 w-5 text-zinc-100" />
-                </button>
-
-                {/* Botão Anterior */}
-                {imagemAtual > 0 && (
-                  <button
-                    onClick={imagemAnterior}
-                    className="absolute left-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
-                  >
-                    <ChevronLeft className="h-6 w-6 text-zinc-100" />
-                  </button>
-                )}
-
-                {/* Imagem */}
-                <div className="w-full h-[80vh] flex items-center justify-center p-4">
-                  <img
-                    src={evento.galeria[imagemAtual].url}
-                    alt={evento.galeria[imagemAtual].descricao || `Imagem ${imagemAtual + 1}`}
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-
-                {/* Botão Próximo */}
-                {imagemAtual < evento.galeria.length - 1 && (
-                  <button
-                    onClick={proximaImagem}
-                    className="absolute right-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
-                  >
-                    <ChevronRight className="h-6 w-6 text-zinc-100" />
-                  </button>
-                )}
-
-                {/* Descrição da Imagem */}
-                {evento.galeria[imagemAtual].descricao && (
-                  <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <p className="text-white text-sm">
-                      {evento.galeria[imagemAtual].descricao}
-                    </p>
+                    <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4">
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                          <Calendar className="h-4 w-4" />
+                          <span>{evento.data}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                          <Clock className="h-4 w-4" />
+                          <span>{evento.hora}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                          <MapPin className="h-4 w-4" />
+                          <span>{evento.local}</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
+
+                  {/* Descrição */}
+                  <div className="bg-zinc-900 rounded-lg p-4 mt-4">
+                    <h2 className="text-xl font-semibold text-white mb-4">Sobre o Evento</h2>
+                    <p className="text-zinc-300">{evento.descricao}</p>
+                  </div>
+
+                  {/* Galeria */}
+                  <div className="mt-8">
+                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Galeria de Imagens</h2>
+                    <div className="grid grid-cols-2 gap-4">
+                      {evento.galeria.map((imagem, index) => (
+                        <div
+                          key={index}
+                          className="aspect-[4/3] rounded-lg overflow-hidden cursor-pointer"
+                          onClick={() => {
+                            setImagemAtual(index);
+                            setModalAberto(true);
+                          }}
+                        >
+                          <img
+                            src={typeof imagem === 'string' ? imagem : imagem.url}
+                            alt={typeof imagem === 'string' ? `Imagem ${index + 1}` : imagem.descricao || `Imagem ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Modal da Galeria */}
+                  <Dialog open={modalAberto} onOpenChange={setModalAberto}>
+                    <DialogContent className="max-w-5xl p-0">
+                      <div className="relative flex items-center bg-zinc-900">
+                        {/* Botão Fechar */}
+                        <button
+                          onClick={() => setModalAberto(false)}
+                          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
+                        >
+                          <X className="h-5 w-5 text-zinc-100" />
+                        </button>
+
+                        {/* Botão Anterior */}
+                        {imagemAtual > 0 && (
+                          <button
+                            onClick={() => setImagemAtual(prev => prev - 1)}
+                            className="absolute left-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
+                          >
+                            <ChevronLeft className="h-6 w-6 text-zinc-100" />
+                          </button>
+                        )}
+
+                        {/* Imagem */}
+                        <div className="w-full h-[80vh] flex items-center justify-center p-4">
+                          <img
+                            src={typeof evento.galeria[imagemAtual] === 'string' 
+                              ? evento.galeria[imagemAtual] 
+                              : evento.galeria[imagemAtual].url}
+                            alt={typeof evento.galeria[imagemAtual] === 'string'
+                              ? `Imagem ${imagemAtual + 1}`
+                              : evento.galeria[imagemAtual].descricao || `Imagem ${imagemAtual + 1}`}
+                            className="max-w-full max-h-full object-contain"
+                          />
+                        </div>
+
+                        {/* Botão Próximo */}
+                        {imagemAtual < evento.galeria.length - 1 && (
+                          <button
+                            onClick={() => setImagemAtual(prev => prev + 1)}
+                            className="absolute right-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
+                          >
+                            <ChevronRight className="h-6 w-6 text-zinc-100" />
+                          </button>
+                        )}
+
+                        {/* Descrição da Imagem */}
+                        {typeof evento.galeria[imagemAtual] !== 'string' && evento.galeria[imagemAtual].descricao && (
+                          <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                            <p className="text-white text-sm">
+                              {evento.galeria[imagemAtual].descricao}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+
+                </motion.div>
               </div>
-            </DialogContent>
-          </Dialog>
+
+              {/* ... existing code ... */}
+            </div>
+
+            {/* Localização - Seção Centralizada */}
+            {temLocalizacao && (
+              <div className="mt-8">
+                <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Localização</h2>
+                <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 mb-4">
+                  <MapPin className="h-4 w-4" />
+                  <span>{evento.endereco}</span>
+                </div>
+                <div className="w-full h-[400px] rounded-lg overflow-hidden">
+                  <Map
+                    latitude={evento.latitude}
+                    longitude={evento.longitude}
+                    title={evento.titulo}
+                    description={evento.endereco}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
