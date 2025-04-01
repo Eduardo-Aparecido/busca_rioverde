@@ -262,10 +262,10 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
+    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16">
       {/* Stories */}
-      <section className="py-8 bg-secondary/50 dark:bg-black">
-        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+      <section className="-mt-[120px] md:mt-0 bg-secondary/50 dark:bg-black">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto">
           <StoriesContainer stories={storiesDestaque} onStoryClick={handleOpenStory} />
         </div>
       </section>

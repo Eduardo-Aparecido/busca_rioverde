@@ -151,7 +151,7 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
         - Apenas logo e botões de ação
         - Visível apenas em telas mobile
       */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-background border-b border-border md:hidden">
+      <header className="fixed top-0 left-0 right-0 z-[100] bg-white/100 dark:bg-background/100 border-b border-border md:hidden">
         <div className="container mx-auto">
           <div className="flex items-center justify-between py-3 px-4">
             {/* Logo Mobile */}
@@ -188,31 +188,37 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
         </div>
       </header>
 
+      {/* Espaçador para compensar o header fixo */}
+      <div className="h-[52px] md:hidden" />
+
       {/* 
         Navegação Mobile (Footer)
         - Fixa no rodapé
         - Links principais em grid
         - Visível apenas em telas mobile
       */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-background border-t border-border md:hidden">
         <div className="container mx-auto">
-          <div className="grid grid-cols-5 gap-1">
+          <div className="grid grid-cols-5 gap-1 py-2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`flex flex-col items-center py-2 px-1 text-xs ${
+                className={`flex flex-col items-center justify-center py-3 px-1 space-y-1 text-center transition-colors ${
                   location.pathname === link.path
                     ? "text-accent"
                     : "text-foreground/60 hover:text-accent"
                 }`}
               >
-                {link.name}
+                <span className="text-sm font-medium">{link.name}</span>
               </Link>
             ))}
           </div>
         </div>
       </nav>
+
+      {/* Espaçador para o footer no mobile */}
+      <div className="h-24 md:hidden" />
     </div>
   );
 };

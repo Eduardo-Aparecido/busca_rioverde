@@ -230,22 +230,10 @@ const EventoDetalhe = () => {
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
+      <div className="w-[115%] sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
         <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden">
-          {/* Botão Voltar */}
-          <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
-            <Button
-              variant="ghost"
-              className="gap-2"
-              onClick={() => window.history.back()}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Voltar
-            </Button>
-          </div>
-
-          {/* Imagem Principal */}
-          <div className="aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900 mb-8">
+          {/* Banner */}
+          <div className="w-full h-[400px] overflow-hidden">
             <img
               src={evento.imagem}
               alt={evento.titulo}
@@ -253,8 +241,7 @@ const EventoDetalhe = () => {
             />
           </div>
 
-          {/* Conteúdo Principal */}
-          <div className="p-4">
+          <div className="px-8 py-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Coluna da Esquerda - Imagens e Informações */}
               <div className="lg:col-span-2 space-y-6">
@@ -308,7 +295,7 @@ const EventoDetalhe = () => {
                           <img
                             src={typeof imagem === 'string' ? imagem : imagem.url}
                             alt={typeof imagem === 'string' ? `Imagem ${index + 1}` : imagem.descricao || `Imagem ${index + 1}`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                           />
                         </div>
                       ))}

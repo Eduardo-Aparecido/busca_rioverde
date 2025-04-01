@@ -115,156 +115,158 @@ const ServicoDetalhe = () => {
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8 bg-white dark:bg-black rounded-lg">
-        {/* Botão Voltar */}
-        <Button
-          variant="outline"
-          className="mb-8"
-          onClick={() => window.history.back()}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Voltar
-        </Button>
+      <div className="w-[115%] sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
+        <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden">
+          {/* Botão Voltar */}
+          <Button
+            variant="outline"
+            className="mb-8"
+            onClick={() => window.history.back()}
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Voltar
+          </Button>
 
-        {/* Breadcrumb */}
-        <div className="text-sm text-zinc-600 dark:text-zinc-400 mb-8">
-          <span>Serviços</span>
-          <span className="mx-2">›</span>
-          <span>{servico.categoria}</span>
-        </div>
-
-        {/* Conteúdo principal */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Coluna da esquerda - Imagem e detalhes */}
-          <div className="lg:col-span-2 space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {/* Imagem */}
-              <div className="aspect-video rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900">
-                <img
-                  src={servico.imagem}
-                  alt={servico.titulo}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Título e avaliação */}
-              <div className="mt-6">
-                <h1 className="text-2xl font-bold text-zinc-900 dark:text-white break-words">
-                  {servico.titulo}
-                </h1>
-                <div className="flex items-center gap-2 mt-2">
-                  <div className="flex items-center">
-                    <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-                    <span className="ml-1 font-medium text-zinc-900 dark:text-white">{servico.avaliacao}</span>
-                  </div>
-                  <span className="text-zinc-600 dark:text-zinc-400">
-                    ({servico.avaliacoes} avaliações)
-                  </span>
-                </div>
-              </div>
-
-              {/* Preço */}
-              <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-500 mt-4 break-words">
-                {servico.preco}
-              </div>
-
-              {/* Descrição */}
-              <div className="mt-6">
-                <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
-                  Sobre o serviço
-                </h2>
-                <p className="text-zinc-600 dark:text-zinc-400 whitespace-pre-line break-words">
-                  {servico.descricao}
-                </p>
-              </div>
-
-              {/* Lista de serviços */}
-              <div className="mt-6">
-                <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
-                  Serviços oferecidos
-                </h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {servico.servicos.map((item, index) => (
-                    <li
-                      key={index}
-                      className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
-                    >
-                      <div className="h-1.5 w-1.5 rounded-full bg-cyan-500 mt-2 flex-shrink-0" />
-                      <span className="break-words">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Galeria de Imagens */}
-            <section className="mt-12">
-              <ImageGallery 
-                images={servico.galeriaFotos}
-                title="Galeria de Imagens"
-              />
-            </section>
+          {/* Breadcrumb */}
+          <div className="text-sm text-zinc-600 dark:text-zinc-400 mb-8">
+            <span>Serviços</span>
+            <span className="mx-2">›</span>
+            <span>{servico.categoria}</span>
           </div>
 
-          {/* Coluna da direita - Informações de contato */}
-          <div className="lg:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-6 sticky top-24">
-                <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-6">
-                  Informações de contato
-                </h2>
+          {/* Conteúdo principal */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Coluna da esquerda - Imagem e detalhes */}
+            <div className="lg:col-span-2 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Imagem */}
+                <div className="aspect-video rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                  <img
+                    src={servico.imagem}
+                    alt={servico.titulo}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
 
-                <div className="space-y-4">
-                  {/* Nome */}
-                  <div className="text-sm">
-                    <span className="text-zinc-600 dark:text-zinc-400">
-                      Profissional:
-                    </span>
-                    <div className="font-medium text-zinc-900 dark:text-white mt-1 break-words">
-                      {servico.contato.nome}
+                {/* Título e avaliação */}
+                <div className="mt-6">
+                  <h1 className="text-2xl font-bold text-zinc-900 dark:text-white break-words">
+                    {servico.titulo}
+                  </h1>
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center">
+                      <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                      <span className="ml-1 font-medium text-zinc-900 dark:text-white">{servico.avaliacao}</span>
                     </div>
-                  </div>
-
-                  {/* Telefone */}
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start gap-2 break-all text-zinc-900 dark:text-white"
-                    asChild
-                  >
-                    <a href={`tel:${servico.contato.telefone}`}>
-                      <Phone className="h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">{servico.contato.telefone}</span>
-                    </a>
-                  </Button>
-
-                  {/* Email */}
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start gap-2 break-all text-zinc-900 dark:text-white"
-                    asChild
-                  >
-                    <a href={`mailto:${servico.contato.email}`}>
-                      <Mail className="h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">{servico.contato.email}</span>
-                    </a>
-                  </Button>
-
-                  {/* Endereço */}
-                  <div className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                    <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                    <span className="break-words">{servico.contato.endereco}</span>
+                    <span className="text-zinc-600 dark:text-zinc-400">
+                      ({servico.avaliacoes} avaliações)
+                    </span>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+
+                {/* Preço */}
+                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-500 mt-4 break-words">
+                  {servico.preco}
+                </div>
+
+                {/* Descrição */}
+                <div className="mt-6">
+                  <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
+                    Sobre o serviço
+                  </h2>
+                  <p className="text-zinc-600 dark:text-zinc-400 whitespace-pre-line break-words">
+                    {servico.descricao}
+                  </p>
+                </div>
+
+                {/* Lista de serviços */}
+                <div className="mt-6">
+                  <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
+                    Serviços oferecidos
+                  </h2>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {servico.servicos.map((item, index) => (
+                      <li
+                        key={index}
+                        className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
+                      >
+                        <div className="h-1.5 w-1.5 rounded-full bg-cyan-500 mt-2 flex-shrink-0" />
+                        <span className="break-words">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+
+              {/* Galeria de Imagens */}
+              <section className="mt-12">
+                <ImageGallery 
+                  images={servico.galeriaFotos}
+                  title="Galeria de Imagens"
+                />
+              </section>
+            </div>
+
+            {/* Coluna da direita - Informações de contato */}
+            <div className="lg:col-span-1">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-6 sticky top-24">
+                  <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-6">
+                    Informações de contato
+                  </h2>
+
+                  <div className="space-y-4">
+                    {/* Nome */}
+                    <div className="text-sm">
+                      <span className="text-zinc-600 dark:text-zinc-400">
+                        Profissional:
+                      </span>
+                      <div className="font-medium text-zinc-900 dark:text-white mt-1 break-words">
+                        {servico.contato.nome}
+                      </div>
+                    </div>
+
+                    {/* Telefone */}
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start gap-2 break-all text-zinc-900 dark:text-white"
+                      asChild
+                    >
+                      <a href={`tel:${servico.contato.telefone}`}>
+                        <Phone className="h-4 w-4 flex-shrink-0" />
+                        <span className="truncate">{servico.contato.telefone}</span>
+                      </a>
+                    </Button>
+
+                    {/* Email */}
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start gap-2 break-all text-zinc-900 dark:text-white"
+                      asChild
+                    >
+                      <a href={`mailto:${servico.contato.email}`}>
+                        <Mail className="h-4 w-4 flex-shrink-0" />
+                        <span className="truncate">{servico.contato.email}</span>
+                      </a>
+                    </Button>
+
+                    {/* Endereço */}
+                    <div className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                      <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                      <span className="break-words">{servico.contato.endereco}</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>

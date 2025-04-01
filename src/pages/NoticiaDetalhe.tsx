@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ImageModal } from "@/components/ui/image-modal";
 import { Map } from "@/components/ui/map";
+import { ImageGallery } from "@/components/ui/image-gallery";
 
 // Interface para a estrutura de uma notícia
 interface Noticia {
@@ -131,135 +132,102 @@ const NoticiaDetalhe = () => {
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8 bg-white dark:bg-black rounded-lg">
-        {/* Botão Voltar */}
-        <Button
-          variant="outline"
-          className="mb-8"
-          onClick={() => window.history.back()}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Voltar
-        </Button>
-
-        {/* Breadcrumb */}
-        <div className="text-sm text-zinc-600 dark:text-zinc-400 mb-8">
-          <span>Notícias</span>
-          <span className="mx-2">›</span>
-          <span>{noticia.categoria}</span>
-        </div>
-
-        {/* Banner Principal */}
-        <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] rounded-lg overflow-hidden mb-6 md:mb-8">
-          <img
-            src={`/images/${noticia.imagem}`}
-            alt={noticia.titulo}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Status e Data */}
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-0 mb-6 md:mb-8">
-          <Badge 
-            variant="secondary" 
-            className="text-sm md:text-lg font-semibold bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 px-3 py-1 md:px-6 md:py-2 w-fit"
-          >
-            {noticia.categoria}
-          </Badge>
-          <span className="text-zinc-600 dark:text-zinc-400 text-xs md:text-sm flex items-center gap-1">
-            <Calendar className="h-3 w-3" />
-            {noticia.data}
-          </span>
-        </div>
-
-        {/* Cabeçalho da Notícia */}
-        <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8 bg-zinc-100 dark:bg-zinc-900 p-3 md:p-4 rounded-lg">
-          <Avatar className="w-12 h-12 md:w-16 md:h-16">
-            <AvatarImage src={`/images/${noticia.autorImagem}`} alt={noticia.autor} />
-            <AvatarFallback>{noticia.autor.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white">{noticia.titulo}</h1>
-            <p className="text-cyan-600 dark:text-cyan-400 text-sm md:text-base">{noticia.autor}</p>
+      <div className="w-[115%] sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
+        <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden">
+          {/* Banner */}
+          <div className="w-full h-[400px] overflow-hidden">
+            <img
+              src={`/images/${noticia.imagem}`}
+              alt={noticia.titulo}
+              className="w-full h-full object-cover"
+            />
           </div>
-        </div>
 
-        {/* Conteúdo */}
-        <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-3 md:p-4 mb-6 md:mb-8">
-          <div className="space-y-4 text-zinc-800 dark:text-zinc-300">
-            {noticia.conteudo.split('\n\n').map((paragraph, index) => (
-              <p key={index} className="text-sm md:text-base">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </div>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {noticia.tags.map((tag) => (
-            <div 
-              key={tag} 
-              className="bg-zinc-100 dark:bg-zinc-900 px-3 py-2 rounded-lg text-xs md:text-sm text-zinc-800 dark:text-zinc-300 flex items-center gap-2"
-            >
-              #{tag}
-            </div>
-          ))}
-        </div>
-
-        <hr className="border-zinc-200 dark:border-zinc-800 my-8" />
-
-        {/* Galeria */}
-        <div className="mb-12">
-          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Galeria de Fotos</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {noticia.galeria.map((imagem, index) => (
-              <div 
-                key={index} 
-                className="aspect-square rounded-lg overflow-hidden cursor-pointer"
-                onClick={() => abrirModal(index)}
+          <div className="px-8 py-6">
+            {/* Categoria e Data */}
+            <div className="flex justify-between items-center mb-6">
+              <Badge 
+                variant="secondary" 
+                className="bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300"
               >
-                <img
-                  src={`/images/${imagem}`}
-                  alt={`${noticia.titulo} - Imagem ${index + 1}`}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Localização */}
-        <div className="mb-24">
-          <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Localização</h2>
-          <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-3 md:p-4">
-            <div className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400 mb-4">
-              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-              <span className="break-words">{noticia.endereco}</span>
+                {noticia.categoria}
+              </Badge>
+              <span className="text-zinc-600 dark:text-zinc-400 text-sm flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                {noticia.data}
+              </span>
             </div>
-            <div className="h-[250px] sm:h-[300px] md:h-[400px] w-full rounded-lg overflow-hidden">
-              <Map 
-                latitude={noticia.latitude}
-                longitude={noticia.longitude}
-                title={noticia.titulo}
-                description={noticia.endereco}
+
+            {/* Título */}
+            <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-6">
+              {noticia.titulo}
+            </h1>
+
+            {/* Autor */}
+            <div className="flex items-center gap-4 mb-8 p-4 bg-zinc-100 dark:bg-zinc-900 rounded-lg">
+              <Avatar className="w-12 h-12">
+                <AvatarImage src={`/images/${noticia.autorImagem}`} alt={noticia.autor} />
+                <AvatarFallback>{noticia.autor.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="text-zinc-900 dark:text-white font-medium">{noticia.autor}</p>
+              </div>
+            </div>
+
+            {/* Conteúdo */}
+            <div className="prose dark:prose-invert max-w-none mb-12">
+              {noticia.conteudo.split('\n\n').map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+
+            <hr className="border-zinc-200 dark:border-zinc-800 my-8" />
+
+            {/* Galeria */}
+            <div className="mb-12">
+              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Galeria</h2>
+              <ImageGallery 
+                images={noticia.galeria.map(img => ({
+                  src: `/images/${img}`,
+                  alt: noticia.titulo
+                }))}
+                onImageClick={(index) => abrirModal(index)}
               />
             </div>
+
+            {/* Localização */}
+            <div className="mb-12">
+              <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Localização</h2>
+              <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4">
+                <div className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400 mb-4">
+                  <MapPin className="h-4 w-4 mt-1 flex-shrink-0" />
+                  <span>{noticia.endereco}</span>
+                </div>
+                <div className="h-[400px] w-full rounded-lg overflow-hidden">
+                  <Map 
+                    latitude={noticia.latitude}
+                    longitude={noticia.longitude}
+                    title={noticia.titulo}
+                    description={noticia.endereco}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Modal de imagem */}
-        <ImageModal
-          isOpen={modalAberto}
-          onClose={() => setModalAberto(false)}
-          imageUrl={`/images/${noticia.galeria[imagemSelecionadaIndex]}`}
-          alt={`${noticia.titulo} - Imagem ${imagemSelecionadaIndex + 1}`}
-          onNext={proximaImagem}
-          onPrevious={imagemAnterior}
-          hasNext={imagemSelecionadaIndex < noticia.galeria.length - 1}
-          hasPrevious={imagemSelecionadaIndex > 0}
-        />
       </div>
+
+      {/* Modal de imagem */}
+      <ImageModal
+        isOpen={modalAberto}
+        onClose={() => setModalAberto(false)}
+        imageUrl={`/images/${noticia.galeria[imagemSelecionadaIndex]}`}
+        alt={`${noticia.titulo} - Imagem ${imagemSelecionadaIndex + 1}`}
+        onNext={proximaImagem}
+        onPrevious={imagemAnterior}
+        hasNext={imagemSelecionadaIndex < noticia.galeria.length - 1}
+        hasPrevious={imagemSelecionadaIndex > 0}
+      />
     </div>
   );
 };
