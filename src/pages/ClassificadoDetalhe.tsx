@@ -115,31 +115,9 @@ const ClassificadoDetalhe = () => {
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
-      <div className="w-[115%] sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
-        <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden">
-          {/* Botão Voltar */}
-          <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
-            <Button
-              variant="ghost"
-              className="gap-2"
-              onClick={() => window.history.back()}
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Voltar
-            </Button>
-          </div>
-
-          {/* Breadcrumb */}
-          <div className="px-4 py-2 border-b border-zinc-200 dark:border-zinc-800">
-            <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-              <Link to="/" className="hover:text-primary">Início</Link>
-              <ChevronRight className="h-4 w-4" />
-              <Link to="/classificados" className="hover:text-primary">Classificados</Link>
-              <ChevronRight className="h-4 w-4" />
-              <span className="text-zinc-900 dark:text-white">{classificado.titulo}</span>
-            </div>
-          </div>
-
+      <div className="fixed inset-0 bg-black -z-10" />
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto py-8">
+        <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Conteúdo Principal */}
           <div className="p-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -115,25 +115,9 @@ const ServicoDetalhe = () => {
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
-      <div className="w-[115%] sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
-        <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden">
-          {/* Botão Voltar */}
-          <Button
-            variant="outline"
-            className="mb-8"
-            onClick={() => window.history.back()}
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Voltar
-          </Button>
-
-          {/* Breadcrumb */}
-          <div className="text-sm text-zinc-600 dark:text-zinc-400 mb-8">
-            <span>Serviços</span>
-            <span className="mx-2">›</span>
-            <span>{servico.categoria}</span>
-          </div>
-
+      <div className="fixed inset-0 bg-black -z-10" />
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto py-8">
+        <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Conteúdo principal */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Coluna da esquerda - Imagem e detalhes */}
@@ -157,15 +141,6 @@ const ServicoDetalhe = () => {
                   <h1 className="text-2xl font-bold text-zinc-900 dark:text-white break-words">
                     {servico.titulo}
                   </h1>
-                  <div className="flex items-center gap-2 mt-2">
-                    <div className="flex items-center">
-                      <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-                      <span className="ml-1 font-medium text-zinc-900 dark:text-white">{servico.avaliacao}</span>
-                    </div>
-                    <span className="text-zinc-600 dark:text-zinc-400">
-                      ({servico.avaliacoes} avaliações)
-                    </span>
-                  </div>
                 </div>
 
                 {/* Preço */}
