@@ -165,13 +165,13 @@ const OndeIr = () => {
                   <Link
                     key={local.id}
                     to={`/onde-ir/${local.id}`}
-                    className="bg-zinc-100 dark:bg-zinc-900 rounded-lg shadow-lg overflow-hidden hover:ring-2 hover:ring-red-500 transition-all duration-300"
+                    className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors"
                   >
                     <div className="relative aspect-[4/3] rounded-t-lg overflow-hidden">
                       <img
                         src={local.imagem}
                         alt={local.nome}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                     </div>
                     <div className="p-4 flex flex-col h-[120px]">

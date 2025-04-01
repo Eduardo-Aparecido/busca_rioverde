@@ -27,13 +27,13 @@ export function CardCinema({
 }: CardCinemaProps) {
   return (
     <Link to={`/filme/${id}`}>
-      <div className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
+      <div className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors">
         {/* Imagem do Filme */}
-        <div className="relative aspect-video">
+        <div className="relative aspect-video overflow-hidden">
           <img
             src={imagem}
             alt={titulo}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
           {/* Classificação no canto superior esquerdo */}
           <div className="absolute top-2 left-2">

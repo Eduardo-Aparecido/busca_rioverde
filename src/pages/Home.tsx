@@ -96,13 +96,13 @@ const storiesDestaque: Story[] = [
 const eventosDestaque = [
   {
     id: "1",
-    titulo: "Carol Delgado em Love is Magic",
+    titulo: "Carol Delgado",
     imagem: "/images/eventos/carol_delgado/caroldelgado.png",
     data: "06 Jun 2025",
     hora: "20:00",
     local: "The Haus Coffee&Beer",
     categoria: "Comédia Stand-Up",
-    // patrocinado: true
+    patrocinado: true
   },
   {
     id: "2",
@@ -121,7 +121,7 @@ const eventosDestaque = [
     hora: "10:00",
     local: "Jardim Goias",
     categoria: "Espiritualidade",
-    // patrocinado: true
+    patrocinado: true
   }
 ];
 
