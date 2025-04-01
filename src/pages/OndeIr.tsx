@@ -16,6 +16,7 @@ import { CardCarousel } from "@/components/ui/card-carousel";
 import { useSearch } from "@/hooks/useSearch";
 import { HighlightText } from "@/components/ui/highlight-text";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 /**
  * Dados simulados para desenvolvimento
@@ -151,13 +152,15 @@ const OndeIr = () => {
       <section className="py-12 bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <Tabs defaultValue="Todos" onValueChange={setCategoriaAtiva}>
-            <TabsList className="mb-8">
-              {categorias.map((categoria) => (
-                <TabsTrigger key={categoria} value={categoria}>
-                  {categoria}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="overflow-x-auto pb-4 scrollbar-none">
+              <TabsList className="mb-8 w-fit">
+                {categorias.map((categoria) => (
+                  <TabsTrigger key={categoria} value={categoria}>
+                    {categoria}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
 
             <TabsContent value={categoriaAtiva}>
               <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
@@ -165,22 +168,29 @@ const OndeIr = () => {
                   <div key={local.id} className="snap-start shrink-0 w-[48%] md:w-auto">
                     <Link
                       to={`/onde-ir/${local.id}`}
-                      className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors"
+                      className="block h-full"
                     >
-                      <div className="relative aspect-[4/3] rounded-t-lg overflow-hidden">
-                        <img
-                          src={local.imagem}
-                          alt={local.nome}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-                      </div>
-                      <div className="p-4 flex flex-col h-[120px]">
-                        <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-                          {local.nome}
-                        </h3>
-                        <div className="mt-auto pt-4 flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400 border-t border-zinc-200 dark:border-zinc-800">
-                          <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                          <span className="line-clamp-2">{local.endereco}</span>
+                      <div className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors">
+                        <div className="relative aspect-[4/3] overflow-hidden">
+                          <img
+                            src={local.imagem}
+                            alt={local.nome}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                          <div className="absolute top-2 left-2">
+                            <Badge variant="secondary" className="bg-white/90 text-black text-xs">
+                              {local.categoria}
+                            </Badge>
+                          </div>
+                        </div>
+                        <div className="p-4 flex flex-col h-[120px]">
+                          <h3 className="text-sm font-medium text-zinc-900 dark:text-white line-clamp-2">
+                            {local.nome}
+                          </h3>
+                          <div className="mt-auto flex items-center gap-2">
+                            <MapPin className="h-3 w-3 mt-0.5 flex-shrink-0" />
+                            <span className="text-xs text-zinc-600 dark:text-zinc-400 line-clamp-2">{local.endereco}</span>
+                          </div>
                         </div>
                       </div>
                     </Link>

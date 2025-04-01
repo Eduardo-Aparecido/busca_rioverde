@@ -145,13 +145,15 @@ const Novidades = () => {
       <section className="py-12 bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <Tabs defaultValue="Todos" onValueChange={setCategoriaAtiva}>
-            <TabsList className="mb-8">
-              {categorias.map((categoria) => (
-                <TabsTrigger key={categoria} value={categoria}>
-                  {categoria}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="overflow-x-auto pb-4 scrollbar-none">
+              <TabsList className="mb-8 w-fit">
+                {categorias.map((categoria) => (
+                  <TabsTrigger key={categoria} value={categoria}>
+                    {categoria}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
 
             <TabsContent value={categoriaAtiva}>
               <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">

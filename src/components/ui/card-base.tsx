@@ -70,7 +70,7 @@ export function CardBase({
 }: CardBaseProps) {
   return (
     <Link to={link} className="group block h-full">
-      <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-primary/50 dark:hover:border-primary/50 transition-colors h-full flex flex-col">
+      <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors h-full flex flex-col">
         {/* Container da imagem com overflow hidden */}
         <div className="relative aspect-[4/3] md:aspect-video overflow-hidden">
           <img
