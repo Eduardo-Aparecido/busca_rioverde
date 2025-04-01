@@ -171,7 +171,7 @@ export function StoryModal({ story, allStories, currentIndex, onClose, onStoryCh
   return (
     <Dialog open onOpenChange={handleClose}>
       <DialogContent 
-        className="[&>button]:hidden max-w-md mx-auto h-[80vh] max-h-[800px] p-4 border-none bg-black/80"
+        className="[&>button]:hidden max-w-sm mx-auto h-[70vh] max-h-[600px] p-4 border-none bg-black/80"
         onPointerDownOutside={handleClose}
         onEscapeKeyDown={handleClose}
       >
