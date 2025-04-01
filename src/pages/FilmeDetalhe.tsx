@@ -107,9 +107,9 @@ interface Filme {
  */
 const CINEMAS = {
   CINEFLIX: {
-            nome: "CINEFLIX",
-            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
-            logo: "/images/cinemas/cineflix/logo/logo_02.png",
+    nome: "CINEFLIX",
+    endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+    logo: "/images/cinemas/cineflix/logo/logo_02.png",
     filmes: {
       "1": { // Minecraft
         salas: {
@@ -162,7 +162,7 @@ const CINEMAS = {
         salas: {
           sala4: {
             nome: "Sala 4",
-                tipos: ["DUB", "2D"],
+            tipos: ["DUB", "2D"],
             horarios: {
               segunda: ["16:10", "18:40", "21:10"],
               terca: ["16:10", "18:40", "21:10"],
@@ -178,11 +178,11 @@ const CINEMAS = {
     }
   },
   CINEA: {
-    nome: "CINE A (Shopping Rio Verde)",
-    endereco: "Shopping Rio Verde, Av. Presidente Vargas, 2121 - Jardim Presidente, Rio Verde - GO",
+    nome: "CINE A",
+    endereco: "Shopping Rio Verde",
     logo: "/images/cinea-logo.png",
     filmes: {
-      "3": { // Interestelar
+      "3": { // Vitória
         salas: {
           salaVIP: {
             nome: "Sala VIP",
@@ -251,16 +251,9 @@ function getHorariosSala(cinema: string, filmeId: string, nomeSala: string, data
 /**
  * Função para gerar datas dinâmicas
  */
-function gerarDatasDisponiveis(cinemaId: "CINEFLIX" | "CINEA", filmeId: string): DataDisponivel[] {
+function gerarDatasDisponiveis(filmeId: string): DataDisponivel[] {
   const diasSemana = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'];
   const hoje = new Date();
-  const cinema = CINEMAS[cinemaId];
-  
-  if (!cinema?.filmes?.[filmeId]?.salas) {
-    return [];
-  }
-  
-  const filmeConfig = cinema.filmes[filmeId];
   
   return Array.from({ length: 7 }).map((_, index) => {
     const data = new Date();
@@ -274,26 +267,54 @@ function gerarDatasDisponiveis(cinemaId: "CINEFLIX" | "CINEA", filmeId: string):
     if (index === 0) textoSemana = "HOJE";
     else if (index === 1) textoSemana = "AMANHÃ";
 
-    // Gera as salas com horários específicos para o filme e dia
-    const salas = Object.values(filmeConfig.salas)
-      .map(sala => ({
-        sala: sala.nome,
-        tipos: sala.tipos,
-        horarios: getHorariosSala(cinemaId, filmeId, sala.nome, data)
-      }))
-      .filter(sala => sala.horarios.length > 0);
+    const cinemas = [];
+
+    // Verifica horários do CINEFLIX
+    if (CINEMAS.CINEFLIX.filmes[filmeId]?.salas) {
+      const salasCineflix = Object.values(CINEMAS.CINEFLIX.filmes[filmeId].salas)
+        .map(sala => ({
+          sala: sala.nome,
+          tipos: sala.tipos,
+          horarios: getHorariosSala("CINEFLIX", filmeId, sala.nome, data)
+        }))
+        .filter(sala => sala.horarios.length > 0);
+
+      if (salasCineflix.length > 0) {
+        cinemas.push({
+          nome: CINEMAS.CINEFLIX.nome,
+          endereco: CINEMAS.CINEFLIX.endereco,
+          logo: CINEMAS.CINEFLIX.logo,
+          salas: salasCineflix
+        });
+      }
+    }
+
+    // Verifica horários do CINE A
+    if (CINEMAS.CINEA.filmes[filmeId]?.salas) {
+      const salasCinea = Object.values(CINEMAS.CINEA.filmes[filmeId].salas)
+        .map(sala => ({
+          sala: sala.nome,
+          tipos: sala.tipos,
+          horarios: getHorariosSala("CINEA", filmeId, sala.nome, data)
+        }))
+        .filter(sala => sala.horarios.length > 0);
+
+      if (salasCinea.length > 0) {
+        cinemas.push({
+          nome: CINEMAS.CINEA.nome,
+          endereco: CINEMAS.CINEA.endereco,
+          logo: CINEMAS.CINEA.logo,
+          salas: salasCinea
+        });
+      }
+    }
 
     return {
       dia: `${dia}/${mes}`,
       diaSemana: textoSemana,
-      cinemas: [{
-        nome: cinema.nome,
-        endereco: cinema.endereco,
-        logo: cinema.logo,
-        salas: salas
-      }]
+      cinemas: cinemas
     };
-  });
+  }).filter(data => data.cinemas.length > 0);
 }
 
 /**
@@ -581,7 +602,7 @@ const filmesCineflix = [
         cinemas: [
           {
             nome: "CINEFLIX",
-    endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
             logo: "/images/cinemas/cineflix/logo/logo_02.png",
             salas: [
               {
@@ -671,7 +692,7 @@ export default function FilmeDetalhe() {
       // Determina de qual cinema é o filme
       const isCineflix = filmesCineflix.some(f => f.id === id);
       // Gera datas dinâmicas para o cinema correto
-      const datas = gerarDatasDisponiveis(isCineflix ? "CINEFLIX" : "CINEA", id);
+      const datas = gerarDatasDisponiveis(id);
       filmeEncontrado.datasDisponiveis = datas;
       setFilme(filmeEncontrado);
       if (datas.length > 0) {
@@ -698,26 +719,6 @@ export default function FilmeDetalhe() {
           </div>
 
           <div className="px-4 sm:px-6 md:px-8">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2">
-                <Link to="/cinema" className="text-zinc-600 dark:text-zinc-400">
-                  <ArrowLeft className="h-5 w-5" />
-                </Link>
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
-                  Cineflix
-                </h2>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setModalPrecos(true)}
-                className="text-xs h-8 px-3"
-              >
-                Preços e Infos
-              </Button>
-            </div>
-
             <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mt-6">{filme.titulo}</h1>
             <div className="flex flex-wrap gap-2 mt-2">
               {filme.genero.split(",").map((genero, index) => (
