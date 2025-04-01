@@ -1,4 +1,4 @@
-import { Clock } from "lucide-react";
+import { Clock, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
@@ -28,8 +28,8 @@ export function CardCinema({
   return (
     <Link to={`/filme/${id}`}>
       <div className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
-        {/* Imagem com proporção 16:9 */}
-        <div className="relative aspect-video overflow-hidden">
+        {/* Imagem do Filme */}
+        <div className="relative aspect-video">
           <img
             src={imagem}
             alt={titulo}
@@ -41,12 +41,6 @@ export function CardCinema({
               {classificacao}
             </Badge>
           </div>
-          {/* Tag "Estreia" se aplicável */}
-          {data.includes("Em breve") && (
-            <div className="absolute bottom-0 left-0 right-0 bg-black/50 py-1 px-3">
-              <span className="text-xs text-white">Estreia em {data.split("|")[1].trim()}</span>
-            </div>
-          )}
         </div>
 
         {/* Informações do filme */}

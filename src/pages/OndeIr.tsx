@@ -6,7 +6,7 @@
  */
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,6 +15,7 @@ import { LocalCard } from "@/components/LocalCard";
 import { CardCarousel } from "@/components/ui/card-carousel";
 import { useSearch } from "@/hooks/useSearch";
 import { HighlightText } from "@/components/ui/highlight-text";
+import { Link } from "react-router-dom";
 
 /**
  * Dados simulados para desenvolvimento
@@ -36,14 +37,14 @@ const locais = [
     id: "1",
     nome: "Finnegans",
     imagem: "/images/onde_ir/finnegans/finnegans_07.png",
-    endereco: "Centro",
+    endereco: "Av. Presidente Vargas, 1000 - Centro",
     categoria: "Restaurantes",
     avaliacao: 4.8,
   },
   {
     id: "2",
     nome: "Parque Municipal",
-    imagem: "parque-esportes.jpg",
+    imagem: "/images/onde_ir/parque_municipal/parque_01.jpg",
     endereco: "Av. Principal, 456 - Centro",
     categoria: "Parques",
     avaliacao: 4.5,
@@ -51,7 +52,7 @@ const locais = [
   {
     id: "3",
     nome: "Buriti Shopping",
-    imagem: "buriti-shopping.jpg",
+    imagem: "/images/onde_ir/buriti_shopping/buriti_01.jpg",
     endereco: "Av. Rio Verde, 1003 - Buritis II",
     categoria: "Shoppings",
     avaliacao: 4.7,
@@ -59,7 +60,7 @@ const locais = [
   {
     id: "4",
     nome: "Bar do Zé",
-    imagem: "bar-do-ze.jpg",
+    imagem: "/images/onde_ir/bar_ze/bar_01.jpg",
     endereco: "Rua das Flores, 789 - Vila Nova",
     categoria: "Bares",
     avaliacao: 4.6,
@@ -67,7 +68,7 @@ const locais = [
   {
     id: "5",
     nome: "Bistrô Gourmet",
-    imagem: "bistro-gourmet.jpg",
+    imagem: "/images/onde_ir/bistro/bistro_01.jpg",
     endereco: "Rua das Artes, 789, Jardim Goiás",
     categoria: "Restaurantes",
     avaliacao: 4.9,
@@ -75,7 +76,7 @@ const locais = [
   {
     id: "6",
     nome: "Casa de Shows",
-    imagem: "casa-shows.jpg",
+    imagem: "/images/onde_ir/casa_shows/casa_01.jpg",
     endereco: "Av. da Música, 321 - Centro",
     categoria: "Música ao Vivo",
     avaliacao: 4.8,
@@ -161,10 +162,28 @@ const OndeIr = () => {
             <TabsContent value={categoriaAtiva}>
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                 {locaisFiltrados.map((local) => (
-                  <LocalCard 
-                    key={local.id} 
-                    {...local}
-                  />
+                  <Link
+                    key={local.id}
+                    to={`/onde-ir/${local.id}`}
+                    className="bg-zinc-100 dark:bg-zinc-900 rounded-lg shadow-lg overflow-hidden hover:ring-2 hover:ring-red-500 transition-all duration-300"
+                  >
+                    <div className="relative aspect-[4/3] rounded-t-lg overflow-hidden">
+                      <img
+                        src={local.imagem}
+                        alt={local.nome}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-4 flex flex-col h-[120px]">
+                      <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                        {local.nome}
+                      </h3>
+                      <div className="mt-auto pt-4 flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400 border-t border-zinc-200 dark:border-zinc-800">
+                        <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                        <span className="line-clamp-2">{local.endereco}</span>
+                      </div>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </TabsContent>

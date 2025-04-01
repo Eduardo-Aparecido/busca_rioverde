@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { YouTubeTrailer } from "@/components/ui/youtube-trailer";
+import { ImageGallery } from "@/components/ui/image-gallery";
 
 /**
  * Interface para horários simples
@@ -443,7 +444,7 @@ const filmesCineflix = [
         cinemas: [
           {
             nome: "CINEFLIX",
-    endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
+            endereco: "Av. Rio Verde, 1003 - Buritis II, Rio Verde - GO",
             logo: "/images/cinemas/cineflix/logo/logo_02.png",
             salas: [
               {

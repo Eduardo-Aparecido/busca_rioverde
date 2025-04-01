@@ -100,7 +100,7 @@ const eventosDestaque = [
     imagem: "/images/eventos/carol_delgado/caroldelgado.png",
     data: "06 Jun 2025",
     hora: "20:00",
-    local: "The Haus Coffee&Beer - Rio Verde",
+    local: "The Haus Coffee&Beer",
     categoria: "Comédia Stand-Up",
     // patrocinado: true
   },
@@ -110,7 +110,7 @@ const eventosDestaque = [
     imagem: "/images/eventos/banda_rocco/bandarocco_01.jpeg",
     data: "12 Abr 2025",
     hora: "20:00",
-    local: "The Haus Coffee&Beer - Rio Verde",
+    local: "The Haus Coffee&Beer",
     categoria: "Música"
   },
   {
@@ -122,7 +122,7 @@ const eventosDestaque = [
     local: "Jardim Goias",
     categoria: "Espiritualidade",
     // patrocinado: true
-  },
+  }
 ];
 
 /**

@@ -45,25 +45,25 @@ const filmesCineflix = [
   },
   {
     id: "2",
-    titulo: "Câncer com Ascendente em Virgem",
+    titulo: "Branca de Neve",
     imagem: "/images/cinemas/cineflix/brancadeneve_02.png",
     cinema: "CINEFLIX",
     data: "Em cartaz",
     classificacao: "10+",
     duracao: "95 MIN",
     genero: "DRAMA",
-    descricao: "Professora de matemática, mãe de adolescente, divorciada e baladeira, Clara gosta de ter as..."
+    descricao: "Inspirado no conto clássico dos Irmãos Grimm, Branca de Neve ganha uma nova adaptação live-action da Disney...."
   },
   {
     id: "3",
-    titulo: "Novocaine: À Prova De Dor",
+    titulo: "Vitória",
     imagem: "/images/cinemas/cineflix/vitoria.png",
     cinema: "CINEFLIX",
     data: "Em cartaz",
     classificacao: "16+",
     duracao: "110 MIN",
     genero: "AÇÃO",
-    descricao: "Nathan Caine possui uma condição rara que o impede de sentir dor. Ele se apaixona por uma..."
+    descricao: "A história real de uma aposentada que desmontou uma quadrilha carioca de traficantes e policiais a partir de filmagens feitas da janela do seu apartamento no Rio de Janeiro..."
   }
 ];
 
@@ -130,12 +130,12 @@ const Cinema = () => {
       <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <SectionHeader 
-            titulo="Em Cartaz" 
+            titulo="Cinema" 
             subtitulo="Confira os filmes em cartaz nos cinemas da cidade"
           />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filmesFiltrados.map((filme) => (
             <CardCinema key={filme.id} {...filme} />
           ))}

@@ -141,16 +141,44 @@ const getComodidadeIcon = (comodidade: string) => {
  */
 export default function LocalDetalhe() {
   const { id } = useParams();
-  const local = locais.find((l) => l.id === id);
+  const [local, setLocal] = useState<Local | null>(null);
+  const [carregando, setCarregando] = useState(true);
   const [modalAberto, setModalAberto] = useState(false);
   const [imagemSelecionada, setImagemSelecionada] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const localEncontrado = locais.find(l => l.id === id);
+      setLocal(localEncontrado || null);
+      setCarregando(false);
+    }, 300);
+  }, [id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  if (carregando) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4" />
+          <p className="text-zinc-600 dark:text-zinc-400">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!local) {
-    return <div>Local não encontrado</div>;
+    return (
+      <div className="container mx-auto px-4 py-16 text-center">
+        <h2 className="text-2xl font-bold mb-4">Local não encontrado</h2>
+        <p className="mb-8">O local que você está procurando não existe ou foi removido.</p>
+        <Link to="/onde-ir">
+          <Button>Voltar para Onde Ir</Button>
+        </Link>
+      </div>
+    );
   }
 
   const abrirModal = (index: number) => {

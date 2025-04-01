@@ -11,7 +11,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -62,7 +62,7 @@ const queryClient = new QueryClient();
  * - /evento/:id: Detalhes de um evento específico
  * - /filme/:id: Detalhes de um filme
  * - /novidade/:id: Detalhes de uma notícia
- * - /local/:id: Detalhes de um estabelecimento
+ * - /onde-ir/:id: Detalhes de um estabelecimento
  * - /classificados: Lista de classificados
  * - /classificado/:id: Detalhes de um classificado
  * - /servicos: Lista de serviços
@@ -76,7 +76,7 @@ const App = () => {
         <TooltipProvider>
           <Sonner />
           
-          <BrowserRouter>
+          <Router>
             <Layout>
               {/* AnimatePresence para animações suaves entre páginas */}
               <AnimatePresence mode="wait">
@@ -94,7 +94,7 @@ const App = () => {
                   <Route path="/evento/:id" element={<EventoDetalhe />} />
                   <Route path="/filme/:id" element={<FilmeDetalhe />} />
                   <Route path="/novidade/:id" element={<NoticiaDetalhe />} />
-                  <Route path="/local/:id" element={<LocalDetalhe />} />
+                  <Route path="/onde-ir/:id" element={<LocalDetalhe />} />
                   <Route path="/classificado/:id" element={<ClassificadoDetalhe />} />
                   <Route path="/servico/:id" element={<ServicoDetalhe />} />
                   
@@ -103,7 +103,7 @@ const App = () => {
                 </Routes>
               </AnimatePresence>
             </Layout>
-          </BrowserRouter>
+          </Router>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
