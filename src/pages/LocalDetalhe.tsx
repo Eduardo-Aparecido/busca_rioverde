@@ -204,7 +204,8 @@ export default function LocalDetalhe() {
   };
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900">
+    <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
+      <div className="fixed inset-0 bg-black -z-10" />
       <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto py-8">
         <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Banner */}

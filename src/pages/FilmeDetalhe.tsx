@@ -706,16 +706,16 @@ export default function FilmeDetalhe() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900 pb-32 md:pb-8">
-      <div className="w-full sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto -mt-[120px] md:mt-0">
-        <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden">
+    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto py-8">
+        <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Hero Image */}
-          <div className="relative w-full h-[400px] overflow-hidden">
-              <img
-                src={filme.imagem}
-                alt={filme.titulo}
-                className="w-full h-full object-contain"
-              />
+          <div className="w-full h-[400px] overflow-hidden bg-zinc-900">
+            <img
+              src={filme.imagem}
+              alt={filme.titulo}
+              className="w-full h-full object-cover"
+            />
           </div>
 
           <div className="px-4 sm:px-6 md:px-8">
