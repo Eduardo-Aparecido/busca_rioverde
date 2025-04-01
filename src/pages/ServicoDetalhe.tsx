@@ -128,7 +128,7 @@ const ServicoDetalhe = () => {
                 transition={{ duration: 0.5 }}
               >
                 {/* Imagem */}
-                <div className="aspect-video rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                <div className="aspect-video overflow-hidden bg-zinc-100 dark:bg-zinc-900">
                   <img
                     src={servico.imagem}
                     alt={servico.titulo}
@@ -137,19 +137,19 @@ const ServicoDetalhe = () => {
                 </div>
 
                 {/* Título e avaliação */}
-                <div className="mt-6">
+                <div className="mt-6 px-8">
                   <h1 className="text-2xl font-bold text-zinc-900 dark:text-white break-words">
                     {servico.titulo}
                   </h1>
                 </div>
 
                 {/* Preço */}
-                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-500 mt-4 break-words">
+                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-500 mt-4 break-words px-8">
                   {servico.preco}
                 </div>
 
                 {/* Descrição */}
-                <div className="mt-6">
+                <div className="mt-6 px-8">
                   <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
                     Sobre o serviço
                   </h2>
@@ -159,7 +159,7 @@ const ServicoDetalhe = () => {
                 </div>
 
                 {/* Lista de serviços */}
-                <div className="mt-6">
+                <div className="mt-6 px-8">
                   <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
                     Serviços oferecidos
                   </h2>
@@ -178,7 +178,7 @@ const ServicoDetalhe = () => {
               </motion.div>
 
               {/* Galeria de Imagens */}
-              <section className="mt-12">
+              <section className="mt-12 px-8">
                 <ImageGallery 
                   images={servico.galeriaFotos}
                   title="Galeria de Imagens"
@@ -187,13 +187,13 @@ const ServicoDetalhe = () => {
             </div>
 
             {/* Coluna da direita - Informações de contato */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 px-8">
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-6 sticky top-24">
+                <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-8 sticky top-24">
                   <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-6">
                     Informações de contato
                   </h2>
