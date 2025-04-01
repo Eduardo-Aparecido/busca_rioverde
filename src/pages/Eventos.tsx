@@ -96,12 +96,14 @@ const Eventos = () => {
             </TabsList>
 
             <TabsContent value={categoriaAtiva}>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
                 {eventosFiltrados.map((evento) => (
-                  <EventoCard 
-                    key={evento.id} 
-                    {...evento}
-                  />
+                  <div key={evento.id} className="snap-start shrink-0 w-[48%] md:w-auto">
+                    <EventoCard 
+                      key={evento.id} 
+                      {...evento}
+                    />
+                  </div>
                 ))}
               </div>
             </TabsContent>

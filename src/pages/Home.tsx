@@ -262,16 +262,16 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16">
+    <div className="min-h-screen bg-white md:bg-secondary/50 dark:bg-black pt-16">
       {/* Stories */}
-      <section className="-mt-[120px] md:mt-0 bg-secondary/50 dark:bg-black">
+      <section className="-mt-[120px] md:mt-0 bg-white dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto">
           <StoriesContainer stories={storiesDestaque} onStoryClick={handleOpenStory} />
         </div>
       </section>
 
       {/* Eventos em Destaque */}
-      <section className="py-12 bg-secondary/50 dark:bg-black">
+      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -286,16 +286,18 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+          <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
             {eventosDestaque.map((evento) => (
-              <EventoCard key={evento.id} {...evento} />
+              <div key={evento.id} className="snap-start shrink-0 w-[48%] md:w-auto">
+                <EventoCard {...evento} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Últimas Notícias */}
-      <section className="py-12 bg-secondary/50 dark:bg-black">
+      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -310,16 +312,18 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-            {noticiasRecentes.map((noticia) => (
-              <NoticiaCard key={noticia.id} {...noticia} />
+          <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
+            {noticiasRecentes && noticiasRecentes.map((noticia) => (
+              <div key={noticia.id} className="snap-start shrink-0 w-[48%] md:w-auto">
+                <NoticiaCard {...noticia} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Classificados */}
-      <section className="py-12 bg-secondary/50 dark:bg-black">
+      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -334,29 +338,30 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-            {classificados.map((classificado) => (
-              <CardBase
-                key={classificado.id}
-                id={classificado.id}
-                titulo={classificado.titulo}
-                imagem={classificado.imagem}
-                link={`/classificado/${classificado.id}`}
-              >
-                <div className="flex flex-col flex-grow">
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{classificado.descricao}</p>
-                  <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
-                    <p className="text-base font-semibold text-primary">{classificado.preco}</p>
+          <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
+            {classificados && classificados.map((classificado) => (
+              <div key={classificado.id} className="snap-start shrink-0 w-[48%] md:w-auto">
+                <CardBase
+                  id={classificado.id}
+                  titulo={classificado.titulo}
+                  imagem={classificado.imagem}
+                  link={`/classificado/${classificado.id}`}
+                >
+                  <div className="flex flex-col flex-grow">
+                    <p className="text-sm text-zinc-900 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{classificado.descricao}</p>
+                    <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                      <p className="text-base font-semibold text-primary">{classificado.preco}</p>
+                    </div>
                   </div>
-                </div>
-              </CardBase>
+                </CardBase>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Serviços */}
-      <section className="py-12 bg-secondary/50 dark:bg-black">
+      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -371,55 +376,56 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-            {servicos.map((servico) => (
-              <CardBase
-                key={servico.id}
-                id={servico.id}
-                titulo={servico.titulo}
-                imagem={servico.imagem}
-                link={`/servico/${servico.id}`}
-                categoria={servico.categoria}
-              >
-                <div className="flex flex-col flex-grow">
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{servico.descricao}</p>
-                  <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
-                    <p className="text-sm font-medium text-primary">{servico.prestador.nome}</p>
+          <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
+            {servicos && servicos.map((servico) => (
+              <div key={servico.id} className="snap-start shrink-0 w-[48%] md:w-auto">
+                <CardBase
+                  id={servico.id}
+                  titulo={servico.titulo}
+                  imagem={servico.imagem}
+                  link={`/servico/${servico.id}`}
+                  categoria={servico.categoria}
+                >
+                  <div className="flex flex-col flex-grow">
+                    <p className="text-sm text-zinc-900 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{servico.descricao}</p>
+                    <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                      <p className="text-sm font-medium text-primary">{servico.prestador.nome}</p>
+                    </div>
                   </div>
-                </div>
-              </CardBase>
+                </CardBase>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Menu de Navegação */}
-      <section className="py-12 bg-secondary/50 dark:bg-black">
+      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <Link to="/cinema" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <Theater className="h-6 w-6 text-primary mb-2" />
-              <span className="text-sm font-medium">Cinema</span>
+              <span className="text-sm font-medium text-zinc-900 dark:text-white">Cinema</span>
             </Link>
             <Link to="/eventos" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <Calendar className="h-6 w-6 text-primary mb-2" />
-              <span className="text-sm font-medium">Eventos</span>
+              <span className="text-sm font-medium text-zinc-900 dark:text-white">Eventos</span>
             </Link>
             <Link to="/novidades" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <Newspaper className="h-6 w-6 text-primary mb-2" />
-              <span className="text-sm font-medium">Novidades</span>
+              <span className="text-sm font-medium text-zinc-900 dark:text-white">Novidades</span>
             </Link>
             <Link to="/onde-ir" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <MapPin className="h-6 w-6 text-primary mb-2" />
-              <span className="text-sm font-medium">Onde Ir</span>
+              <span className="text-sm font-medium text-zinc-900 dark:text-white">Onde Ir</span>
             </Link>
             <Link to="/classificado" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <Tag className="h-6 w-6 text-primary mb-2" />
-              <span className="text-sm font-medium">Classificados</span>
+              <span className="text-sm font-medium text-zinc-900 dark:text-white">Classificados</span>
             </Link>
             <Link to="/servicos" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <Wrench className="h-6 w-6 text-primary mb-2" />
-              <span className="text-sm font-medium">Serviços</span>
+              <span className="text-sm font-medium text-zinc-900 dark:text-white">Serviços</span>
             </Link>
           </div>
         </div>

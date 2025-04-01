@@ -14,7 +14,8 @@ import {
   Clock, 
   MapPin, 
   Theater,
-  Info
+  Info,
+  ArrowLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -659,6 +660,7 @@ export default function FilmeDetalhe() {
   const { id } = useParams();
   const [filme, setFilme] = useState<Filme | null>(null);
   const [dataAtiva, setDataAtiva] = useState<string>("");
+  const [modalPrecos, setModalPrecos] = useState(false);
   
   useEffect(() => {
     if (!id) return;
@@ -696,6 +698,26 @@ export default function FilmeDetalhe() {
           </div>
 
           <div className="px-4 sm:px-6 md:px-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-2">
+                <Link to="/cinema" className="text-zinc-600 dark:text-zinc-400">
+                  <ArrowLeft className="h-5 w-5" />
+                </Link>
+                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                  Cineflix
+                </h2>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setModalPrecos(true)}
+                className="text-xs h-8 px-3"
+              >
+                Preços e Infos
+              </Button>
+            </div>
+
             <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mt-6">{filme.titulo}</h1>
             <div className="flex flex-wrap gap-2 mt-2">
               {filme.genero.split(",").map((genero, index) => (
@@ -783,7 +805,7 @@ export default function FilmeDetalhe() {
                       className="bg-zinc-100 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800"
                     >
                       {/* Header do Cinema */}
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-zinc-200 dark:border-zinc-800 gap-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-zinc-200 dark:border-zinc-800 gap-2">
                         <div className="flex items-center gap-4">
                           <img 
                             src={cinema.logo} 
@@ -795,7 +817,7 @@ export default function FilmeDetalhe() {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          className="border-cyan-500 text-cyan-500 hover:bg-cyan-500/20 w-full sm:w-auto"
+                          className="border-cyan-500 text-cyan-500 hover:bg-cyan-500/20 h-6 text-[10px] sm:text-sm sm:h-9 px-1.5 sm:px-3 whitespace-nowrap"
                           asChild
                         >
                           <Link 

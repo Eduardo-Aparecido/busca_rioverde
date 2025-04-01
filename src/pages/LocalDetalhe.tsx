@@ -102,14 +102,14 @@ const estaAberto = (horarios: Horario[]): boolean => {
  */
 const getComodidadeIcon = (comodidade: string) => {
   const icons: { [key: string]: React.ReactNode } = {
-    "Wi-Fi Grátis": <Wifi className="h-4 w-4 text-white" />,
-    "Estacionamento": <Car className="h-4 w-4 text-white" />,
-    "Aceita Cartão": <CreditCard className="h-4 w-4 text-white" />,
-    "Música ao Vivo": <Music className="h-4 w-4 text-white" />,
-    "Pet Friendly": <Dog className="h-4 w-4 text-white" />,
-    "Ar Condicionado": <Wind className="h-4 w-4 text-white" />,
-    "Acessibilidade": <Accessibility className="h-4 w-4 text-white" />,
-    "Reservas": <CalendarCheck className="h-4 w-4 text-white" />
+    "Wi-Fi Grátis": <Wifi className="h-4 w-4 text-zinc-900 dark:text-white" />,
+    "Estacionamento": <Car className="h-4 w-4 text-zinc-900 dark:text-white" />,
+    "Aceita Cartão": <CreditCard className="h-4 w-4 text-zinc-900 dark:text-white" />,
+    "Música ao Vivo": <Music className="h-4 w-4 text-zinc-900 dark:text-white" />,
+    "Pet Friendly": <Dog className="h-4 w-4 text-zinc-900 dark:text-white" />,
+    "Ar Condicionado": <Wind className="h-4 w-4 text-zinc-900 dark:text-white" />,
+    "Acessibilidade": <Accessibility className="h-4 w-4 text-zinc-900 dark:text-white" />,
+    "Reservas": <CalendarCheck className="h-4 w-4 text-zinc-900 dark:text-white" />
   };
 
   return icons[comodidade] || null;
@@ -205,16 +205,16 @@ export default function LocalDetalhe() {
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
-      <div className="w-[115%] sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
-        <div className="bg-white dark:bg-black rounded-lg shadow-lg overflow-hidden">
+      <div className="w-full sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
+        <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Banner */}
           <div className="w-full h-[400px] overflow-hidden">
-            <img
-              src={local.banner}
-              alt={local.nome}
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <img
+            src={local.banner}
+            alt={local.nome}
+            className="w-full h-full object-cover"
+          />
+        </div>
 
           {/* Badges */}
           <div className="flex justify-between items-center px-4 py-2">
@@ -228,17 +228,17 @@ export default function LocalDetalhe() {
                   FECHADO AGORA
                 </Badge>
               )}
-            </div>
-            <Badge className="bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900">
-              Atualizado em {new Date(local.ultimaAtualizacao).toLocaleString('pt-BR', { 
-                day: '2-digit',
-                month: '2-digit',
-                year: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
-            </Badge>
           </div>
+            <Badge className="bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900">
+            Atualizado em {new Date(local.ultimaAtualizacao).toLocaleString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+            </Badge>
+            </div>
 
           <div className="p-6">
             {/* Informações Principais */}
@@ -251,7 +251,7 @@ export default function LocalDetalhe() {
                 {/* Cabeçalho */}
                 <div className="flex flex-col gap-2">
                   <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{local.nome}</h1>
-                </div>
+                  </div>
 
                 {/* Descrição */}
                 <div className="mt-6">
@@ -260,36 +260,36 @@ export default function LocalDetalhe() {
 
                 {/* Horários */}
                 <div className="mt-8">
-                  <div className="bg-zinc-900 dark:bg-zinc-800 rounded-lg p-4 max-w-sm">
+                  <div className="bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4 max-w-sm">
                     <div className="flex items-center gap-2 mb-4">
-                      <Clock className="h-5 w-5 text-white" />
-                      <h2 className="text-lg font-semibold text-white">Horários de funcionamento</h2>
+                      <Clock className="h-5 w-5 text-zinc-900 dark:text-white" />
+                      <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Horários de funcionamento</h2>
                     </div>
                     <div className="space-y-2">
-                      {local.horariosFuncionamento.map((horario, index) => (
-                        horario.horarios.length > 0 && (
-                          <div key={index} className="text-zinc-300">
+            {local.horariosFuncionamento.map((horario, index) => (
+              horario.horarios.length > 0 && (
+                          <div key={index} className="text-zinc-600 dark:text-zinc-300">
                             <span>{horario.dia}: </span>
                             <span>das {horario.horarios.join(" às ")}</span>
-                          </div>
-                        )
-                      ))}
-                    </div>
-                  </div>
                 </div>
+              )
+            ))}
+                    </div>
+                </div>
+              </div>
 
                 {/* Comodidades */}
                 <div className="mt-8 flex flex-wrap gap-2">
-                  {local.comodidades.map((comodidade, index) => (
-                    <div 
-                      key={index}
-                      className="bg-zinc-900 dark:bg-zinc-800 px-3 py-2 rounded-lg text-sm text-white flex items-center gap-2"
-                    >
-                      {getComodidadeIcon(comodidade)}
-                      <span>{comodidade}</span>
-                    </div>
-                  ))}
-                </div>
+          {local.comodidades.map((comodidade, index) => (
+            <div 
+              key={index}
+                      className="bg-zinc-100 dark:bg-zinc-800 px-3 py-2 rounded-lg text-sm text-zinc-900 dark:text-white flex items-center gap-2"
+            >
+              {getComodidadeIcon(comodidade)}
+              <span>{comodidade}</span>
+            </div>
+          ))}
+        </div>
 
                 {/* Divisor */}
                 <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800" />
@@ -311,27 +311,27 @@ export default function LocalDetalhe() {
                     <Globe className="h-5 w-5" />
                     <span>Link do local</span>
                   </a>
-                  <a 
-                    href={`https://wa.me/${local.telefone.replace(/\D/g, '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+            <a 
+              href={`https://wa.me/${local.telefone.replace(/\D/g, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
                     className="flex items-center gap-2 px-4 py-3 rounded-lg border border-cyan-500 text-cyan-500 hover:bg-cyan-500/10 transition-colors"
-                  >
+            >
                     <Phone className="h-5 w-5" />
                     <span>{local.telefone}</span>
-                  </a>
-                </div>
+            </a>
+        </div>
 
                 {/* Localização */}
                 <div className="mt-8">
                   <div className="w-full h-[400px] rounded-lg overflow-hidden">
-                    <Map 
-                      latitude={local.latitude}
-                      longitude={local.longitude}
-                      title={local.nome}
-                      description={local.endereco}
-                    />
-                  </div>
+              <Map 
+                latitude={local.latitude}
+                longitude={local.longitude}
+                title={local.nome}
+                description={local.endereco}
+              />
+            </div>
                 </div>
               </div>
             </motion.div>

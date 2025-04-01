@@ -154,12 +154,14 @@ const Novidades = () => {
             </TabsList>
 
             <TabsContent value={categoriaAtiva}>
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+              <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
                 {noticiasFiltradas.map((noticia) => (
-                  <NoticiaCard 
-                    key={noticia.id} 
-                    {...noticia}
-                  />
+                  <div key={noticia.id} className="snap-start shrink-0 w-[48%] md:w-auto">
+                    <NoticiaCard 
+                      key={noticia.id} 
+                      {...noticia}
+                    />
+                  </div>
                 ))}
               </div>
             </TabsContent>

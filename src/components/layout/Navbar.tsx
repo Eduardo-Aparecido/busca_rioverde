@@ -218,7 +218,13 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
       </nav>
 
       {/* Espaçador para o footer no mobile */}
-      <div className="h-24 md:hidden" />
+      <div className={`md:hidden bg-white dark:bg-black ${
+        location.pathname === "/" ? "h-24" : 
+        location.pathname === "/cinema" ? "h-0" :
+        location.pathname === "/novidades" ? "h-0" :
+        location.pathname === "/eventos" ? "h-0" :
+        location.pathname === "/onde-ir" ? "h-0" : "h-0"
+      }`} />
     </div>
   );
 };

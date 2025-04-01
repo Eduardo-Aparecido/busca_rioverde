@@ -126,18 +126,20 @@ const Cinema = () => {
   const filmesFiltrados = cinemaAtivo === "cineflix" ? filmesCineflix : filmesCineA;
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-0">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-4">
+        <div className="flex items-center justify-between mb-4">
           <SectionHeader 
             titulo="Cinema" 
             subtitulo="Confira os filmes em cartaz nos cinemas da cidade"
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
           {filmesFiltrados.map((filme) => (
-            <CardCinema key={filme.id} {...filme} />
+            <div key={filme.id} className="snap-start shrink-0 w-[48%] md:w-auto">
+              <CardCinema {...filme} />
+            </div>
           ))}
         </div>
       </div>
