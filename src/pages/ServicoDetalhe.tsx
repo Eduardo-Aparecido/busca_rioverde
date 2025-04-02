@@ -116,7 +116,7 @@ const ServicoDetalhe = () => {
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
       <div className="fixed inset-0 bg-black -z-10" />
-      <div className="w-full sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
+      <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[60%] xl:w-[70%] 2xl:w-[55%] mx-auto px-4 py-8">
         <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Conteúdo principal */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-4">
