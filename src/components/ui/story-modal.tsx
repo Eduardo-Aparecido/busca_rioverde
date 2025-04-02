@@ -48,6 +48,7 @@ export function StoryModal({ story, allStories, currentIndex, onClose, onStoryCh
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   // Converte o conteúdo para array se for um único item
   const content = Array.isArray(currentStory?.conteudo) 
@@ -72,9 +73,11 @@ export function StoryModal({ story, allStories, currentIndex, onClose, onStoryCh
     setCurrentStoryIndex(0);
     setProgress(0);
     setIsLoading(false);
+    setIsOpen(true);
   }, [story, onClose]);
 
   const handleClose = useCallback(() => {
+    setIsOpen(false);
     onClose();
   }, [onClose]);
 
@@ -169,134 +172,132 @@ export function StoryModal({ story, allStories, currentIndex, onClose, onStoryCh
   const currentContent = content[currentStoryIndex];
 
   return (
-    <Dialog open onOpenChange={handleClose}>
-      <DialogContent 
-        className="[&>button]:hidden max-w-md mx-auto h-[80vh] max-h-[800px] p-4 border-none bg-black/80"
-        onPointerDownOutside={handleClose}
-        onEscapeKeyDown={handleClose}
-      >
-        <VisuallyHidden>
-          <DialogTitle>Story: {currentStory.titulo}</DialogTitle>
-          <DialogDescription>Visualizador de stories do {currentStory.titulo}</DialogDescription>
-        </VisuallyHidden>
-        <div className="relative w-full h-full flex items-center justify-center">
-          <div className="relative w-full h-full rounded-xl p-[2px] bg-gradient-to-tr from-purple-600 via-pink-500 to-blue-600">
-            {/* Barra de progresso */}
-            <div className="absolute top-0 left-0 right-0 z-50 flex gap-1 p-2">
-              {content.map((_, index) => (
-                <div 
-                  key={index}
-                  className="h-1 flex-1 bg-white/30 rounded-full overflow-hidden"
-                >
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-[85%] sm:max-w-[75%] md:max-w-[65%] lg:max-w-[55%] xl:max-w-[45%] h-[80vh] sm:h-[85vh] md:h-[90vh] p-0 bg-transparent backdrop-blur-md">
+        <div className="relative h-full rounded-lg overflow-hidden bg-white/5 dark:bg-black/5 backdrop-blur-2xl border border-white/20">
+          <VisuallyHidden>
+            <DialogTitle>Story: {currentStory.titulo}</DialogTitle>
+            <DialogDescription>Visualizador de stories do {currentStory.titulo}</DialogDescription>
+          </VisuallyHidden>
+          <div className="relative w-full h-full flex items-center justify-center bg-transparent">
+            <div className="relative w-full h-full rounded-xl p-[2px] bg-gradient-to-tr from-purple-600/30 via-pink-500/30 to-blue-600/30 backdrop-blur-xl">
+              {/* Barra de progresso */}
+              <div className="absolute top-0 left-0 right-0 z-50 flex gap-1 p-2">
+                {content.map((_, index) => (
                   <div 
-                    className="h-full bg-white transition-all duration-100 ease-linear"
-                    style={{ 
-                      width: index === currentStoryIndex ? `${progress}%` : 
-                             index < currentStoryIndex ? '100%' : '0%' 
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Botão de fechar */}
-            <button
-              type="button"
-              onClick={handleClose}
-              className="absolute -top-8 -right-8 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
-            >
-              <X className="h-5 w-5 text-white" />
-            </button>
-
-            {/* Área de toque para pausar/continuar com feedback visual */}
-            <div 
-              className={`absolute inset-0 z-40 transition-colors duration-200 ${isPaused ? 'bg-black/20 backdrop-blur-[2px]' : ''}`}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onTouchStart={handleMouseDown}
-              onTouchEnd={handleMouseUp}
-            >
-              {isPaused && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="p-4 rounded-full bg-white/20 backdrop-blur-sm">
-                    <svg 
-                      className="w-8 h-8 text-white" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path 
-                        d="M8 5v14l11-7z" 
-                        fill="currentColor"
-                      />
-                    </svg>
+                    key={index}
+                    className="h-1 flex-1 bg-white/30 rounded-full overflow-hidden"
+                  >
+                    <div 
+                      className="h-full bg-white transition-all duration-100 ease-linear"
+                      style={{ 
+                        width: index === currentStoryIndex ? `${progress}%` : 
+                               index < currentStoryIndex ? '100%' : '0%' 
+                      }}
+                    />
                   </div>
-                </div>
-              )}
-            </div>
+                ))}
+              </div>
 
-            {/* Botões de navegação */}
-            {(currentStoryIndex > 0 || currentIndex > 0) && (
+              {/* Botão de fechar */}
               <button
                 type="button"
-                onClick={handlePreviousStory}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
+                onClick={handleClose}
+                className="absolute -top-8 -right-8 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
+                <X className="h-5 w-5 text-white" />
               </button>
-            )}
-            {(currentStoryIndex < content.length - 1 || currentIndex < allStories.length - 1) && (
-              <button
-                type="button"
-                onClick={handleNextStory}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                </svg>
-              </button>
-            )}
 
-            {/* Container interno com fundo preto */}
-            <div className="relative w-full h-full bg-black rounded-xl overflow-hidden">
-              {isLoading ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-white">Carregando...</p>
-                </div>
-              ) : error ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-white">{error}</p>
-                </div>
-              ) : (
-                <div className="relative w-full h-full">
-                  {currentContent.tipo === "video" ? (
-                    <video
-                      key={currentContent.url}
-                      src={currentContent.url}
-                      className="w-full h-full object-contain"
-                      controls={false}
-                      onEnded={handleNextStory}
-                      autoPlay
-                      muted
-                      playsInline
-                    />
-                  ) : (
-                    <img
-                      key={currentContent.url}
-                      src={currentContent.url}
-                      alt={currentStory.titulo}
-                      className="w-full h-full object-contain"
-                    />
-                  )}
-                  {currentContent.descricao && (
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 text-white">
-                      {currentContent.descricao}
+              {/* Área de toque para pausar/continuar com feedback visual */}
+              <div 
+                className={`absolute inset-0 z-40 transition-colors duration-200 ${isPaused ? 'bg-black/20 backdrop-blur-[2px]' : ''}`}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onTouchStart={handleMouseDown}
+                onTouchEnd={handleMouseUp}
+              >
+                {isPaused && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="p-4 rounded-full bg-white/20 backdrop-blur-sm">
+                      <svg 
+                        className="w-8 h-8 text-white" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path 
+                          d="M8 5v14l11-7z" 
+                          fill="currentColor"
+                        />
+                      </svg>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Botões de navegação */}
+              {(currentStoryIndex > 0 || currentIndex > 0) && (
+                <button
+                  type="button"
+                  onClick={handlePreviousStory}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </button>
               )}
+              {(currentStoryIndex < content.length - 1 || currentIndex < allStories.length - 1) && (
+                <button
+                  type="button"
+                  onClick={handleNextStory}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Container interno com fundo transparente */}
+              <div className="relative w-full h-full bg-transparent rounded-xl overflow-hidden">
+                {isLoading ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <p className="text-white">Carregando...</p>
+                  </div>
+                ) : error ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <p className="text-white">{error}</p>
+                  </div>
+                ) : (
+                  <div className="relative w-full h-full bg-transparent">
+                    {currentContent.tipo === "video" ? (
+                      <video
+                        key={currentContent.url}
+                        src={currentContent.url}
+                        className="w-full h-full object-contain"
+                        controls={false}
+                        onEnded={handleNextStory}
+                        autoPlay
+                        muted
+                        playsInline
+                      />
+                    ) : (
+                      <img
+                        key={currentContent.url}
+                        src={currentContent.url}
+                        alt={currentStory.titulo}
+                        className="w-full h-full object-contain"
+                      />
+                    )}
+                    {currentContent.descricao && (
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/30 backdrop-blur-sm text-white">
+                        {currentContent.descricao}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
