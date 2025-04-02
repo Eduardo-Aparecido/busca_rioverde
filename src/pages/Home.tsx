@@ -113,6 +113,20 @@ const storiesDestaque: Story[] = [
         descricao: "Cardápio variado com as melhores opções"
       }
     ]
+  },
+  {
+    id: "4",
+    titulo: "Instagram",
+    imagem: "/images/ghibli.png",
+    link: " ",
+    conteudo: [
+      {
+        tipo: "video" as const,
+        url: "/videos/story-instagram.mp4",
+        duracao: 5,
+        descricao: "Teste de video!"
+      }
+    ]
   }
 ];
 
@@ -292,7 +306,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white md:bg-secondary/50 dark:bg-black pt-16">
       {/* Stories */}
-      <section className="-mt-[120px] md:mt-0 bg-white dark:bg-black">
+      <section className="-mt-[120px] md:mt-0 bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto">
           <StoriesContainer stories={storiesDestaque} onStoryClick={handleOpenStory} />
         </div>
