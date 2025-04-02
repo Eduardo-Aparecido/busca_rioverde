@@ -711,11 +711,13 @@ export default function FilmeDetalhe() {
         <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Hero Image */}
           <div className="w-full h-[400px] overflow-hidden bg-zinc-900">
-            <img
-              src={filme.imagem}
-              alt={filme.titulo}
-              className="w-full h-full object-cover"
-            />
+            {filme?.imagem && (
+              <img
+                src={filme.imagem}
+                alt={filme.titulo}
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
 
           <div className="px-4 sm:px-6 md:px-8">
