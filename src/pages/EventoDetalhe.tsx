@@ -269,13 +269,13 @@ const EventoDetalhe = () => {
               <div>
                 {/* Cabeçalho */}
                 <div className="flex flex-col gap-1">
-                  <h1 className="text-2xl font-bold text-white">{evento.titulo}</h1>
+                  <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{evento.titulo}</h1>
                   <span className="text-cyan-500">{evento.local}</span>
                 </div>
 
                 {/* Descrição */}
                 <div className="mt-6">
-                  <p className="text-zinc-300 whitespace-pre-line">{evento.descricao}</p>
+                  <p className="text-zinc-800 dark:text-zinc-300 whitespace-pre-line">{evento.descricao}</p>
                 </div>
 
                 {/* Divisor 1 */}
@@ -283,7 +283,7 @@ const EventoDetalhe = () => {
 
                 {/* Galeria */}
                 <div className="mt-8">
-                  <h2 className="text-xl font-semibold text-white mb-4">Galeria de Imagens</h2>
+                  <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Galeria de Imagens</h2>
                   <div className="grid grid-cols-2 gap-4">
                     {evento.galeria.map((imagem, index) => (
                       <div
@@ -310,8 +310,8 @@ const EventoDetalhe = () => {
                 {/* Localização */}
                 {temLocalizacao && (
                   <div className="mt-8">
-                    <h2 className="text-xl font-semibold text-white mb-4">Localização</h2>
-                    <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 mb-4">
+                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Localização</h2>
+                    <div className="flex items-center gap-2 text-zinc-800 dark:text-zinc-400 mb-4">
                       <MapPin className="h-4 w-4" />
                       <span>{evento.endereco}</span>
                     </div>
