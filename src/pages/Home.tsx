@@ -47,6 +47,18 @@ const storiesDestaque: Story[] = [
         url: "/images/cinemas/cineflix/brancadeneve_02.png",
         duracao: 5,
         descricao: "Confira os últimos lançamentos do cinema!"
+      },
+      {
+        tipo: "imagem" as const,
+        url: "/images/cinemas/cineflix/brancadeneve.png",
+        duracao: 5,
+        descricao: "Branca de Neve e os Sete Anões - Em cartaz!"
+      },
+      {
+        tipo: "imagem" as const,
+        url: "/images/cinemas/cineflix/brancadeneve_03.png",
+        duracao: 5,
+        descricao: "Não perca essa aventura mágica!"
       }
     ]
   },
@@ -60,18 +72,20 @@ const storiesDestaque: Story[] = [
         tipo: "imagem" as const,
         url: "/images/classificados/iphone13promax_03.jpg",
         duracao: 5,
-        descricao: "Vendo iPhone 13 Pro Max 256GB, cor Graphite, com garantia"
+        descricao: "iPhone 13 Pro Max - 256GB"
+      },
+      {
+        tipo: "imagem" as const,
+        url: "/images/classificados/iphone13promax_02.jpg",
+        duracao: 5,
+        descricao: "Câmera profissional com 3 lentes"
+      },
+      {
+        tipo: "imagem" as const,
+        url: "/images/classificados/iphone13promax.jpg",
+        duracao: 5,
+        descricao: "Apenas R$ 4.999,00 - Aceito cartão!"
       }
-      // {
-      //   tipo: "video" as const,
-      //   url: "/videos/show-story.mp4",
-      //   duracao: 15
-      // },
-      // {
-      //   tipo: "imagem" as const,
-      //   url: "/images/show-story-2.jpg",
-      //   duracao: 5
-      // }
     ]
   },
   {
@@ -79,13 +93,27 @@ const storiesDestaque: Story[] = [
     titulo: "Restaurantes",
     imagem: "/images/onde_ir/finnegans/finnegans_06.png",
     link: "/onde-ir?categoria=restaurantes",
-    conteudo: {
-      tipo: "imagem" as const,
-      url: "/images/onde_ir/finnegans/finnegans_07.png",
-      duracao: 5
-    }
+    conteudo: [
+      {
+        tipo: "imagem" as const,
+        url: "/images/onde_ir/finnegans/finnegans_07.png",
+        duracao: 5,
+        descricao: "Conheça o Finnegans!"
+      },
+      {
+        tipo: "imagem" as const,
+        url: "/images/onde_ir/finnegans/finnegans_02.png",
+        duracao: 5,
+        descricao: "Ambiente aconchegante e climatizado"
+      },
+      {
+        tipo: "imagem" as const,
+        url: "/images/onde_ir/finnegans/finnegans_03.png",
+        duracao: 5,
+        descricao: "Cardápio variado com as melhores opções"
+      }
+    ]
   }
-  
 ];
 
 /**
