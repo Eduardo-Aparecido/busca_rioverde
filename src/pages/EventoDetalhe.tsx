@@ -34,6 +34,7 @@ import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { ImageGallery } from "@/components/ui/image-gallery";
 import { Map } from "@/components/ui/map";
 import { useAuth } from "@/hooks/useAuth";
+import { formatEventBadge } from "@/lib/utils/formatEventBadge";
 
 /**
  * Dados simulados para desenvolvimento
@@ -241,150 +242,150 @@ const EventoDetalhe = () => {
             />
           </div>
 
-          <div className="px-8 py-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Coluna da Esquerda - Imagens e Informações */}
-              <div className="lg:col-span-2 space-y-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <div className="flex flex-col gap-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{evento.titulo}</h1>
-                    </div>
+          {/* Badges */}
+          <div className="flex justify-between items-center px-4 py-2">
+            <Badge className="bg-red-500 hover:bg-red-500 text-white">
+              {evento.data} ÀS {evento.hora}
+            </Badge>
+            <Badge className="bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
+              Atualizado em {new Date().toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+              })}
+            </Badge>
+          </div>
 
-                    <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4">
-                      <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                          <Calendar className="h-4 w-4" />
-                          <span>{evento.data}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                          <Clock className="h-4 w-4" />
-                          <span>{evento.hora}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                          <MapPin className="h-4 w-4" />
-                          <span>{evento.local}</span>
-                        </div>
+          <div className="p-6">
+            {/* Informações Principais */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div>
+                {/* Cabeçalho */}
+                <div className="flex flex-col gap-1">
+                  <h1 className="text-2xl font-bold text-white">{evento.titulo}</h1>
+                  <span className="text-cyan-500">{evento.local}</span>
+                </div>
+
+                {/* Descrição */}
+                <div className="mt-6">
+                  <p className="text-zinc-300 whitespace-pre-line">{evento.descricao}</p>
+                </div>
+
+                {/* Divisor 1 */}
+                <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800" />
+
+                {/* Galeria */}
+                <div className="mt-8">
+                  <h2 className="text-xl font-semibold text-white mb-4">Galeria de Imagens</h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    {evento.galeria.map((imagem, index) => (
+                      <div
+                        key={index}
+                        className="aspect-[3/4] cursor-pointer bg-black rounded-xl overflow-hidden"
+                        onClick={() => {
+                          setImagemAtual(index);
+                          setModalAberto(true);
+                        }}
+                      >
+                        <img
+                          src={typeof imagem === 'string' ? imagem : imagem.url}
+                          alt={typeof imagem === 'string' ? `Imagem ${index + 1}` : imagem.descricao || `Imagem ${index + 1}`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
                       </div>
-                    </div>
+                    ))}
                   </div>
+                </div>
 
-                  {/* Descrição */}
-                  <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4 mt-4">
-                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Sobre o Evento</h2>
-                    <p className="text-zinc-600 dark:text-zinc-300">{evento.descricao}</p>
-                  </div>
+                {/* Divisor 2 */}
+                <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800" />
 
-                  {/* Galeria */}
+                {/* Localização */}
+                {temLocalizacao && (
                   <div className="mt-8">
-                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Galeria de Imagens</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                      {evento.galeria.map((imagem, index) => (
-                        <div
-                          key={index}
-                          className="aspect-[4/3] rounded-lg overflow-hidden cursor-pointer"
-                          onClick={() => {
-                            setImagemAtual(index);
-                            setModalAberto(true);
-                          }}
-                        >
-                          <img
-                            src={typeof imagem === 'string' ? imagem : imagem.url}
-                            alt={typeof imagem === 'string' ? `Imagem ${index + 1}` : imagem.descricao || `Imagem ${index + 1}`}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      ))}
+                    <h2 className="text-xl font-semibold text-white mb-4">Localização</h2>
+                    <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 mb-4">
+                      <MapPin className="h-4 w-4" />
+                      <span>{evento.endereco}</span>
+                    </div>
+                    <div className="w-full h-[400px] rounded-lg overflow-hidden">
+                      <Map
+                        latitude={evento.latitude}
+                        longitude={evento.longitude}
+                        title={evento.titulo}
+                        description={evento.endereco}
+                      />
                     </div>
                   </div>
-
-                  {/* Modal da Galeria */}
-                  <Dialog open={modalAberto} onOpenChange={setModalAberto}>
-                    <DialogContent className="max-w-5xl p-0">
-                      <div className="relative flex items-center bg-zinc-900">
-                        {/* Botão Fechar */}
-                        <button
-                          onClick={() => setModalAberto(false)}
-                          className="absolute top-4 right-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
-                        >
-                          <X className="h-5 w-5 text-zinc-100" />
-                        </button>
-
-                        {/* Botão Anterior */}
-                        {imagemAtual > 0 && (
-                          <button
-                            onClick={() => setImagemAtual(prev => prev - 1)}
-                            className="absolute left-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
-                          >
-                            <ChevronLeft className="h-6 w-6 text-zinc-100" />
-                          </button>
-                        )}
-
-                        {/* Imagem */}
-                        <div className="w-full h-[80vh] flex items-center justify-center p-4">
-                          <img
-                            src={typeof evento.galeria[imagemAtual] === 'string' 
-                              ? evento.galeria[imagemAtual] 
-                              : evento.galeria[imagemAtual].url}
-                            alt={typeof evento.galeria[imagemAtual] === 'string'
-                              ? `Imagem ${imagemAtual + 1}`
-                              : evento.galeria[imagemAtual].descricao || `Imagem ${imagemAtual + 1}`}
-                            className="max-w-full max-h-full object-contain"
-                          />
-                        </div>
-
-                        {/* Botão Próximo */}
-                        {imagemAtual < evento.galeria.length - 1 && (
-                          <button
-                            onClick={() => setImagemAtual(prev => prev + 1)}
-                            className="absolute right-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
-                          >
-                            <ChevronRight className="h-6 w-6 text-zinc-100" />
-                          </button>
-                        )}
-
-                        {/* Descrição da Imagem */}
-                        {typeof evento.galeria[imagemAtual] !== 'string' && evento.galeria[imagemAtual].descricao && (
-                          <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                            <p className="text-white text-sm">
-                              {evento.galeria[imagemAtual].descricao}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-
-                </motion.div>
+                )}
               </div>
-
-              {/* ... existing code ... */}
-            </div>
-
-            {/* Localização - Seção Centralizada */}
-            {temLocalizacao && (
-              <div className="mt-8">
-                <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Localização</h2>
-                <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 mb-4">
-                  <MapPin className="h-4 w-4" />
-                  <span>{evento.endereco}</span>
-                </div>
-                <div className="w-full h-[400px] rounded-lg overflow-hidden">
-                  <Map
-                    latitude={evento.latitude}
-                    longitude={evento.longitude}
-                    title={evento.titulo}
-                    description={evento.endereco}
-                  />
-                </div>
-              </div>
-            )}
+            </motion.div>
           </div>
         </div>
+
+        {/* Modal da Galeria */}
+        <Dialog open={modalAberto} onOpenChange={setModalAberto}>
+          <DialogContent className="max-w-5xl p-0 bg-black border-0">
+            <div className="relative flex items-center justify-center bg-black">
+              {/* Botão Fechar */}
+              <button
+                onClick={() => setModalAberto(false)}
+                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
+              >
+                <X className="h-5 w-5 text-white" />
+              </button>
+
+              {/* Botão Anterior */}
+              {imagemAtual > 0 && (
+                <button
+                  onClick={() => setImagemAtual(prev => prev - 1)}
+                  className="absolute left-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
+                >
+                  <ChevronLeft className="h-6 w-6 text-white" />
+                </button>
+              )}
+
+              {/* Imagem */}
+              <div className="w-full h-[80vh] flex items-center justify-center p-4">
+                <img
+                  src={typeof evento.galeria[imagemAtual] === 'string' 
+                    ? evento.galeria[imagemAtual] 
+                    : evento.galeria[imagemAtual].url}
+                  alt={typeof evento.galeria[imagemAtual] === 'string'
+                    ? `Imagem ${imagemAtual + 1}`
+                    : evento.galeria[imagemAtual].descricao || `Imagem ${imagemAtual + 1}`}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+
+              {/* Botão Próximo */}
+              {imagemAtual < evento.galeria.length - 1 && (
+                <button
+                  onClick={() => setImagemAtual(prev => prev + 1)}
+                  className="absolute right-4 z-50 p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700/80 transition-colors"
+                >
+                  <ChevronRight className="h-6 w-6 text-white" />
+                </button>
+              )}
+
+              {/* Descrição da Imagem */}
+              {typeof evento.galeria[imagemAtual] !== 'string' && evento.galeria[imagemAtual].descricao && (
+                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                  <p className="text-white text-sm">
+                    {evento.galeria[imagemAtual].descricao}
+                  </p>
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
