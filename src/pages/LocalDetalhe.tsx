@@ -273,11 +273,9 @@ export default function LocalDetalhe() {
             >
               <div>
                 {/* Cabeçalho do local */}
-                <div className="flex flex-col gap-1">
-                  {/* Título com cores adaptativas para modo claro/escuro */}
+                <div className="flex flex-col gap-2">
                   <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{local.nome}</h1>
-                  {/* Localização com ícone e cor destacada */}
-                  <span className="text-cyan-500 flex items-center gap-2">
+                  <span className="text-cyan-600 flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
                     {local.bairro}
                   </span>
