@@ -53,7 +53,7 @@ Se você deseja realizar um evento inesquecível, o Finnegans Gastronomia també
       "/images/onde_ir/finnegans/finnegans_04.png",
       "/images/onde_ir/finnegans/finnegans_05.png",
       "/images/onde_ir/finnegans/finnegans_06.png",
-      "/images/onde_ir/finnegans/finnegans.png"
+      "/images/onde_ir/finnegans/finnegans_03.png"
     ],
     comodidades: [
       "Wi-Fi Grátis",
