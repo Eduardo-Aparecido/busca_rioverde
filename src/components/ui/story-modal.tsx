@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useState, useEffect, useCallback } from "react";
 import { VisuallyHidden } from "@/components/ui/visually-hidden";
+import { motion, PanInfo } from "framer-motion";
 
 /**
  * Interface que define a estrutura de um conteúdo do story
@@ -163,6 +164,13 @@ export function StoryModal({ story, allStories, currentIndex, onClose, onStoryCh
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handlePreviousStory, handleNextStory, handleClose]);
 
+  const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const shouldClose = info.velocity.y > 20 || (info.offset.y > 200 && info.velocity.y >= 0);
+    if (shouldClose) {
+      handleClose();
+    }
+  };
+
   // Se não houver conteúdo válido, fecha o modal
   if (!content?.length) {
     handleClose();
@@ -173,8 +181,17 @@ export function StoryModal({ story, allStories, currentIndex, onClose, onStoryCh
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[85%] sm:max-w-[75%] md:max-w-[65%] lg:max-w-[55%] xl:max-w-[45%] h-[80vh] sm:h-[85vh] md:h-[90vh] p-0 bg-transparent backdrop-blur-md">
-        <div className="relative h-full rounded-lg overflow-hidden bg-white/5 dark:bg-black/5 backdrop-blur-2xl border border-white/20">
+      <DialogContent className="max-w-[85%] sm:max-w-[75%] md:max-w-[65%] lg:max-w-[55%] xl:max-w-[45%] h-[75vh] sm:h-[85vh] md:h-[90vh] p-0 bg-transparent backdrop-blur-md mt-8 sm:mt-0">
+        <motion.div 
+          className="relative h-full rounded-lg overflow-hidden bg-white/5 dark:bg-black/5 backdrop-blur-2xl border border-white/20"
+          drag="y"
+          dragConstraints={{ top: 0, bottom: 0 }}
+          dragElastic={0.6}
+          onDragEnd={handleDragEnd}
+        >
+          {/* Indicador visual de arraste */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-white/20 rounded-full sm:hidden" />
+          
           <VisuallyHidden>
             <DialogTitle>Story: {currentStory.titulo}</DialogTitle>
             <DialogDescription>Visualizador de stories do {currentStory.titulo}</DialogDescription>
@@ -300,7 +317,7 @@ export function StoryModal({ story, allStories, currentIndex, onClose, onStoryCh
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </DialogContent>
     </Dialog>
   );
