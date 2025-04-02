@@ -275,7 +275,10 @@ export default function LocalDetalhe() {
                 {/* Cabeçalho */}
                 <div className="flex flex-col gap-1">
                   <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{local.nome}</h1>
-                  <span className="text-cyan-500">{local.bairro}</span>
+                  <span className="text-cyan-500 flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    {local.bairro}
+                  </span>
                 </div>
 
                 {/* Descrição */}
