@@ -116,10 +116,10 @@ const ServicoDetalhe = () => {
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
       <div className="fixed inset-0 bg-black -z-10" />
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto py-8">
+      <div className="w-full sm:w-[105%] md:w-[95%] lg:w-[85%] xl:w-[75%] mx-auto px-4 py-8">
         <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Conteúdo principal */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-4">
             {/* Coluna da esquerda - Imagem e detalhes */}
             <div className="lg:col-span-2 space-y-6">
               <motion.div
@@ -128,7 +128,7 @@ const ServicoDetalhe = () => {
                 transition={{ duration: 0.5 }}
               >
                 {/* Imagem */}
-                <div className="aspect-video overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                <div className="aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900">
                   <img
                     src={servico.imagem}
                     alt={servico.titulo}
