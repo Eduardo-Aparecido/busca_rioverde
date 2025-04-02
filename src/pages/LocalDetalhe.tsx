@@ -189,18 +189,40 @@ export default function LocalDetalhe() {
   const estaAberto = () => {
     const agora = new Date();
     const diaSemana = agora.getDay();
-    const horaAtual = agora.getHours() * 100 + agora.getMinutes();
+    const horaAtual = agora.getHours();
+    const minutoAtual = agora.getMinutes();
+    const horaAtualEmMinutos = horaAtual * 60 + minutoAtual;
 
-    const horarioHoje = local.horariosFuncionamento[diaSemana];
-    if (!horarioHoje || !horarioHoje.horarios.length) return false;
+    // Mapeamento dos dias da semana
+    const diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    const diaHoje = diasSemana[diaSemana];
 
-    return horarioHoje.horarios.some(horario => {
-      const [inicio, fim] = horario.split(" às ").map(h => {
-        const [hora, minuto] = h.split(":").map(Number);
-        return hora * 100 + (minuto || 0);
-      });
-      return horaAtual >= inicio && horaAtual <= fim;
-    });
+    // Encontra o horário de hoje
+    const horarioHoje = local.horariosFuncionamento.find(h => h.dia === diaHoje);
+
+    if (!horarioHoje || horarioHoje.horarios.length === 0) {
+      return false;
+    }
+
+    // Verifica cada par de horários (abertura/fechamento)
+    for (let i = 0; i < horarioHoje.horarios.length; i += 2) {
+      const [horaAbertura, minutoAbertura = "0"] = horarioHoje.horarios[i].split(":");
+      const [horaFechamento, minutoFechamento = "0"] = horarioHoje.horarios[i + 1].split(":");
+
+      const aberturaEmMinutos = parseInt(horaAbertura) * 60 + parseInt(minutoAbertura);
+      let fechamentoEmMinutos = parseInt(horaFechamento) * 60 + parseInt(minutoFechamento);
+
+      // Ajuste para horários após meia-noite
+      if (fechamentoEmMinutos < aberturaEmMinutos) {
+        fechamentoEmMinutos += 24 * 60; // Adiciona 24 horas em minutos
+      }
+
+      if (horaAtualEmMinutos >= aberturaEmMinutos && horaAtualEmMinutos <= fechamentoEmMinutos) {
+        return true;
+      }
+    }
+
+    return false;
   };
 
   return (
@@ -234,9 +256,10 @@ export default function LocalDetalhe() {
             Atualizado em {new Date(local.ultimaAtualizacao).toLocaleString('pt-BR', {
               day: '2-digit',
               month: '2-digit',
-              year: '2-digit',
+              year: 'numeric',
               hour: '2-digit',
-              minute: '2-digit'
+              minute: '2-digit',
+              hour12: false
             })}
             </Badge>
             </div>
@@ -250,9 +273,10 @@ export default function LocalDetalhe() {
             >
               <div>
                 {/* Cabeçalho */}
-                <div className="flex flex-col gap-2">
-                  <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{local.nome}</h1>
-                  </div>
+                <div className="flex flex-col gap-1">
+                  <h1 className="text-2xl font-bold text-white">{local.nome}</h1>
+                  <span className="text-cyan-500">{local.bairro}</span>
+                </div>
 
                 {/* Descrição */}
                 <div className="mt-6">
@@ -265,15 +289,17 @@ export default function LocalDetalhe() {
                     <div className="flex items-center gap-2 mb-4">
                       <Clock className="h-5 w-5 text-zinc-900 dark:text-white" />
                       <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Horários de funcionamento</h2>
-                    </div>
+                  </div>
                     <div className="space-y-2">
             {local.horariosFuncionamento.map((horario, index) => (
-              horario.horarios.length > 0 && (
-                          <div key={index} className="text-zinc-600 dark:text-zinc-300">
-                            <span>{horario.dia}: </span>
-                            <span>das {horario.horarios.join(" às ")}</span>
-                </div>
-              )
+              <div key={index} className="text-zinc-600 dark:text-zinc-300">
+                <span>{horario.dia}: </span>
+                <span>
+                  {horario.horarios.length > 0 
+                    ? `das ${horario.horarios.join(" às ")}` 
+                    : "Fechado"}
+                </span>
+              </div>
             ))}
                     </div>
                 </div>
