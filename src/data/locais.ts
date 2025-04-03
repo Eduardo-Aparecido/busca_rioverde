@@ -161,7 +161,7 @@ Seja para curtir um som, saborear um churrasco impecável ou brindar com um chop
       "Aceita Cartão",
       "Música ao Vivo"
     ],
-    latitude: -17.79386,
-    longitude: -50.94297
+    latitude: -17.76016,
+    longitude: -50.92811
   }
 ]; 
