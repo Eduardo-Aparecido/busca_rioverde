@@ -27,7 +27,7 @@ export function CardCinema({
 }: CardCinemaProps) {
   return (
     <Link to={`/filme/${id}`}>
-      <div className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors">
+      <div className="group bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors">
         {/* Imagem do Filme */}
         <div className="relative aspect-video overflow-hidden">
           <img

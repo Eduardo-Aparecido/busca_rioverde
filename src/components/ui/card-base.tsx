@@ -70,7 +70,7 @@ export function CardBase({
 }: CardBaseProps) {
   return (
     <Link to={link} className="group block h-full">
-      <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors h-full flex flex-col">
+      <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors h-full flex flex-col">
         {/* Container da imagem com overflow hidden */}
         <div className="relative aspect-[4/3] md:aspect-video overflow-hidden">
           <img
@@ -83,7 +83,7 @@ export function CardBase({
           {/* Badge de categoria (se fornecida) */}
           {categoria && (
             <div className="absolute top-2 left-2">
-              <Badge variant="secondary" className="bg-white/90 dark:bg-zinc-900/90 text-zinc-900 dark:text-white">
+              <Badge variant="secondary" className="bg-white/90 dark:bg-black/90 text-zinc-900 dark:text-white">
                 {categoria}
               </Badge>
             </div>

@@ -130,9 +130,9 @@ const OndeIr = () => {
   );
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
+    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900 pt-16 md:pt-0">
       {/* Header da página */}
-      <section className="py-12 md:py-16 bg-secondary/50 dark:bg-black">
+      <section className="py-12 md:py-16 bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -149,7 +149,7 @@ const OndeIr = () => {
       </section>
 
       {/* Lista de Locais */}
-      <section className="py-12 bg-secondary/50 dark:bg-black">
+      <section className="py-12 bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <Tabs defaultValue="Todos" onValueChange={setCategoriaAtiva}>
             <div className="overflow-x-auto pb-4 scrollbar-none">
@@ -170,7 +170,7 @@ const OndeIr = () => {
                       to={`/onde-ir/${local.id}`}
                       className="block h-full"
                     >
-                      <div className="group bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors">
+                      <div className="group bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors">
                         <div className="relative aspect-[4/3] overflow-hidden">
                           <img
                             src={local.imagem}
@@ -178,7 +178,7 @@ const OndeIr = () => {
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                           />
                           <div className="absolute top-2 left-2">
-                            <Badge variant="secondary" className="bg-white/90 text-black text-xs">
+                            <Badge variant="secondary" className="bg-white/90 dark:bg-black/90 text-zinc-900 dark:text-white">
                               {local.categoria}
                             </Badge>
                           </div>

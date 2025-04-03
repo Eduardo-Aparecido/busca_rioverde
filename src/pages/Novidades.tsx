@@ -123,9 +123,9 @@ const Novidades = () => {
   );
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
+    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900 pt-16 md:pt-0">
       {/* Header da página */}
-      <section className="py-12 md:py-16 bg-secondary/50 dark:bg-black">
+      <section className="py-12 md:py-16 bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -142,7 +142,7 @@ const Novidades = () => {
       </section>
 
       {/* Lista de Notícias */}
-      <section className="py-12 bg-secondary/50 dark:bg-black">
+      <section className="py-12 bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <Tabs defaultValue="Todos" onValueChange={setCategoriaAtiva}>
             <div className="overflow-x-auto pb-4 scrollbar-none">
