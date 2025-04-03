@@ -304,7 +304,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white md:bg-secondary/50 dark:bg-zinc-900 pt-16">
+    <div className="min-h-screen bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900 pt-16">
       {/* Stories */}
       <section className="-mt-[120px] md:mt-0 bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[80%] md:w-[60%] lg:w-[60%] xl:w-[60%] mx-auto">
