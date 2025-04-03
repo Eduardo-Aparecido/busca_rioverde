@@ -235,7 +235,7 @@ export default function LocalDetalhe() {
           <img
             src={local.banner}
             alt={local.nome}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-fill"
           />
         </div>
 

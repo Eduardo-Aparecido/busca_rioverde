@@ -52,10 +52,10 @@ const locais = [
   },
   {
     id: "3",
-    nome: "Buriti Shopping",
-    imagem: "/images/onde_ir/buriti_shopping/buriti_01.jpg",
-    endereco: "Av. Rio Verde, 1003 - Buritis II",
-    categoria: "Shoppings",
+    nome: "Stur Bier",
+    imagem: "/images/onde_ir/stur-bier/stur-banner.png",
+    endereco: "DIMPE",
+    categoria: "Música ao Vivo",
     avaliacao: 4.7,
   },
   {

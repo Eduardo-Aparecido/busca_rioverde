@@ -115,5 +115,53 @@ Seja para uma noite animada ou para saborear uma boa comida em um ambiente aconc
     ],
     latitude: -17.79386,
     longitude: -50.94297
+  },
+  {
+    id: "3",
+    nome: "Stur Bier",
+    descricao: `O Pub Perfeito para os Amantes de Rock, Churrasco, Chopp e Hmabúrgueres Artesanais!
+Se você busca um ambiente aconchegante, familiar e com personalidade, o Stur Bier é o seu lugar! Aqui, fugimos do óbvio e trazemos uma experiência única para quem curte o bom e velho Rock ‘n’ Roll, acompanhado do melhor churrasco defumado e de um chopp artesanal de qualidade.
+
+Rock na Veia – Nada de modinha! Aqui o som é clássico, autêntico e feito para quem tem alma roqueira.
+Churrasco Defumado de Verdade – Cortes suculentos preparados com técnica e paixão.
+Chopp Artesanal Gelado – Sabores únicos para acompanhar cada momento.
+Ambiente Aconchegante e Familiar – Curta bons momentos com quem você gosta.
+
+Seja para curtir um som, saborear um churrasco impecável ou brindar com um chopp artesanal gelado, o Stur Bier é o pub ideal para quem valoriza qualidade e atitude!
+
+📍 Venha viver essa experiência! `,
+    endereco: "R. Tobias do Restaurante QD 07 - LT 09 e 18",
+    bairro: "DIMPE",
+    telefone: "(64) 99266-7878",
+    website: "https://www.instagram.com/sturbier?igsh=Zjh5ZDJva2JtaTEx",
+    horariosFuncionamento: [
+      { dia: "Segunda", horarios: [] },
+      { dia: "Terça", horarios: [] },
+      { dia: "Quarta", horarios: [] },
+      { dia: "Quinta", horarios: [] },
+      { dia: "Sexta", horarios: ["19:00"] },
+      { dia: "Sábado", horarios: ["19:00"] },
+      { dia: "Domingo", horarios: [] }
+    ],
+    ultimaAtualizacao: "2025-04-02T12:23:28",
+    avaliacao: 4.7,
+    avaliacoes: 256,
+    banner: "/images/onde_ir/stur-bier/stur-banner.png",
+    logo: "/images/onde_ir/stur-bier/stur-logo.png",
+    galeria: [
+      "/images/onde_ir/stur-bier/stur1.jpeg",
+      "/images/onde_ir/stur-bier/stur2.jpeg",
+      "/images/onde_ir/stur-bier/stur3.jpeg",
+      "/images/onde_ir/stur-bier/stur4.jpeg",
+      "/images/onde_ir/stur-bier/stur5.jpeg",
+      "/images/onde_ir/stur-bier/stur6.jpeg"
+    ],
+    comodidades: [
+      "Wi-Fi Grátis",
+      "Aceita Cartão",
+      "Música ao Vivo"
+    ],
+    latitude: -17.79386,
+    longitude: -50.94297
   }
 ]; 
