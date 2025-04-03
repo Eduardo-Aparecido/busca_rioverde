@@ -228,7 +228,7 @@ export default function LocalDetalhe() {
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
       <div className="fixed inset-0 bg-black -z-10" />
-      <div className="w-full px-0 sm:px-4 sm:w-[80%] md:w-[60%] lg:w-[60%] xl:w-[80%] 2xl:w-[70%] mx-auto py-8">
+      <div className="w-full px-0 sm:px-4 sm:w-[90%] md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[50%] mx-auto px-4 py-8">
         <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Banner */}
           <div className="w-full h-[400px] overflow-hidden">
