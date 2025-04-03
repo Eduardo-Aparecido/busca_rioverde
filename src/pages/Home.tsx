@@ -313,7 +313,7 @@ const Home = () => {
       </section>
 
       {/* Eventos em Destaque */}
-      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[60%] lg:w-[60%] xl:w-[60%] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -339,7 +339,7 @@ const Home = () => {
       </section>
 
       {/* Últimas Notícias */}
-      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -365,7 +365,7 @@ const Home = () => {
       </section>
 
       {/* Classificados */}
-      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -403,7 +403,7 @@ const Home = () => {
       </section>
 
       {/* Serviços */}
-      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -442,7 +442,7 @@ const Home = () => {
       </section>
 
       {/* Menu de Navegação */}
-      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <Link to="/cinema" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">

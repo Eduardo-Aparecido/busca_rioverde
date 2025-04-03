@@ -8,7 +8,7 @@ export function Story({ titulo, imagem }: StoryProps) {
     <div className="flex flex-col items-center gap-2">
       <div className="relative w-20 h-20 rounded-full overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-500 p-[2px] rounded-full">
-          <div className="w-full h-full bg-white dark:bg-zinc-900 rounded-full p-[2px]">
+          <div className="w-full h-full bg-secondary/50 dark:bg-zinc-900 rounded-full p-[2px]">
             <img
               src={imagem}
               alt={titulo}
