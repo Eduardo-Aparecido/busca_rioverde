@@ -231,10 +231,10 @@ const EventoDetalhe = () => {
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
-      <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[60%] xl:w-[70%] 2xl:w-[55%] mx-auto px-4 py-8">
-        <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
+      <div className="w-full px-0 sm:w-[90%] md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[50%] mx-auto py-8">
+      <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Banner */}
-          <div className="w-full h-[400px] overflow-hidden">
+          <div className="w-full h-[250px] sm:h-[400px] overflow-hidden">
             <img
               src={evento.imagem}
               alt={evento.titulo}
