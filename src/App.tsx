@@ -59,7 +59,7 @@ const queryClient = new QueryClient();
  * - /novidades: Notícias e atualizações
  * - /eventos: Lista de eventos
  * - /onde-ir: Sugestões de lugares
- * - /evento/:id: Detalhes de um evento específico
+ * - /eventos/:id: Detalhes de um evento específico
  * - /filme/:id: Detalhes de um filme
  * - /novidade/:id: Detalhes de uma notícia
  * - /onde-ir/:id: Detalhes de um estabelecimento
@@ -91,7 +91,7 @@ const App = () => {
                   <Route path="/servicos" element={<Servicos />} />
                   
                   {/* Rotas de detalhes */}
-                  <Route path="/evento/:id" element={<EventoDetalhe />} />
+                  <Route path="/eventos/:id" element={<EventoDetalhe />} />
                   <Route path="/filme/:id" element={<FilmeDetalhe />} />
                   <Route path="/novidade/:id" element={<NoticiaDetalhe />} />
                   <Route path="/onde-ir/:id" element={<LocalDetalhe />} />

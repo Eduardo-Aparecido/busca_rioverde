@@ -314,7 +314,7 @@ const Home = () => {
 
       {/* Eventos em Destaque */}
       <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
-        <div className="w-[95%] sm:w-[85%] md:w-[60%] lg:w-[60%] xl:w-[60%] mx-auto px-4">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
               titulo="Eventos em Destaque" 
@@ -340,7 +340,7 @@ const Home = () => {
 
       {/* Últimas Notícias */}
       <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
-        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
               titulo="Últimas Notícias" 
@@ -366,7 +366,7 @@ const Home = () => {
 
       {/* Classificados */}
       <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
-        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
               titulo="Classificados" 
@@ -404,7 +404,7 @@ const Home = () => {
 
       {/* Serviços */}
       <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
-        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
               titulo="Serviços" 
@@ -443,7 +443,7 @@ const Home = () => {
 
       {/* Menu de Navegação */}
       <section className="py-12 bg-white md:bg-secondary/50 dark:bg-black">
-        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <Link to="/cinema" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <Theater className="h-6 w-6 text-primary mb-2" />

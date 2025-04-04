@@ -200,14 +200,21 @@ export default function LocalDetalhe() {
     // Encontra o horário de hoje
     const horarioHoje = local.horariosFuncionamento.find(h => h.dia === diaHoje);
 
-    if (!horarioHoje || horarioHoje.horarios.length === 0) {
+    // Se não houver horário para hoje ou se os horários estiverem vazios, está fechado
+    if (!horarioHoje || !horarioHoje.horarios || horarioHoje.horarios.length === 0) {
       return false;
     }
 
     // Verifica cada par de horários (abertura/fechamento)
     for (let i = 0; i < horarioHoje.horarios.length; i += 2) {
-      const [horaAbertura, minutoAbertura = "0"] = horarioHoje.horarios[i].split(":");
-      const [horaFechamento, minutoFechamento = "0"] = horarioHoje.horarios[i + 1].split(":");
+      const horarioAbertura = horarioHoje.horarios[i];
+      const horarioFechamento = horarioHoje.horarios[i + 1];
+
+      // Se não houver horário de abertura ou fechamento, continua para o próximo par
+      if (!horarioAbertura || !horarioFechamento) continue;
+
+      const [horaAbertura, minutoAbertura = "0"] = horarioAbertura.split(":");
+      const [horaFechamento, minutoFechamento = "0"] = horarioFechamento.split(":");
 
       const aberturaEmMinutos = parseInt(horaAbertura) * 60 + parseInt(minutoAbertura);
       let fechamentoEmMinutos = parseInt(horaFechamento) * 60 + parseInt(minutoFechamento);
