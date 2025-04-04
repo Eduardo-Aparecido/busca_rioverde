@@ -11,8 +11,6 @@ export interface Local {
     horarios: string[];
   }[];
   ultimaAtualizacao: string;
-  avaliacao: number;
-  avaliacoes: number;
   banner: string;
   logo: string;
   galeria: string[];
@@ -43,8 +41,6 @@ Se você deseja realizar um evento inesquecível, o Finnegans Gastronomia també
       { dia: "Domingo", horarios: ["17:00", "00:00"] }
     ],
     ultimaAtualizacao: "2025-04-02T14:30:00", // Formato: YYYY-MM-DDThh:mm:ss (exemplo: 2025-04-02T14:30:00)
-    avaliacao: 4.5,
-    avaliacoes: 128,
     banner: "/images/onde_ir/finnegans/finnegans_02.png",
     logo: "/images/onde_ir/finnegans/finnegans_logo.png",
     galeria: [
@@ -97,8 +93,6 @@ Seja para uma noite animada ou para saborear uma boa comida em um ambiente aconc
       { dia: "Domingo", horarios: [] }
     ],
     ultimaAtualizacao: "2025-04-02T12:00:00",
-    avaliacao: 4.7,
-    avaliacoes: 256,
     banner: "/images/onde_ir/boteco-do-pao/botecodopao2.jpg",
     logo: "/images/onde_ir/boteco-do-pao/botecodo-logo.jpg",
     galeria: [
@@ -144,8 +138,6 @@ Seja para curtir um som, saborear um churrasco impecável ou brindar com um chop
       { dia: "Domingo", horarios: [] }
     ],
     ultimaAtualizacao: "2025-04-02T12:23:28",
-    avaliacao: 4.7,
-    avaliacoes: 256,
     banner: "/images/onde_ir/stur-bier/stur-banner.png",
     logo: "/images/onde_ir/stur-bier/stur-logo.png",
     galeria: [

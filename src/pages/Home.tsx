@@ -95,8 +95,8 @@ const storiesDestaque: Story[] = [
     link: "/onde-ir?categoria=restaurantes",
     conteudo: [
       {
-        tipo: "imagem" as const,
-        url: "/images/onde_ir/finnegans/finnegans_07.png",
+      tipo: "imagem" as const,
+      url: "/images/onde_ir/finnegans/finnegans_07.png",
         duracao: 5,
         descricao: "Conheça o Finnegans!"
       },
@@ -274,7 +274,7 @@ const servicos = [
 /**
  * Página Home
  * 
- * Página inicial do Busca Rio Verde
+ * Página inicial do Routis
  * Apresenta as principais seções e conteúdos do site
  * 
  * Características:
@@ -383,19 +383,19 @@ const Home = () => {
           <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
             {classificados && classificados.map((classificado) => (
               <div key={classificado.id} className="snap-start shrink-0 w-[48%] md:w-auto">
-                <CardBase
-                  id={classificado.id}
-                  titulo={classificado.titulo}
-                  imagem={classificado.imagem}
+              <CardBase
+                id={classificado.id}
+                titulo={classificado.titulo}
+                imagem={classificado.imagem}
                   link={`/classificado/${classificado.id}`}
-                >
-                  <div className="flex flex-col flex-grow">
+              >
+                <div className="flex flex-col flex-grow">
                     <p className="text-sm text-zinc-900 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{classificado.descricao}</p>
-                    <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
-                      <p className="text-base font-semibold text-primary">{classificado.preco}</p>
-                    </div>
+                  <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                    <p className="text-base font-semibold text-primary">{classificado.preco}</p>
                   </div>
-                </CardBase>
+                </div>
+              </CardBase>
               </div>
             ))}
           </div>
@@ -421,20 +421,20 @@ const Home = () => {
           <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
             {servicos && servicos.map((servico) => (
               <div key={servico.id} className="snap-start shrink-0 w-[48%] md:w-auto">
-                <CardBase
-                  id={servico.id}
-                  titulo={servico.titulo}
-                  imagem={servico.imagem}
-                  link={`/servico/${servico.id}`}
-                  categoria={servico.categoria}
-                >
-                  <div className="flex flex-col flex-grow">
+              <CardBase
+                id={servico.id}
+                titulo={servico.titulo}
+                imagem={servico.imagem}
+                link={`/servico/${servico.id}`}
+                categoria={servico.categoria}
+              >
+                <div className="flex flex-col flex-grow">
                     <p className="text-sm text-zinc-900 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{servico.descricao}</p>
-                    <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
-                      <p className="text-sm font-medium text-primary">{servico.prestador.nome}</p>
-                    </div>
+                  <div className="mt-auto pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                    <p className="text-sm font-medium text-primary">{servico.prestador.nome}</p>
                   </div>
-                </CardBase>
+                </div>
+              </CardBase>
               </div>
             ))}
           </div>

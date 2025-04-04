@@ -74,8 +74,8 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 hidden md:block ${
           isScrolled
-            ? "bg-white dark:bg-background/80 backdrop-blur-md shadow-sm"
-            : "bg-white dark:bg-transparent"
+            ? "bg-white dark:bg-black backdrop-blur-md shadow-sm"
+            : "bg-white dark:bg-black"
         }`}
       >
         <div className="container mx-auto px-4 py-3">
@@ -83,9 +83,18 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
             {/* Logo */}
             <Link
               to="/"
-              className="text-2xl font-display font-bold text-foreground"
+              className="flex items-center pl-16"
             >
-              <span className="text-accent">Busca</span>RioVerde
+              <img 
+                src="/images/logomarca/logomarca-preto.jpg"
+                alt="Routis"
+                className="h-12 w-auto hidden dark:block"
+              />
+              <img 
+                src="/images/logomarca/logomarca.jpg"
+                alt="Routis"
+                className="h-12 w-auto block dark:hidden"
+              />
             </Link>
 
             {/* Navegação Desktop */}
@@ -157,9 +166,18 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
             {/* Logo Mobile */}
             <Link
               to="/"
-              className="text-lg font-display font-bold text-foreground"
+              className="flex items-center pl-2"
             >
-              <span className="text-accent">Busca</span>RioVerde
+              <img 
+                src="/images/logomarca/logomarca.jpg"
+                alt="Routis"
+                className="h-10 w-auto hidden dark:block"
+              />
+              <img 
+                src="/images/logomarca/logomarca-preto.jpg"
+                alt="Routis"
+                className="h-10 w-auto block dark:hidden"
+              />
             </Link>
 
             {/* Botões de Ação Mobile */}

@@ -1,10 +1,10 @@
-# Buscar Rio Verde
+# Routis
 
 Um site de busca e informações sobre a cidade de Rio Verde - GO.
 
 ## 🚀 Sobre o Projeto
 
-O Buscar Rio Verde é uma plataforma web desenvolvida para facilitar a busca por informações, serviços e estabelecimentos na cidade de Rio Verde, Goiás. O projeto visa conectar moradores e visitantes aos recursos e serviços disponíveis na cidade.
+O Routis é uma plataforma web desenvolvida para facilitar a busca por informações, serviços e estabelecimentos na cidade de Rio Verde, Goiás. O projeto visa conectar moradores e visitantes aos recursos e serviços disponíveis na cidade.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -50,7 +50,6 @@ npm run dev
 
 ## 🌐 Deploy
 
-O projeto está disponível em: [buscarvd.free.nf](http://buscarvd.free.nf)
 
 ## 📄 Licença
 

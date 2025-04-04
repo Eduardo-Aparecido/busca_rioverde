@@ -41,7 +41,7 @@ const Footer = () => {
           */}
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="text-2xl font-display font-bold text-foreground">
-              <span className="text-accent">Busca</span>RioVerde
+              <span className="text-accent">Rou</span>tis
             </Link>
             <p className="mt-4 text-muted-foreground">
               Descubra os melhores eventos e atrações em Rio Verde e região.
@@ -150,7 +150,7 @@ const Footer = () => {
           - Separador superior
         */}
         <div className="border-t border-border/40 mt-12 pt-8 text-center text-muted-foreground text-sm">
-          <p>O Busca Rio Verde atua apenas como um meio de divulgação e não se responsabiliza pelos eventos, estabelecimentos, notícias e programação de cinema publicados. Os horários, preços e atrações estão sujeitos a alterações pelos organizadores sem aviso prévio.</p>
+          <p>O Routis atua apenas como um meio de divulgação e não se responsabiliza pelos eventos, estabelecimentos, notícias e programação de cinema publicados. Os horários, preços e atrações estão sujeitos a alterações pelos organizadores sem aviso prévio.</p>
         </div>
 
         {/* 
@@ -159,7 +159,7 @@ const Footer = () => {
           - Separador superior
         */}
         <div className="border-t border-border/40 mt-12 pt-8 text-center text-muted-foreground text-sm">
-          <p>© {currentYear} Busca Rio Verde. Todos os direitos reservados.</p>
+          <p>© {currentYear} Routis. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

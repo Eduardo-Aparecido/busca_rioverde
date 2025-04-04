@@ -36,7 +36,7 @@ export function MobileMenu({ isOpen, onClose, children }: MobileMenuProps) {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/10">
           <Link to="/" className="text-xl font-semibold text-primary">
-            BuscaRioVerde
+          Routis
           </Link>
           <button 
             onClick={onClose}
