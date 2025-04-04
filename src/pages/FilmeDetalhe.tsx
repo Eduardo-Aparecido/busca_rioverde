@@ -721,9 +721,9 @@ export default function FilmeDetalhe() {
           </div>
 
           <div className="px-4 sm:px-6 md:px-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mt-6">{filme.titulo}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mt-6">{filme?.titulo}</h1>
             <div className="flex flex-wrap gap-2 mt-2">
-              {filme.genero.split(",").map((genero, index) => (
+              {filme?.genero?.split(",").map((genero, index) => (
                 <span key={index} className="text-cyan-600 dark:text-cyan-500">
                   {genero.trim()}
                 </span>

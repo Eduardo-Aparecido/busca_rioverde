@@ -133,8 +133,8 @@ Seja para curtir um som, saborear um churrasco impecável ou brindar com um chop
       { dia: "Terça", horarios: [] },
       { dia: "Quarta", horarios: [] },
       { dia: "Quinta", horarios: [] },
-      { dia: "Sexta", horarios: ["19:00"] },
-      { dia: "Sábado", horarios: ["19:00"] },
+      { dia: "Sexta", horarios: ["19:00", "01:00"] },
+      { dia: "Sábado", horarios: ["19:00", "01:00"] },
       { dia: "Domingo", horarios: [] }
     ],
     ultimaAtualizacao: "2025-04-02T12:23:28",

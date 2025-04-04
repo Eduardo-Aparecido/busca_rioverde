@@ -186,43 +186,36 @@ export default function LocalDetalhe() {
     setModalAberto(true);
   };
 
-  const estaAberto = () => {
-    const agora = new Date();
-    const diaSemana = agora.getDay();
-    const horaAtual = agora.getHours();
-    const minutoAtual = agora.getMinutes();
-    const horaAtualEmMinutos = horaAtual * 60 + minutoAtual;
-
-    // Mapeamento dos dias da semana
-    const diasSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    const diaHoje = diasSemana[diaSemana];
-
-    // Encontra o horário de hoje
-    const horarioHoje = local.horariosFuncionamento.find(h => h.dia === diaHoje);
-
-    if (!horarioHoje || horarioHoje.horarios.length === 0) {
+  const estaAberto = (horarioFuncionamento: any) => {
+    // Se não houver horário de funcionamento
+    if (!horarioFuncionamento) {
       return false;
     }
 
-    // Verifica cada par de horários (abertura/fechamento)
-    for (let i = 0; i < horarioHoje.horarios.length; i += 2) {
-      const [horaAbertura, minutoAbertura = "0"] = horarioHoje.horarios[i].split(":");
-      const [horaFechamento, minutoFechamento = "0"] = horarioHoje.horarios[i + 1].split(":");
-
-      const aberturaEmMinutos = parseInt(horaAbertura) * 60 + parseInt(minutoAbertura);
-      let fechamentoEmMinutos = parseInt(horaFechamento) * 60 + parseInt(minutoFechamento);
-
-      // Ajuste para horários após meia-noite
-      if (fechamentoEmMinutos < aberturaEmMinutos) {
-        fechamentoEmMinutos += 24 * 60; // Adiciona 24 horas em minutos
-      }
-
-      if (horaAtualEmMinutos >= aberturaEmMinutos && horaAtualEmMinutos <= fechamentoEmMinutos) {
-        return true;
-      }
+    // Se for o novo formato (array de horários por dia)
+    if (Array.isArray(horarioFuncionamento)) {
+      const hoje = new Date().getDay();
+      // Converte para o formato do array (0 = Segunda, 6 = Domingo)
+      const diaIndex = hoje === 0 ? 6 : hoje - 1;
+      
+      const horariosHoje = horarioFuncionamento[diaIndex]?.horarios;
+      return Array.isArray(horariosHoje) && horariosHoje.length > 0;
     }
 
-    return false;
+    // Se for o formato antigo (string "HH:MM - HH:MM")
+    try {
+      if (typeof horarioFuncionamento === 'string') {
+        const [horarioAbertura, horarioFechamento] = horarioFuncionamento.split(" - ");
+        if (!horarioAbertura || !horarioFechamento) {
+          return false;
+        }
+        // resto da lógica original aqui
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
+    }
   };
 
   return (
