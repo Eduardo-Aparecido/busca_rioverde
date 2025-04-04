@@ -86,15 +86,16 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
               className="flex items-center pl-16"
             >
               <img 
-                src="/images/logomarca/logomarca-preto.jpg"
-                alt="Routis"
-                className="h-12 w-auto hidden dark:block"
-              />
-              <img 
                 src="/images/logomarca/logomarca.jpg"
                 alt="Routis"
                 className="h-12 w-auto block dark:hidden"
               />
+              <img 
+                src="/images/logomarca/logomarca-preto.jpg"
+                alt="Routis"
+                className="h-12 w-auto hidden dark:block"
+              />
+
             </Link>
 
             {/* Navegação Desktop */}
@@ -160,7 +161,7 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
         - Apenas logo e botões de ação
         - Visível apenas em telas mobile
       */}
-      <header className="fixed top-0 left-0 right-0 z-[100] bg-white/100 dark:bg-background/100 border-b border-border md:hidden">
+      <header className="fixed top-0 left-0 right-0 z-[100] bg-white/100 dark:bg-black border-b border-border md:hidden">
         <div className="container mx-auto">
           <div className="flex items-center justify-between py-3 px-4">
             {/* Logo Mobile */}
@@ -171,12 +172,12 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
               <img 
                 src="/images/logomarca/logomarca.jpg"
                 alt="Routis"
-                className="h-10 w-auto hidden dark:block"
+                className="h-10 w-auto block dark:hidden"
               />
               <img 
                 src="/images/logomarca/logomarca-preto.jpg"
                 alt="Routis"
-                className="h-10 w-auto block dark:hidden"
+                className="h-10 w-auto hidden dark:block"
               />
             </Link>
 
