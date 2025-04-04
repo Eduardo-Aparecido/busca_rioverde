@@ -307,7 +307,7 @@ const Home = () => {
     <div className="min-h-screen bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900 pt-16">
       {/* Stories */}
       <section className="-mt-[120px] md:mt-0 bg-secondary/50 dark:bg-zinc-900">
-        <div className="w-[95%] sm:w-[80%] md:w-[60%] lg:w-[60%] xl:w-[60%] mx-auto">
+        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto">
           <StoriesContainer stories={storiesDestaque} onStoryClick={handleOpenStory} />
         </div>
       </section>
@@ -461,7 +461,7 @@ const Home = () => {
               <MapPin className="h-6 w-6 text-primary mb-2" />
               <span className="text-sm font-medium text-zinc-900 dark:text-white">Onde Ir</span>
             </Link>
-            <Link to="/classificado" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+            <Link to="/classificados" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
               <Tag className="h-6 w-6 text-primary mb-2" />
               <span className="text-sm font-medium text-zinc-900 dark:text-white">Classificados</span>
             </Link>

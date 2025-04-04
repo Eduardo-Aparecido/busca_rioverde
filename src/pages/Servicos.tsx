@@ -115,8 +115,8 @@ const Servicos = () => {
   );
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900 pt-16">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
+    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900 pt-0">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4 py-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

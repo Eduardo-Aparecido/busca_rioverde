@@ -118,129 +118,128 @@ const ServicoDetalhe = () => {
       <div className="fixed inset-0 bg-black -z-10" />
       <div className="w-full px-0 sm:w-[90%] md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[50%] mx-auto py-8">
         <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
-          {/* Conteúdo principal */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-4">
-            {/* Coluna da esquerda - Imagem e detalhes */}
-            <div className="lg:col-span-2 space-y-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                {/* Imagem */}
-                <div className="aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900">
-                  <img
-                    src={servico.imagem}
-                    alt={servico.titulo}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+          {/* Conteúdo Principal */}
+          <div className="p-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Coluna da Esquerda - Imagens e Informações */}
+              <div className="lg:col-span-2 space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {/* Imagem Principal */}
+                  <div className="aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                    <img
+                      src={servico.imagem}
+                      alt={servico.titulo}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
 
-                {/* Título e avaliação */}
-                <div className="mt-6 px-8">
-                  <h1 className="text-2xl font-bold text-zinc-900 dark:text-white break-words">
-                    {servico.titulo}
-                  </h1>
-                </div>
-
-                {/* Preço */}
-                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-500 mt-4 break-words px-8">
-                  {servico.preco}
-                </div>
-
-                {/* Descrição */}
-                <div className="mt-6 px-8">
-                  <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
-                    Sobre o serviço
-                  </h2>
-                  <p className="text-zinc-600 dark:text-zinc-400 whitespace-pre-line break-words">
-                    {servico.descricao}
-                  </p>
-                </div>
-
-                {/* Lista de serviços */}
-                <div className="mt-6 px-8">
-                  <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
-                    Serviços oferecidos
-                  </h2>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {servico.servicos.map((item, index) => (
-                      <li
-                        key={index}
-                        className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
-                      >
-                        <div className="h-1.5 w-1.5 rounded-full bg-cyan-500 mt-2 flex-shrink-0" />
-                        <span className="break-words">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-
-              {/* Galeria de Imagens */}
-              <section className="mt-12 px-8">
-                <ImageGallery 
-                  images={servico.galeriaFotos}
-                  title="Galeria de Imagens"
-                />
-              </section>
-            </div>
-
-            {/* Coluna da direita - Informações de contato */}
-            <div className="lg:col-span-1 px-8">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-8 sticky top-24">
-                  <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-6">
-                    Informações de contato
-                  </h2>
-
-                  <div className="space-y-4">
-                    {/* Nome */}
-                    <div className="text-sm">
-                      <span className="text-zinc-600 dark:text-zinc-400">
-                        Profissional:
-                      </span>
-                      <div className="font-medium text-zinc-900 dark:text-white mt-1 break-words">
-                        {servico.contato.nome}
-                      </div>
-                    </div>
-
-                    {/* Telefone */}
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start gap-2 break-all text-zinc-900 dark:text-white"
-                      asChild
-                    >
-                      <a href={`tel:${servico.contato.telefone}`}>
-                        <Phone className="h-4 w-4 flex-shrink-0" />
-                        <span className="truncate">{servico.contato.telefone}</span>
-                      </a>
-                    </Button>
-
-                    {/* Email */}
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start gap-2 break-all text-zinc-900 dark:text-white"
-                      asChild
-                    >
-                      <a href={`mailto:${servico.contato.email}`}>
-                        <Mail className="h-4 w-4 flex-shrink-0" />
-                        <span className="truncate">{servico.contato.email}</span>
-                      </a>
-                    </Button>
-
-                    {/* Endereço */}
-                    <div className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
-                      <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                      <span className="break-words">{servico.contato.endereco}</span>
+                  {/* Título e Preço */}
+                  <div className="mt-6">
+                    <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+                      {servico.titulo}
+                    </h1>
+                    <div className="text-3xl font-bold text-primary mt-2">
+                      {servico.preco}
                     </div>
                   </div>
-                </div>
-              </motion.div>
+
+                  {/* Avaliação */}
+                  <div className="flex items-center gap-2 mt-4">
+                    <div className="flex items-center">
+                      <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                      <span className="ml-1 font-medium">{servico.avaliacao}</span>
+                    </div>
+                    <span className="text-sm text-zinc-500">({servico.avaliacoes} avaliações)</span>
+                  </div>
+
+                  {/* Descrição */}
+                  <div className="mt-6">
+                    <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
+                      Sobre o serviço
+                    </h2>
+                    <p className="text-zinc-600 dark:text-zinc-400 whitespace-pre-line">
+                      {servico.descricao}
+                    </p>
+                  </div>
+
+                  {/* Lista de serviços */}
+                  <div className="mt-6">
+                    <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-4">
+                      Serviços oferecidos
+                    </h2>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {servico.servicos.map((item, index) => (
+                        <li
+                          key={index}
+                          className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
+                        >
+                          <div className="h-1.5 w-1.5 rounded-full bg-cyan-500 mt-2 flex-shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+
+                {/* Galeria de Imagens */}
+                <section className="mt-12">
+                  <ImageGallery 
+                    images={servico.galeriaFotos}
+                    title="Galeria de Imagens"
+                  />
+                </section>
+              </div>
+
+              {/* Coluna da Direita - Informações de Contato */}
+              <div className="lg:col-span-1">
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 sticky top-24">
+                    <h2 className="text-lg font-medium text-zinc-900 dark:text-white mb-6">
+                      Informações de contato
+                    </h2>
+                    <div className="space-y-4">
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                        Profissional:
+                      </p>
+                      <p className="font-medium text-zinc-900 dark:text-white">
+                        {servico.contato.nome}
+                      </p>
+
+                      {/* Telefone */}
+                      <div className="flex items-center gap-2">
+                        <Phone className="h-4 w-4 text-primary" />
+                        <span className="text-zinc-600 dark:text-zinc-400">
+                          {servico.contato.telefone}
+                        </span>
+                      </div>
+
+                      {/* Email */}
+                      <div className="flex items-center gap-2">
+                        <Mail className="h-4 w-4 text-primary" />
+                        <span className="text-zinc-600 dark:text-zinc-400">
+                          {servico.contato.email}
+                        </span>
+                      </div>
+
+                      {/* Endereço */}
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-primary" />
+                        <span className="text-zinc-600 dark:text-zinc-400">
+                          {servico.contato.endereco}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>
