@@ -115,6 +115,29 @@ const eventos = [
     latitude: -17.79942422405687,
     longitude: -50.93200656856998,
     endereco: "Rua Costa Gomes, 855, CENTRO, Jardim Goias"
+  },
+  {
+    id: "4",
+    titulo: "Galpão da Ultra Pub",
+    imagem: "/images/eventos/galpao_ultra/galpaoultra.png",
+    galeria: [
+      "/images/eventos/galpao_ultra/galpaoultra1.jpg",
+      "/images/eventos/galpao_ultra/galpaoultra2.jpg",
+      "/images/eventos/galpao_ultra/galpaoultra3.jpeg",
+      "/images/eventos/galpao_ultra/galpaoultra4.jpeg",
+      "/images/eventos/galpao_ultra/galpaoultra5.jpg"
+    ],
+    data: "26 Abr 2025",
+    hora: "22:00",
+    local: "Rua Rafael Nascimento, 417 - Centro",
+    categoria: "Música",
+    descricao: "O Café com Deus é mais do que um encontro, é um momento de renovação para mulheres que desejam se conectar profundamente com Deus ,em um ambiente acolhedor e inspirador. Compartilhamos da palavra, testemunhos, reflexões e louvores. Cada detalhe é pensado para fortalecer a fé, restaurar corações e reafirmar a identidade em Cristo. Mais do que um evento, é um chamado para mulheres que querem viver seu propósito com coragem, leveza e plenitude.",
+    ingressos: " ",
+    avaliacao: 4.8,
+    latitude: -17.79838,
+    longitude: -50.93026,
+    endereco: "Rua Rafael Nascimento, 417 - Centro"
+
   }
 ];
 

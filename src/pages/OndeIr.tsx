@@ -60,27 +60,11 @@ const locais = [
   },
   {
     id: "4",
-    nome: "Bar do Zé",
-    imagem: "/images/onde_ir/bar_ze/bar_01.jpg",
-    endereco: "Rua das Flores, 789 - Vila Nova",
-    categoria: "Bares",
-    avaliacao: 4.6,
-  },
-  {
-    id: "5",
-    nome: "Bistrô Gourmet",
-    imagem: "/images/onde_ir/bistro/bistro_01.jpg",
-    endereco: "Rua das Artes, 789, Jardim Goiás",
-    categoria: "Restaurantes",
-    avaliacao: 4.9,
-  },
-  {
-    id: "6",
-    nome: "Casa de Shows",
-    imagem: "/images/onde_ir/casa_shows/casa_01.jpg",
-    endereco: "Av. da Música, 321 - Centro",
+    nome: "Galpão da Ultra",
+    imagem: "/images/eventos/galpao_ultra/galpaoultra.png",
+    endereco: "Rua Rafael Nascimento, 417 - Centro",
     categoria: "Música ao Vivo",
-    avaliacao: 4.8,
+    avaliacao: 4.7,
   }
 ];
 

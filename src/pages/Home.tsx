@@ -144,7 +144,7 @@ const eventosDestaque = [
     hora: "20:00",
     local: "The Haus Coffee&Beer",
     categoria: "Comédia Stand-Up",
-    patrocinado: true
+    patrocinado: false
   },
   {
     id: "2",
@@ -163,7 +163,17 @@ const eventosDestaque = [
     hora: "10:00",
     local: "Jardim Goias",
     categoria: "Espiritualidade",
-    patrocinado: true
+    patrocinado: false
+  },
+  {
+    id: "4",
+    titulo: "Galpão da Ultra Pub",
+    imagem: "/images/eventos/galpao_ultra/galpaoultra.png",
+    data: "26 Abr 2025",
+    hora: "22:00",
+    local: "Centro",
+    categoria: "Musica",
+    patrocinado: false
   }
 ];
 

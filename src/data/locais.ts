@@ -155,5 +155,50 @@ Seja para curtir um som, saborear um churrasco impecável ou brindar com um chop
     ],
     latitude: -17.76016,
     longitude: -50.92811
+  },
+  {
+    id: "4",
+    nome: "Galpão da Ultra",
+    descricao: `O Pub Perfeito para os Amantes de Rock, Churrasco, Chopp e Hmabúrgueres Artesanais!
+Se você busca um ambiente aconchegante, familiar e com personalidade, o Stur Bier é o seu lugar! Aqui, fugimos do óbvio e trazemos uma experiência única para quem curte o bom e velho Rock ‘n’ Roll, acompanhado do melhor churrasco defumado e de um chopp artesanal de qualidade.
+
+Rock na Veia – Nada de modinha! Aqui o som é clássico, autêntico e feito para quem tem alma roqueira.
+Churrasco Defumado de Verdade – Cortes suculentos preparados com técnica e paixão.
+Chopp Artesanal Gelado – Sabores únicos para acompanhar cada momento.
+Ambiente Aconchegante e Familiar – Curta bons momentos com quem você gosta.
+
+Seja para curtir um som, saborear um churrasco impecável ou brindar com um chopp artesanal gelado, o Stur Bier é o pub ideal para quem valoriza qualidade e atitude!
+
+📍 Venha viver essa experiência! `,
+    endereco: "R. Rafael Nascimento, 417 - Centro",
+    bairro: "Centro",
+    telefone: "(64) 992154438",
+    website: "https://www.instagram.com/galpaodaultra?igsh=aGc1YWttbmhnZ3Fu",
+    horariosFuncionamento: [
+      { dia: "Segunda", horarios: ["08:00"] },
+      { dia: "Terça", horarios: ["08:00"] },
+      { dia: "Quarta", horarios: ["08:00"] },
+      { dia: "Quinta", horarios: ["08:00"] },
+      { dia: "Sexta", horarios: ["08:00"] },
+      { dia: "Sábado", horarios: ["08:00"] },
+      { dia: "Domingo", horarios: ["08:00"] }
+    ],
+    ultimaAtualizacao: "2025-04-02T12:23:28",
+    banner: "/images/eventos/galpao_ultra/galpaoultra.png",
+    logo: "/images/onde_ir/galpao_ultra/galpaoultra.png",
+    galeria: [
+      "/images/eventos/galpao_ultra/galpaoultra1.jpg",
+      "/images/eventos/galpao_ultra/galpaoultra2.jpg",
+      "/images/eventos/galpao_ultra/galpaoultra3.jpeg",
+      "/images/eventos/galpao_ultra/galpaoultra4.jpeg",
+      "/images/eventos/galpao_ultra/galpaoultra5.jpg"
+    ],
+    comodidades: [
+      "Wi-Fi Grátis",
+      "Aceita Cartão",
+      "Música ao Vivo"
+    ],
+    latitude: -17.79838,
+    longitude: -50.93026
   }
 ]; 
