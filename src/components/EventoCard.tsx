@@ -94,7 +94,7 @@ export function EventoCard({
   const badgeText = dataHoraISO ? formatEventBadge(dataHoraISO, duracao) : '';
 
   return (
-    <Link to={`/evento/${id}`}>
+    <Link to={`/eventos/${id}`}>
       <div className="group bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:border-red-500 dark:hover:border-red-500 transition-colors">
         {/* Imagem do Evento */}
         <div className="relative aspect-video overflow-hidden">
