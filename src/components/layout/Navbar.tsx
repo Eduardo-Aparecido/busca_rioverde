@@ -86,16 +86,10 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
               className="flex items-center pl-16"
             >
               <img 
-                src="/images/logomarca/logomarca.jpg"
+                src="/images/logomarca/logomarca.png"
                 alt="Routis"
-                className="h-12 w-auto block dark:hidden"
+                className="h-14 w-auto"
               />
-              <img 
-                src="/images/logomarca/logomarca-preto.jpg"
-                alt="Routis"
-                className="h-12 w-auto hidden dark:block"
-              />
-
             </Link>
 
             {/* Navegação Desktop */}
@@ -170,14 +164,9 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
               className="flex items-center pl-2"
             >
               <img 
-                src="/images/logomarca/logomarca.jpg"
+                src="/images/logomarca/logomarca.png"
                 alt="Routis"
-                className="h-10 w-auto block dark:hidden"
-              />
-              <img 
-                src="/images/logomarca/logomarca-preto.jpg"
-                alt="Routis"
-                className="h-10 w-auto hidden dark:block"
+                className="h-10 w-auto"
               />
             </Link>
 

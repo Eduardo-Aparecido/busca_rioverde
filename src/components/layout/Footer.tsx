@@ -40,8 +40,12 @@ const Footer = () => {
             - Links de redes sociais
           */}
           <div className="col-span-1 md:col-span-2">
-            <Link to="/" className="text-2xl font-display font-bold text-foreground">
-              <span className="text-accent">Rou</span>tis
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/images/logomarca/logomarca.png"
+                alt="Routis"
+                className="h-14 w-auto"
+              />
             </Link>
             <p className="mt-4 text-muted-foreground">
               Descubra os melhores eventos e atrações em Rio Verde e região.
