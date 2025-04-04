@@ -1,0 +1,273 @@
+@layer components {
+  /* Estilos base para todos os cards */
+  .card {
+    @apply relative overflow-hidden rounded-lg border transition-all duration-300;
+  }
+
+  /* Estilos do Carrossel */
+  .swiper-button-next,
+  .swiper-button-prev {
+    @apply hidden md:flex text-primary;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    @apply text-2xl;
+  }
+
+  .swiper-button-disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    .swiper-wrapper {
+      @apply pb-6;
+    }
+  }
+
+  /* Cards de Produtos */
+  .product-card {
+    @apply p-3 flex flex-col items-center;
+  }
+
+  .light .product-card {
+    @apply bg-white border-[#E8E3DD]/20;
+    box-shadow: 0 2px 10px rgba(87, 65, 45, 0.05);
+  }
+
+  .light .product-card:hover {
+    @apply border-[#E8E3DD]/30;
+    box-shadow: 0 4px 20px rgba(87, 65, 45, 0.08);
+    transform: translateY(-1px);
+  }
+
+  /* Cards de Eventos */
+  .event-card {
+    @apply bg-white border border-[#E8E3DD]/20 rounded-lg overflow-hidden transition-all duration-300 h-full;
+  }
+
+  .light .event-card {
+    box-shadow: 0 2px 15px rgba(87, 65, 45, 0.08);
+  }
+
+  .light .event-card:hover {
+    box-shadow: 0 4px 25px rgba(87, 65, 45, 0.12);
+    transform: translateY(-1px);
+  }
+
+  .dark .event-card {
+    @apply bg-black/90 border-white/10;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .dark .event-card:hover {
+    @apply border-white/20;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .event-card-image {
+    @apply relative aspect-[4/3] overflow-hidden;
+  }
+
+  .event-card-image img {
+    @apply w-full h-full object-cover transition-transform duration-300;
+  }
+
+  .event-card:hover .event-card-image img {
+    @apply scale-105;
+  }
+
+  .event-card-category {
+    @apply absolute top-3 left-3 px-3 py-1 text-xs font-medium rounded-full;
+  }
+
+  .light .event-card-category {
+    @apply bg-white/90 text-[#2C1810] shadow-sm;
+  }
+
+  .dark .event-card-category {
+    @apply bg-black/90 text-white;
+  }
+
+  .event-card-favorite {
+    @apply absolute top-3 right-3 p-1.5 rounded-full transition-colors duration-200;
+  }
+
+  .light .event-card-favorite {
+    @apply bg-white/90 text-[#2C1810] shadow-sm hover:bg-white;
+  }
+
+  .dark .event-card-favorite {
+    @apply bg-black/90 text-white hover:bg-black;
+  }
+
+  .event-card-content {
+    @apply p-4;
+  }
+
+  .event-card-title {
+    @apply text-base font-semibold mb-3 line-clamp-1 transition-colors duration-200;
+  }
+
+  .light .event-card-title {
+    @apply text-[#2C1810] hover:text-primary;
+  }
+
+  .dark .event-card-title {
+    @apply text-white hover:text-primary;
+  }
+
+  .event-card-info {
+    @apply flex flex-col gap-2 text-sm;
+  }
+
+  .light .event-card-info {
+    @apply text-[#5C4D44]/90;
+  }
+
+  .dark .event-card-info {
+    @apply text-gray-400;
+  }
+
+  .event-card-datetime {
+    @apply flex items-center gap-2;
+  }
+
+  .event-card-location {
+    @apply flex items-center gap-2;
+  }
+
+  /* Mantendo os estilos anteriores para cards de produtos */
+  .product-card-image {
+    @apply w-32 h-32 mb-3 object-contain;
+  }
+
+  .product-card-content {
+    @apply relative z-10 w-full text-center;
+  }
+
+  .product-card-title {
+    @apply text-sm font-medium mb-1;
+  }
+
+  .light .product-card-title {
+    @apply text-[#2C1810];
+  }
+
+  .dark .product-card-title {
+    @apply text-white;
+  }
+
+  .product-card-rating {
+    @apply flex items-center justify-center gap-0.5 mb-2;
+  }
+
+  .product-card-rating-star {
+    @apply text-yellow-400 text-sm;
+  }
+
+  .product-card-rating-count {
+    @apply text-xs text-gray-400 ml-1;
+  }
+
+  .product-card-price {
+    @apply text-sm font-medium;
+  }
+
+  .light .product-card-price {
+    @apply text-[#2C1810];
+  }
+
+  .dark .product-card-price {
+    @apply text-white;
+  }
+
+  .product-card-footer {
+    @apply mt-2 flex items-center justify-between w-full;
+  }
+
+  .product-card-action {
+    @apply p-2 rounded-lg transition-colors duration-200;
+  }
+
+  .light .product-card-action {
+    @apply hover:bg-[#E8E3DD]/10;
+  }
+
+  .dark .product-card-action {
+    @apply hover:bg-white/5;
+  }
+
+  .card-image {
+    @apply w-32 h-32 mb-3 object-contain;
+  }
+
+  .card-content {
+    @apply relative z-10 w-full text-center;
+  }
+
+  .card-title {
+    @apply text-sm font-medium mb-1;
+  }
+
+  .light .card-title {
+    @apply text-[#2C1810];
+  }
+
+  .dark .card-title {
+    @apply text-white;
+  }
+
+  .card-rating {
+    @apply flex items-center justify-center gap-0.5 mb-2;
+  }
+
+  .card-rating-star {
+    @apply text-yellow-400 text-sm;
+  }
+
+  .card-rating-count {
+    @apply text-xs text-gray-400 ml-1;
+  }
+
+  .card-price {
+    @apply text-sm font-medium;
+  }
+
+  .light .card-price {
+    @apply text-[#2C1810];
+  }
+
+  .dark .card-price {
+    @apply text-white;
+  }
+
+  .card-footer {
+    @apply mt-2 flex items-center justify-between w-full;
+  }
+
+  .card-action {
+    @apply p-2 rounded-lg transition-colors duration-200;
+  }
+
+  .light .card-action {
+    @apply hover:bg-[#E8E3DD]/10;
+  }
+
+  .dark .card-action {
+    @apply hover:bg-white/5;
+  }
+
+  .card-favorite {
+    @apply absolute top-2 right-2 p-1.5 rounded-full transition-colors duration-200;
+  }
+
+  .light .card-favorite {
+    @apply hover:bg-[#E8E3DD]/10;
+  }
+
+  .dark .card-favorite {
+    @apply hover:bg-white/5;
+  }
+} 
