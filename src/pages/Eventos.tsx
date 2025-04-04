@@ -65,10 +65,10 @@ const Eventos = () => {
   );
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900 pt-16 md:pt-0">
-      {/* Header da página */}
-      <section className="py-12 md:py-16 bg-secondary/50 dark:bg-zinc-900">
-        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900 pt-16">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
+        {/* Header da página */}
+        <section className="py-12 md:py-16 bg-secondary/50 dark:bg-zinc-900">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,38 +80,38 @@ const Eventos = () => {
               centered
             />
           </motion.div>
-        </div>
-      </section>
+        </section>
 
-      {/* Lista de Eventos */}
-      <section className="py-12 bg-secondary/50 dark:bg-zinc-900">
-        <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
-          <Tabs defaultValue="Todos" onValueChange={setCategoriaAtiva}>
-            <div className="overflow-x-auto pb-4 scrollbar-none">
-              <TabsList className="mb-8 w-fit">
-                {categorias.map((categoria) => (
-                  <TabsTrigger key={categoria} value={categoria}>
-                    {categoria}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-
-            <TabsContent value={categoriaAtiva}>
-              <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
-                {eventosFiltrados.map((evento) => (
-                  <div key={evento.id} className="snap-start shrink-0 w-[48%] md:w-auto">
-                    <EventoCard 
-                      key={evento.id} 
-                      {...evento}
-                    />
-                  </div>
-                ))}
+        {/* Lista de Eventos */}
+        <section className="py-12 bg-secondary/50 dark:bg-zinc-900">
+          <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4">
+            <Tabs defaultValue="Todos" onValueChange={setCategoriaAtiva}>
+              <div className="overflow-x-auto pb-4 scrollbar-none">
+                <TabsList className="mb-8 w-fit">
+                  {categorias.map((categoria) => (
+                    <TabsTrigger key={categoria} value={categoria}>
+                      {categoria}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
               </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </section>
+
+              <TabsContent value={categoriaAtiva}>
+                <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
+                  {eventosFiltrados.map((evento) => (
+                    <div key={evento.id} className="snap-start shrink-0 w-[48%] md:w-auto">
+                      <EventoCard 
+                        key={evento.id} 
+                        {...evento}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

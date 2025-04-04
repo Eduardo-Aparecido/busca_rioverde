@@ -127,7 +127,7 @@ const Cinema = () => {
 
   return (
     <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900 pt-0">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-4">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4 py-4">
         <div className="flex items-center justify-between mb-4">
           <SectionHeader 
             titulo="Cinema" 

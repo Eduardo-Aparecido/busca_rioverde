@@ -108,52 +108,53 @@ const Classificados = () => {
   );
 
   return (
-    <div className="min-h-screen bg-secondary/50 dark:bg-black pt-16 md:pt-0">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] mx-auto px-4 py-8"
-      >
-        <SectionHeader
-          titulo="Classificados"
-          subtitulo="Compre e venda na sua cidade"
-        />
+    <div className="min-h-screen bg-secondary/50 dark:bg-zinc-900 pt-16">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+        >
+          <SectionHeader
+            titulo="Classificados"
+            subtitulo="Compre e venda na sua cidade"
+          />
 
-        <Tabs defaultValue="Todos" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <Tabs defaultValue="Todos" className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              {categorias.map((categoria) => (
+                <TabsTrigger key={categoria} value={categoria}>
+                  {categoria}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
             {categorias.map((categoria) => (
-              <TabsTrigger key={categoria} value={categoria}>
-                {categoria}
-              </TabsTrigger>
+              <TabsContent key={categoria} value={categoria}>
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                  {classificadosFiltrados
+                    .filter((item) => categoria === "Todos" || item.categoria === categoria)
+                    .map((item) => (
+                      <CardBase
+                        key={item.id}
+                        id={item.id.toString()}
+                        titulo={item.titulo}
+                        imagem={item.imagem}
+                        link={`/classificado/${item.id}`}
+                        categoria={item.categoria}
+                      >
+                        <div className="mt-3 space-y-2">
+                          <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{item.descricao}</p>
+                          <p className="text-base font-semibold text-primary">{item.preco}</p>
+                        </div>
+                      </CardBase>
+                    ))}
+                </div>
+              </TabsContent>
             ))}
-          </TabsList>
-
-          {categorias.map((categoria) => (
-            <TabsContent key={categoria} value={categoria}>
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-                {classificadosFiltrados
-                  .filter((item) => categoria === "Todos" || item.categoria === categoria)
-                  .map((item) => (
-                    <CardBase
-                      key={item.id}
-                      id={item.id.toString()}
-                      titulo={item.titulo}
-                      imagem={item.imagem}
-                      link={`/classificado/${item.id}`}
-                      categoria={item.categoria}
-                    >
-                      <div className="mt-3 space-y-2">
-                        <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 min-h-[2.5rem]">{item.descricao}</p>
-                        <p className="text-base font-semibold text-primary">{item.preco}</p>
-                      </div>
-                    </CardBase>
-                  ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-      </motion.div>
+          </Tabs>
+        </motion.div>
+      </div>
     </div>
   );
 };
