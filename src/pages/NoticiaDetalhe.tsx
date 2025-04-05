@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { ImageModal } from "@/components/ui/image-modal";
 import { Map } from "@/components/ui/map";
 import { ImageGallery } from "@/components/ui/image-gallery";
+import ReactMarkdown from 'react-markdown';
 
 // Interface para a estrutura de uma notícia
 interface Noticia {
@@ -35,17 +36,32 @@ interface Noticia {
 const noticias: Noticia[] = [
   {
     id: "1",
-    titulo: "Novo café artesanal abre as portas no centro da cidade",
-    imagem: "cafe-artesanal.jpg",
+    titulo: "Novo Hosp. Municipal Universitário",
+    imagem: "/images/noticias/hmurv1.jpg",
     galeria: [
-      "cafe-artesanal-1.jpg",
-      "cafe-artesanal-2.jpg",
-      "cafe-artesanal-3.jpg"
+      "/images/noticias/hmurv2.jpg",
+      "/images/noticias/hmurv3.jpg",
+      "/images/noticias/hmurv4.jpg",
+      "/images/noticias/hmurv5.jpg"
     ],
-    resumo: "O Café Artesanal, localizado na rua principal, oferece uma experiência única de café com grãos selecionados e ambiente acolhedor.",
-    conteudo: "O Café Artesanal, um novo estabelecimento que promete revolucionar a cena de cafés em Rio Verde, abriu suas portas na última semana. Localizado em um charmoso prédio histórico no coração da cidade, o café oferece uma experiência única para os amantes de café.\n\nO proprietário, João Silva, que tem mais de 10 anos de experiência no ramo, selecionou pessoalmente os melhores grãos de café de diferentes regiões do Brasil. 'Queremos oferecer não apenas um café, mas uma experiência completa', afirma Silva.\n\nO ambiente foi cuidadosamente decorado com móveis vintage e plantas, criando um espaço acolhedor e instagramável. Além dos cafés especiais, o cardápio inclui doces artesanais e salgados frescos, todos preparados na própria cozinha do estabelecimento.\n\nPara celebrar a inauguração, o café está oferecendo 20% de desconto em todos os produtos até o final do mês. Os clientes também podem participar de degustações gratuitas aos sábados, onde podem aprender sobre diferentes métodos de preparo de café.",
+    resumo: "teste",
+    conteudo: `A Prefeitura de Rio Verde inaugurou a primeira fase do Hospital Municipal Universitário (HMU), um marco para a saúde e a formação médica em Goiás!
+
+**Investimento e Dimensão:**
+*   R$ 128 milhões em recursos municipais
+*   Maior hospital municipal do estado
+*   25 mil m² de área construída
+
+**Destaques da estrutura:**
+* ✅ 275 leitos de enfermaria + 36 de UTI
+* ✅ Pronto-socorro com 15 leitos de observação
+* ✅ Centro cirúrgico com tecnologia robótica
+* ✅ Laboratórios, diagnóstico por imagem e ensino médico
+* ✅ Heliporto para emergências
+
+Com 25 mil m² de área construída, o HMU melhora o atendimento na região e fortalece a formação de novos médicos!`,
     data: "15 Nov 2023",
-    autor: "Maria Oliveira",
+    autor: "Eduardo Aparecido",
     autorImagem: "avatar-maria.jpg",
     categoria: "Gastronomia",
     tags: ["café", "gastronomia", "inauguração"],
@@ -56,11 +72,11 @@ const noticias: Noticia[] = [
   {
     id: "2",
     titulo: "Parque da cidade recebe novo espaço para esportes",
-    imagem: "parque-esportes.jpg",
+    imagem: "/images/noticias/parque-esportes.jpg",
     galeria: [
-      "parque-esportes-1.jpg",
-      "parque-esportes-2.jpg",
-      "parque-esportes-3.jpg"
+      "/images/noticias/parque-esportes-1.jpg",
+      "/images/noticias/parque-esportes-2.jpg",
+      "/images/noticias/parque-esportes-3.jpg"
     ],
     resumo: "O Parque Municipal foi revitalizado e agora conta com novas quadras esportivas, pista de skate e academia ao ar livre.",
     conteudo: "O Parque Municipal de Rio Verde acaba de receber uma importante revitalização, com foco especial em novos espaços para a prática de esportes. O projeto, que levou seis meses para ser concluído, incluiu a construção de três novas quadras poliesportivas, uma pista de skate profissional e uma academia ao ar livre completa.\n\nSegundo a Secretaria de Esportes e Lazer, o investimento de R$ 1,2 milhão visa promover a saúde e o bem-estar da população, além de fomentar a prática esportiva entre crianças e jovens. As novas instalações contam com iluminação de LED, permitindo o uso noturno, e sistemas de drenagem eficientes para evitar alagamentos em períodos chuvosos.\n\n'Estamos muito felizes em entregar esse espaço renovado para a população. O parque sempre foi um ponto de encontro importante para as famílias, e agora oferece ainda mais opções de lazer e esporte para todas as idades', declarou o secretário de Esportes, Roberto Santos.\n\nA inauguração oficial acontecerá no próximo sábado, com uma programação especial que inclui torneios esportivos, apresentações de skatistas profissionais e aulas abertas de diversas modalidades.",
@@ -107,6 +123,11 @@ const NoticiaDetalhe = () => {
     }
   };
 
+  // Adicione o componente estilizado para parágrafos
+  const StyledParagraph = ({ children }) => (
+    <p className="text-zinc-800 dark:text-zinc-300 mb-4">{children}</p>
+  );
+
   if (carregando) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -138,7 +159,7 @@ const NoticiaDetalhe = () => {
           {/* Banner */}
           <div className="w-full h-[250px] sm:h-[400px] overflow-hidden">
             <img
-              src={`/images/${noticia.imagem}`}
+              src={noticia.imagem}
               alt={noticia.titulo}
               className="w-full h-full object-cover"
             />
@@ -176,10 +197,35 @@ const NoticiaDetalhe = () => {
             </div>
 
             {/* Conteúdo */}
-            <div className="prose dark:prose-invert max-w-none mb-12">
-              {noticia.conteudo.split('\n\n').map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
+            <div className="mt-6">
+              <div className="prose dark:prose-invert max-w-none">
+                <ReactMarkdown
+                  components={{
+                    p: StyledParagraph,
+                    strong: ({ children }) => (
+                      <span className="font-bold">{children}</span>
+                    ),
+                    a: ({ href, children }) => (
+                      <a 
+                        href={href} 
+                        className="text-primary hover:underline"
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        {children}
+                      </a>
+                    ),
+                    ul: ({ children }) => (
+                      <ul className="list-disc pl-4 space-y-2 mb-4">{children}</ul>
+                    ),
+                    li: ({ children }) => (
+                      <li className="text-zinc-800 dark:text-zinc-300">{children}</li>
+                    )
+                  }}
+                >
+                  {noticia.conteudo}
+                </ReactMarkdown>
+              </div>
             </div>
 
             <hr className="border-zinc-200 dark:border-zinc-800 my-8" />
@@ -188,11 +234,8 @@ const NoticiaDetalhe = () => {
             <div className="mb-12">
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Galeria</h2>
               <ImageGallery 
-                images={noticia.galeria.map(img => ({
-                  src: `/images/${img}`,
-                  alt: noticia.titulo
-                }))}
-                onImageClick={(index) => abrirModal(index)}
+                images={noticia.galeria}
+                title={noticia.titulo}
               />
             </div>
 
@@ -222,7 +265,7 @@ const NoticiaDetalhe = () => {
       <ImageModal
         isOpen={modalAberto}
         onClose={() => setModalAberto(false)}
-        imageUrl={`/images/${noticia.galeria[imagemSelecionadaIndex]}`}
+        imageUrl={noticia.galeria[imagemSelecionadaIndex]}
         alt={`${noticia.titulo} - Imagem ${imagemSelecionadaIndex + 1}`}
         onNext={proximaImagem}
         onPrevious={imagemAnterior}

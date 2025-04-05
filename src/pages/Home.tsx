@@ -113,7 +113,7 @@ const storiesDestaque: Story[] = [
         descricao: "Cardápio variado com as melhores opções"
       }
     ]
-  },
+  }/**,
   {
     id: "4",
     titulo: "Instagram",
@@ -127,7 +127,7 @@ const storiesDestaque: Story[] = [
         descricao: "Teste de video!"
       }
     ]
-  }
+  }*/
 ];
 
 /**
@@ -168,7 +168,7 @@ const eventosDestaque = [
   {
     id: "4",
     titulo: "Galpão da Ultra Pub",
-    imagem: "/images/eventos/galpao_ultra/galpaoultra.png",
+    imagem: "/images/eventos/galpao_ultra/galpaoultra-banner.jpg",
     data: "26 Abr 2025",
     hora: "22:00",
     local: "Centro",
@@ -185,21 +185,13 @@ const eventosDestaque = [
 const noticiasRecentes = [
   {
     id: "1",
-    titulo: "Nova cafeteria inaugura no centro da cidade",
-    imagem: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb",
-    resumo: "A cafeteria 'Grão Especial' inaugura nesta semana trazendo opções de cafés especiais e ambiente aconchegante para os moradores de Rio Verde.",
-    data: "22 Nov 2023",
-    categoria: "Gastronomia",
+    titulo: "Novo Hosp. Municipal Universitário",
+    imagem: "/images/noticias/hmurv1.jpg",
+    resumo: "Saúde e Educação em um Só Lugar!",
+    data: "17 Dez 2024",
+    categoria: "Saúde",
     // patrocinado: true
-  },
-  {
-    id: "2",
-    titulo: "Parque da cidade recebe novo espaço para esportes",
-    imagem: "https://images.unsplash.com/photo-1526307616774-60d0098f7642",
-    resumo: "O Parque Municipal foi revitalizado e agora conta com novas quadras esportivas, pista de skate e academia ao ar livre.",
-    data: "20 Nov 2023",
-    categoria: "Lazer"
-  },
+  }
 ];
 
 /**

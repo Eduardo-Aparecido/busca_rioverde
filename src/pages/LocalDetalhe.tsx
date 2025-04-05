@@ -5,6 +5,7 @@
  * - Ícones do Lucide
  * - Componentes UI personalizados
  * - Hooks personalizados para curtidas
+ * - ReactMarkdown para renderização de Markdown
  */
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -35,6 +36,7 @@ import { Map } from "@/components/ui/map";
 import { ImageGallery } from "@/components/ui/image-gallery";
 import { useCurtida } from "@/hooks/useCurtida";
 import { Local, locais } from "@/data/locais";
+import ReactMarkdown from 'react-markdown';
 
 /**
  * Interface que define a estrutura de um horário de funcionamento
@@ -290,7 +292,36 @@ export default function LocalDetalhe() {
 
                 {/* Descrição */}
                 <div className="mt-6">
-                  <p className="text-zinc-800 dark:text-zinc-300 whitespace-pre-line">{local.descricao}</p>
+                  <div className="prose dark:prose-invert max-w-none">
+                    <ReactMarkdown
+                      components={{
+                        p: ({ children }) => (
+                          <p className="text-zinc-800 dark:text-zinc-300 mb-4">{children}</p>
+                        ),
+                        strong: ({ children }) => (
+                          <span className="font-bold">{children}</span>
+                        ),
+                        a: ({ href, children }) => (
+                          <a 
+                            href={href} 
+                            className="text-primary hover:underline"
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                          >
+                            {children}
+                          </a>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="list-disc pl-4 space-y-2 mb-4">{children}</ul>
+                        ),
+                        li: ({ children }) => (
+                          <li className="text-zinc-800 dark:text-zinc-300">{children}</li>
+                        )
+                      }}
+                    >
+                      {local.descricao}
+                    </ReactMarkdown>
+                  </div>
                 </div>
 
                 {/* Horários */}
@@ -348,16 +379,16 @@ export default function LocalDetalhe() {
                     <Globe className="h-5 w-5" />
                     <span>Link do local</span>
                   </a>
-            <a 
-              href={`https://wa.me/${local.telefone.replace(/\D/g, '')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-3 rounded-lg border border-cyan-500 text-cyan-500 hover:bg-cyan-500/10 transition-colors"
-            >
-                    <Phone className="h-5 w-5" />
-                    <span>{local.telefone}</span>
-            </a>
-        </div>
+                  <a 
+                    href={`https://wa.me/${local.telefone.replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-3 rounded-lg border border-cyan-500 text-cyan-500 hover:bg-cyan-500/10 transition-colors"
+                  >
+                          <Phone className="h-5 w-5" />
+                          <span>{local.telefone}</span>
+                  </a>
+                </div>
 
                 {/* Localização */}
                 <div className="mt-8">

@@ -114,7 +114,7 @@ Seja para uma noite animada ou para saborear uma boa comida em um ambiente aconc
     id: "3",
     nome: "Stur Bier",
     descricao: `O Pub Perfeito para os Amantes de Rock, Churrasco, Chopp e Hmabúrgueres Artesanais!
-Se você busca um ambiente aconchegante, familiar e com personalidade, o Stur Bier é o seu lugar! Aqui, fugimos do óbvio e trazemos uma experiência única para quem curte o bom e velho Rock ‘n’ Roll, acompanhado do melhor churrasco defumado e de um chopp artesanal de qualidade.
+Se você busca um ambiente aconchegante, familiar e com personalidade, o Stur Bier é o seu lugar! Aqui, fugimos do óbvio e trazemos uma experiência única para quem curte o bom e velho Rock 'n' Roll, acompanhado do melhor churrasco defumado e de um chopp artesanal de qualidade.
 
 Rock na Veia – Nada de modinha! Aqui o som é clássico, autêntico e feito para quem tem alma roqueira.
 Churrasco Defumado de Verdade – Cortes suculentos preparados com técnica e paixão.
@@ -159,17 +159,24 @@ Seja para curtir um som, saborear um churrasco impecável ou brindar com um chop
   {
     id: "4",
     nome: "Galpão da Ultra",
-    descricao: `O Pub Perfeito para os Amantes de Rock, Churrasco, Chopp e Hmabúrgueres Artesanais!
-Se você busca um ambiente aconchegante, familiar e com personalidade, o Stur Bier é o seu lugar! Aqui, fugimos do óbvio e trazemos uma experiência única para quem curte o bom e velho Rock ‘n’ Roll, acompanhado do melhor churrasco defumado e de um chopp artesanal de qualidade.
+    descricao: `O **Galpão Ultra Pub** é o ponto de encontro perfeito para quem ama **rock'n roll**, boa música e um ambiente descontraído para curtir com os amigos. 
 
-Rock na Veia – Nada de modinha! Aqui o som é clássico, autêntico e feito para quem tem alma roqueira.
-Churrasco Defumado de Verdade – Cortes suculentos preparados com técnica e paixão.
-Chopp Artesanal Gelado – Sabores únicos para acompanhar cada momento.
-Ambiente Aconchegante e Familiar – Curta bons momentos com quem você gosta.
+Localizado no **coração de Rio Verde**, o pub reúne o melhor da cena musical com bandas ao vivo, cervejas especiais e uma vibe única!
 
-Seja para curtir um som, saborear um churrasco impecável ou brindar com um chopp artesanal gelado, o Stur Bier é o pub ideal para quem valoriza qualidade e atitude!
+   **O espaço é ideal para quem busca:**
 
-📍 Venha viver essa experiência! `,
+* Diversão garantida
+* Drinks especiais
+* Chopp sempre gelado
+* Repertório variado de **rock clássico**, **alternativo** e **indie**
+
+   **Shows e Música ao Vivo**
+
+* Apresentações todos os fins de semana
+* Bandas selecionadas
+* O melhor do rock na cidade
+
+`,
     endereco: "R. Rafael Nascimento, 417 - Centro",
     bairro: "Centro",
     telefone: "(64) 992154438",

@@ -20,7 +20,9 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
-  Pencil
+  Pencil,
+  Globe,
+  Phone
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -35,6 +37,7 @@ import { ImageGallery } from "@/components/ui/image-gallery";
 import { Map } from "@/components/ui/map";
 import { useAuth } from "@/hooks/useAuth";
 import { formatEventBadge } from "@/lib/utils/formatEventBadge";
+import ReactMarkdown from 'react-markdown';
 
 /**
  * Dados simulados para desenvolvimento
@@ -129,15 +132,28 @@ const eventos = [
     ],
     data: "26 Abr 2025",
     hora: "22:00",
-    local: "Rua Rafael Nascimento, 417 - Centro",
+    local: "Centro",
     categoria: "Música",
-    descricao: "O Café com Deus é mais do que um encontro, é um momento de renovação para mulheres que desejam se conectar profundamente com Deus ,em um ambiente acolhedor e inspirador. Compartilhamos da palavra, testemunhos, reflexões e louvores. Cada detalhe é pensado para fortalecer a fé, restaurar corações e reafirmar a identidade em Cristo. Mais do que um evento, é um chamado para mulheres que querem viver seu propósito com coragem, leveza e plenitude.",
+    website: "instagram.com/galpaoultrapub",
+    telefone: "556492481159",
+    descricao: ` Uma noite épica de nostalgia e muita energia te espera!
+
+Prepare-se para curtir dois super shows que vão agitar o Galpão Ultra Pub:
+
+ [@ladohostil](https://www.instagram.com/ladohostil/) trazendo os grandes sucessos de Charlie Brown Jr. e O Rappa
+
+ [@oscreusebecks](https://www.instagram.com/oscreusebecks/) com toda a irreverência e diversão dos Mamonas Assassinas
+  
+
+Reúna a galera, garanta sua presença e venha viver essa experiência única!
+* 
+
+`,
     ingressos: " ",
     avaliacao: 4.8,
     latitude: -17.79838,
     longitude: -50.93026,
     endereco: "Rua Rafael Nascimento, 417 - Centro"
-
   }
 ];
 
@@ -252,6 +268,11 @@ const EventoDetalhe = () => {
     typeof evento.longitude === 'number' && 
     evento.endereco;
 
+  // Primeiro, vamos criar um componente para o parágrafo estilizado
+  const StyledParagraph = ({ children }) => (
+    <p className="text-zinc-800 dark:text-zinc-300 mb-4">{children}</p>
+  );
+
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
       <div className="w-full px-0 sm:w-[90%] md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[50%] mx-auto py-8">
@@ -298,7 +319,34 @@ const EventoDetalhe = () => {
 
                 {/* Descrição */}
                 <div className="mt-6">
-                  <p className="text-zinc-800 dark:text-zinc-300 whitespace-pre-line">{evento.descricao}</p>
+                  <div className="prose dark:prose-invert max-w-none">
+                    <ReactMarkdown
+                      components={{
+                        p: StyledParagraph,
+                        strong: ({ children }) => (
+                          <span className="font-bold">{children}</span>
+                        ),
+                        a: ({ href, children }) => (
+                          <a 
+                            href={href} 
+                            className="text-primary hover:underline"
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                          >
+                            {children}
+                          </a>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="list-disc pl-4 space-y-2 mb-4">{children}</ul>
+                        ),
+                        li: ({ children }) => (
+                          <li className="text-zinc-800 dark:text-zinc-300">{children}</li>
+                        )
+                      }}
+                    >
+                      {evento.descricao}
+                    </ReactMarkdown>
+                  </div>
                 </div>
 
                 {/* Divisor 1 */}
@@ -326,6 +374,40 @@ const EventoDetalhe = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Divisor para Links */}
+                <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800" />
+
+                {/* Links de Contato */}
+                {(evento.website || evento.telefone) && (
+                  <div className="mt-8">
+                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Contatos</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {evento.website && (
+                        <a 
+                          href={`https://${evento.website}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-3 rounded-lg border border-cyan-500 text-cyan-500 hover:bg-cyan-500/10 transition-colors"
+                        >
+                          <Globe className="h-5 w-5" />
+                          <span>Link do local</span>
+                        </a>
+                      )}
+                      {evento.telefone && (
+                        <a 
+                          href={`https://wa.me/${evento.telefone}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-3 rounded-lg border border-cyan-500 text-cyan-500 hover:bg-cyan-500/10 transition-colors"
+                        >
+                          <Phone className="h-5 w-5" />
+                          <span>Contato</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 {/* Divisor 2 */}
                 <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800" />
