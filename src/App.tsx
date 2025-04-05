@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ScrollToTop } from './components/ScrollToTop';
 
 /**
  * Importação dos componentes de layout e páginas
@@ -77,6 +78,7 @@ const App = () => {
           <Sonner />
           
           <Router>
+            <ScrollToTop />
             <Layout>
               {/* AnimatePresence para animações suaves entre páginas */}
               <AnimatePresence mode="wait">

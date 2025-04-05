@@ -62,7 +62,7 @@ const locais = [
     id: "4",
     nome: "Galpão da Ultra",
     imagem: "/images/eventos/galpao_ultra/galpaoultra.png",
-    endereco: "Rua Rafael Nascimento, 417 - Centro",
+    endereco: "Centro",
     categoria: "Música ao Vivo",
     avaliacao: 4.7,
   }
