@@ -63,7 +63,7 @@ Com 25 mil m² de área construída, o HMU melhora o atendimento na região e fo
     data: "15 Nov 2023",
     autor: "Eduardo Aparecido",
     autorImagem: "avatar-maria.jpg",
-    categoria: "Gastronomia",
+    categoria: "Saúde",
     tags: ["café", "gastronomia", "inauguração"],
     endereco: "Rua Principal, 123 - Centro",
     latitude: -17.79942422405687,
