@@ -35,8 +35,8 @@ import { StatusFuncionamento } from "@/components/ui/status-funcionamento";
 import { Map } from "@/components/ui/map";
 import { ImageGallery } from "@/components/ui/image-gallery";
 import { useCurtida } from "@/hooks/useCurtida";
-import { Local, locais } from "@/data/locais";
 import ReactMarkdown from 'react-markdown';
+import { estabelecimentos } from "@/data/estabelecimentos";
 
 /**
  * Interface que define a estrutura de um horário de funcionamento
@@ -150,7 +150,7 @@ export default function LocalDetalhe() {
 
   useEffect(() => {
     setTimeout(() => {
-      const localEncontrado = locais.find(l => l.id === id);
+      const localEncontrado = estabelecimentos.find(l => l.id === id);
       setLocal(localEncontrado || null);
       setCarregando(false);
     }, 300);

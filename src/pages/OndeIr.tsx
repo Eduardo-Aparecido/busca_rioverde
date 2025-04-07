@@ -17,56 +17,7 @@ import { useSearch } from "@/hooks/useSearch";
 import { HighlightText } from "@/components/ui/highlight-text";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
-
-/**
- * Dados simulados para desenvolvimento
- * Estruturas de dados que simulam o conteúdo que viria de uma API
- */
-
-/**
- * Lista de estabelecimentos
- * Array de objetos contendo informações sobre os locais
- * @property id - Identificador único do local
- * @property nome - Nome do estabelecimento
- * @property imagem - URL da imagem do local
- * @property endereco - Endereço completo
- * @property categoria - Tipo do estabelecimento
- * @property avaliacao - Nota de 0 a 5
- */
-const locais = [
-  {
-    id: "1",
-    nome: "Finnegans",
-    imagem: "/images/onde_ir/finnegans/finnegans_07.png",
-    endereco: "Centro",
-    categoria: "Restaurantes",
-    avaliacao: 4.8,
-  },
-  {
-    id: "2",
-    nome: "Boteco do Pão",
-    imagem: "/images/onde_ir/boteco-do-pao/botecodopao4.jpg",
-    endereco: "Morada do Sol",
-    categoria: "Bares",
-    avaliacao: 4.5,
-  },
-  {
-    id: "3",
-    nome: "Stur Bier",
-    imagem: "/images/onde_ir/stur-bier/stur-banner.png",
-    endereco: "DIMPE",
-    categoria: "Música ao Vivo",
-    avaliacao: 4.7,
-  },
-  {
-    id: "4",
-    nome: "Galpão da Ultra",
-    imagem: "/images/eventos/galpao_ultra/galpaoultra.png",
-    endereco: "Centro",
-    categoria: "Música ao Vivo",
-    avaliacao: 4.7,
-  }
-];
+import { estabelecimentos } from "@/data/estabelecimentos"; // Importa a nova estrutura
 
 /**
  * Lista de categorias disponíveis
@@ -109,7 +60,7 @@ const OndeIr = () => {
    * Filtra os locais pela categoria selecionada
    * Retorna todos os locais se a categoria for "Todos"
    */
-  const locaisFiltrados = locais.filter(local => 
+  const locaisFiltrados = estabelecimentos.filter(local => 
     categoriaAtiva === "Todos" || local.categoria === categoriaAtiva
   );
 

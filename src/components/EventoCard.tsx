@@ -114,7 +114,7 @@ export function EventoCard({
         </div>
 
         {/* Badge com data/hora */}
-        <div className="bg-red-500 w-full">
+        <div className="bg-green-700 w-full">
           <p className="text-xs font-medium text-white px-3 py-1 text-center">{badgeText}</p>
         </div>
 

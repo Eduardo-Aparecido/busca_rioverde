@@ -50,9 +50,11 @@ export default {
           foreground: "hsl(var(--muted-foreground))"
         },
         accent: {
-          DEFAULT: "hsl(0 97% 60%)",
+          DEFAULT: "hsl(145 25% 35%)",
           foreground: "hsl(0 0% 100%)"
         },
+        
+
         destructive: {
           DEFAULT: "hsl(0 97% 60%)",
           foreground: "hsl(0 0% 100%)"
@@ -68,6 +70,18 @@ export default {
           dark: "hsl(240 10% 15%)"
         },
         ring: "hsl(346 99% 33%)",
+        peach: {
+          100: 'rgb(255, 250, 240)',
+          200: 'rgb(255, 245, 222)',
+          300: 'rgb(255, 215, 178)',
+          400: 'rgb(255, 200, 156)',
+          500: 'rgb(255, 185, 134)',
+          600: 'rgb(255, 170, 112)',
+          700: 'rgb(255, 155, 90)',
+          800: 'rgb(255, 140, 68)',
+        },
+        darkGreen: 'rgb(5, 51, 37)',
+        darkerGreen: 'rgb(0, 55, 60)',
       },
       borderRadius: {
         lg: "var(--radius)",

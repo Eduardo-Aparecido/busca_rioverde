@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ScrollToTop } from './components/ScrollToTop';
+import { NoticiaProvider } from "@/data/NoticiaContext";
 
 /**
  * Importação dos componentes de layout e páginas
@@ -79,32 +80,34 @@ const App = () => {
           
           <Router>
             <ScrollToTop />
-            <Layout>
-              {/* AnimatePresence para animações suaves entre páginas */}
-              <AnimatePresence mode="wait">
-                <Routes>
-                  {/* Rotas principais */}
-                  <Route path="/" element={<Home />} />
-                  <Route path="/cinema" element={<Cinema />} />
-                  <Route path="/novidades" element={<Novidades />} />
-                  <Route path="/eventos" element={<Eventos />} />
-                  <Route path="/onde-ir" element={<OndeIr />} />
-                  <Route path="/classificados" element={<Classificados />} />
-                  <Route path="/servicos" element={<Servicos />} />
-                  
-                  {/* Rotas de detalhes */}
-                  <Route path="/eventos/:id" element={<EventoDetalhe />} />
-                  <Route path="/filme/:id" element={<FilmeDetalhe />} />
-                  <Route path="/novidade/:id" element={<NoticiaDetalhe />} />
-                  <Route path="/onde-ir/:id" element={<LocalDetalhe />} />
-                  <Route path="/classificado/:id" element={<ClassificadoDetalhe />} />
-                  <Route path="/servico/:id" element={<ServicoDetalhe />} />
-                  
-                  {/* Rota 404 */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </AnimatePresence>
-            </Layout>
+            <NoticiaProvider>
+              <Layout>
+                {/* AnimatePresence para animações suaves entre páginas */}
+                <AnimatePresence mode="wait">
+                  <Routes>
+                    {/* Rotas principais */}
+                    <Route path="/" element={<Home />} />
+                    <Route path="/cinema" element={<Cinema />} />
+                    <Route path="/novidades" element={<Novidades />} />
+                    <Route path="/eventos" element={<Eventos />} />
+                    <Route path="/onde-ir" element={<OndeIr />} />
+                    <Route path="/classificados" element={<Classificados />} />
+                    <Route path="/servicos" element={<Servicos />} />
+                    
+                    {/* Rotas de detalhes */}
+                    <Route path="/eventos/:id" element={<EventoDetalhe />} />
+                    <Route path="/filme/:id" element={<FilmeDetalhe />} />
+                    <Route path="/novidade/:id" element={<NoticiaDetalhe />} />
+                    <Route path="/onde-ir/:id" element={<LocalDetalhe />} />
+                    <Route path="/classificado/:id" element={<ClassificadoDetalhe />} />
+                    <Route path="/servico/:id" element={<ServicoDetalhe />} />
+                    
+                    {/* Rota 404 */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </AnimatePresence>
+              </Layout>
+            </NoticiaProvider>
           </Router>
         </TooltipProvider>
       </ThemeProvider>

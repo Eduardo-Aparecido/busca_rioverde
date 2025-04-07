@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSearch } from "@/hooks/useSearch";
 import { HighlightText } from "@/components/ui/highlight-text";
+import { useNoticias } from "@/data/NoticiaContext";
 
 /**
  * Dados simulados para desenvolvimento
@@ -183,15 +184,7 @@ const eventosDestaque = [
  * Exibidas na seção de notícias da página inicial
  */
 const noticiasRecentes = [
-  {
-    id: "1",
-    titulo: "Novo Hosp. Municipal Universitário",
-    imagem: "/images/noticias/hmurv1.jpg",
-    resumo: "Saúde e Educação em um Só Lugar!",
-    data: "17 Dez 2024",
-    categoria: "Saúde",
-    // patrocinado: true
-  }
+  
 ];
 
 /**
@@ -292,6 +285,7 @@ const servicos = [
  */
 const Home = () => {
   const [selectedStoryIndex, setSelectedStoryIndex] = useState<number>(-1);
+  const { noticias } = useNoticias();
 
   const handleOpenStory = (index: number) => {
     setSelectedStoryIndex(index);
@@ -305,17 +299,19 @@ const Home = () => {
     setSelectedStoryIndex(newIndex);
   };
 
+  const noticiasRecentes = noticias.slice(-3);
+
   return (
-    <div className="min-h-screen bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900 pt-16">
+    <div className="min-h-screen bg-peach-100 md:bg-peach-100 dark:bg-zinc-900 pt-16">
       {/* Stories */}
-      <section className="-mt-[120px] md:mt-0 bg-secondary/50 dark:bg-zinc-900">
+      <section className="-mt-[120px] md:mt-0 bg-peach dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto">
           <StoriesContainer stories={storiesDestaque} onStoryClick={handleOpenStory} />
         </div>
       </section>
 
       {/* Eventos em Destaque */}
-      <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-peach-100 md:bg-peach-100 dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -341,7 +337,7 @@ const Home = () => {
       </section>
 
       {/* Últimas Notícias */}
-      <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-peach md:bg-peach dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -357,7 +353,7 @@ const Home = () => {
           </div>
 
           <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 pb-4 md:pb-0 snap-x snap-mandatory scrollbar-none">
-            {noticiasRecentes && noticiasRecentes.map((noticia) => (
+            {noticiasRecentes.map((noticia) => (
               <div key={noticia.id} className="snap-start shrink-0 w-[48%] md:w-auto">
                 <NoticiaCard {...noticia} />
               </div>
@@ -367,7 +363,7 @@ const Home = () => {
       </section>
 
       {/* Classificados */}
-      <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-peach md:bg-peach dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -405,7 +401,7 @@ const Home = () => {
       </section>
 
       {/* Serviços */}
-      <section className="py-12 bg-secondary/50 md:bg-secondary/50 dark:bg-zinc-900">
+      <section className="py-12 bg-peach md:bg-peach dark:bg-zinc-900">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <SectionHeader 
@@ -444,7 +440,7 @@ const Home = () => {
       </section>
 
       {/* Menu de Navegação */}
-      <section className="py-12 bg-white md:bg-secondary/50 dark:bg-black">
+      <section className="py-12 bg-peach-100 md:bg-peach-100 dark:bg-black">
         <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] xl:w-[55%] 2xl:w-[45%] max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <Link to="/cinema" className="flex flex-col items-center p-4 bg-white dark:bg-zinc-900 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">

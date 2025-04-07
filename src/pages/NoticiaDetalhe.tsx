@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
@@ -13,6 +13,8 @@ import { ImageModal } from "@/components/ui/image-modal";
 import { Map } from "@/components/ui/map";
 import { ImageGallery } from "@/components/ui/image-gallery";
 import ReactMarkdown from 'react-markdown';
+import { useNoticias } from "@/data/NoticiaContext"; // Atualize o caminho para o novo local
+import { v4 as uuidv4 } from 'uuid'; // Importar a biblioteca uuid
 
 // Interface para a estrutura de uma notícia
 interface Noticia {
@@ -34,77 +36,49 @@ interface Noticia {
 
 // Dados simulados para desenvolvimento
 const noticias: Noticia[] = [
-  {
-    id: "1",
-    titulo: "Novo Hosp. Municipal Universitário",
-    imagem: "/images/noticias/hmurv1.jpg",
-    galeria: [
-      "/images/noticias/hmurv2.jpg",
-      "/images/noticias/hmurv3.jpg",
-      "/images/noticias/hmurv4.jpg",
-      "/images/noticias/hmurv5.jpg"
-    ],
-    resumo: "teste",
-    conteudo: `A Prefeitura de Rio Verde inaugurou a primeira fase do Hospital Municipal Universitário (HMU), um marco para a saúde e a formação médica em Goiás!
 
-**Investimento e Dimensão:**
-*   R$ 128 milhões em recursos municipais
-*   Maior hospital municipal do estado
-*   25 mil m² de área construída
-
-**Destaques da estrutura:**
-* ✅ 275 leitos de enfermaria + 36 de UTI
-* ✅ Pronto-socorro com 15 leitos de observação
-* ✅ Centro cirúrgico com tecnologia robótica
-* ✅ Laboratórios, diagnóstico por imagem e ensino médico
-* ✅ Heliporto para emergências
-
-Com 25 mil m² de área construída, o HMU melhora o atendimento na região e fortalece a formação de novos médicos!`,
-    data: "15 Nov 2023",
-    autor: "Eduardo Aparecido",
-    autorImagem: "avatar-maria.jpg",
-    categoria: "Saúde",
-    tags: ["café", "gastronomia", "inauguração"],
-    endereco: "Rua Principal, 123 - Centro",
-    latitude: -17.79942422405687,
-    longitude: -50.93200656856998
-  },
-  {
-    id: "2",
-    titulo: "Parque da cidade recebe novo espaço para esportes",
-    imagem: "/images/noticias/parque-esportes.jpg",
-    galeria: [
-      "/images/noticias/parque-esportes-1.jpg",
-      "/images/noticias/parque-esportes-2.jpg",
-      "/images/noticias/parque-esportes-3.jpg"
-    ],
-    resumo: "O Parque Municipal foi revitalizado e agora conta com novas quadras esportivas, pista de skate e academia ao ar livre.",
-    conteudo: "O Parque Municipal de Rio Verde acaba de receber uma importante revitalização, com foco especial em novos espaços para a prática de esportes. O projeto, que levou seis meses para ser concluído, incluiu a construção de três novas quadras poliesportivas, uma pista de skate profissional e uma academia ao ar livre completa.\n\nSegundo a Secretaria de Esportes e Lazer, o investimento de R$ 1,2 milhão visa promover a saúde e o bem-estar da população, além de fomentar a prática esportiva entre crianças e jovens. As novas instalações contam com iluminação de LED, permitindo o uso noturno, e sistemas de drenagem eficientes para evitar alagamentos em períodos chuvosos.\n\n'Estamos muito felizes em entregar esse espaço renovado para a população. O parque sempre foi um ponto de encontro importante para as famílias, e agora oferece ainda mais opções de lazer e esporte para todas as idades', declarou o secretário de Esportes, Roberto Santos.\n\nA inauguração oficial acontecerá no próximo sábado, com uma programação especial que inclui torneios esportivos, apresentações de skatistas profissionais e aulas abertas de diversas modalidades.",
-    data: "20 Nov 2023",
-    autor: "Carlos Mendes",
-    autorImagem: "avatar-carlos.jpg",
-    categoria: "Esportes",
-    tags: ["parque", "esportes", "lazer"],
-    endereco: "Av. dos Esportes, 456 - Setor Olímpico",
-    latitude: -17.80142422405687,
-    longitude: -50.93400656856998
-  }
 ];
 
 const NoticiaDetalhe = () => {
   const { id } = useParams();
+  const { noticias, adicionarNoticia } = useNoticias();
   const [noticia, setNoticia] = useState<Noticia | null>(null);
   const [carregando, setCarregando] = useState(true);
   const [modalAberto, setModalAberto] = useState(false);
   const [imagemSelecionadaIndex, setImagemSelecionadaIndex] = useState(0);
   
+  const criarNoticia = useCallback(() => {
+    // Verifica se a notícia já existe
+    if (!noticias.some(n => n.id === id)) { // Use o ID da URL
+      const novaNoticia: Noticia = {
+        id: uuidv4(), // Gerar um ID único
+        titulo: "Nova Notícia",
+        imagem: "/images/noticias/nova-noticia.jpg",
+        galeria: [],
+        resumo: "Resumo da nova notícia",
+        conteudo: "Conteúdo da nova notícia",
+        data: new Date().toLocaleDateString(),
+        autor: "Autor Exemplo",
+        autorImagem: "avatar-exemplo.jpg",
+        categoria: "Categoria Exemplo",
+        tags: [],
+        endereco: "Endereço Exemplo",
+        latitude: 0,
+        longitude: 0,
+      };
+      adicionarNoticia(novaNoticia);
+    }
+  }, [adicionarNoticia, noticias, id]);
+
   useEffect(() => {
-    setTimeout(() => {
-      const noticiaEncontrada = noticias.find(n => n.id === id);
-      setNoticia(noticiaEncontrada || null);
-      setCarregando(false);
-    }, 300);
-  }, [id]);
+    const noticiaEncontrada = noticias.find(n => n.id === id);
+    if (noticiaEncontrada) {
+      setNoticia(noticiaEncontrada);
+    } else {
+      criarNoticia(); // Chame a função para adicionar a nova notícia se não encontrada
+    }
+    setCarregando(false);
+  }, [id, noticias, criarNoticia]);
 
   const abrirModal = (index: number) => {
     setImagemSelecionadaIndex(index);

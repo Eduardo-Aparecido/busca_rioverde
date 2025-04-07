@@ -15,6 +15,7 @@ import { NoticiaCard } from "@/components/NoticiaCard";
 import { CardCarousel } from "@/components/ui/card-carousel";
 import { useSearch } from "@/hooks/useSearch";
 import { HighlightText } from "@/components/ui/highlight-text";
+import { useNoticias } from "@/data/NoticiaContext"; // Importando o contexto
 
 /**
  * Dados simulados para desenvolvimento
@@ -32,16 +33,7 @@ import { HighlightText } from "@/components/ui/highlight-text";
  * @property categoria - Tipo da notícia
  */
 const noticias = [
-  {
-    id: "1",
-    titulo: "Novo Hosp. Municipal Universitário",
-    imagem: "/images/noticias/hmurv1.jpg",
-    resumo: "Saúde e Educação em um Só Lugar!",
-    data: "17 Dez 2024",
-    categoria: "Saúde",
-  },
   
-
 ];
 
 /**
@@ -73,7 +65,7 @@ const categorias = ["Todos", "Cultura", "Gastronomia", "Lazer", "Turismo", "Not�
  * - results: Resultados filtrados da busca (gerenciado pelo hook useSearch)
  */
 const Novidades = () => {
-  // Estado para controle da categoria ativa
+  const { noticias } = useNoticias(); // Usando o contexto
   const [categoriaAtiva, setCategoriaAtiva] = useState("Todos");
   
   /**

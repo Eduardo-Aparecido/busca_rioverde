@@ -276,7 +276,7 @@ const EventoDetalhe = () => {
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900">
       <div className="w-full px-0 sm:w-[90%] md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[50%] mx-auto py-8">
-      <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
+        <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
           {/* Banner */}
           <div className="w-full h-[250px] sm:h-[400px] overflow-hidden">
             <img
@@ -291,16 +291,16 @@ const EventoDetalhe = () => {
             <Badge className="bg-red-500 hover:bg-red-500 text-white">
               {evento.data} ÀS {evento.hora}
             </Badge>
-            <Badge className="bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
+              <Badge className="bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
               Atualizado em {new Date().toLocaleString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-              })}
-            </Badge>
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false
+                })}
+              </Badge>
           </div>
 
           <div className="p-6">
@@ -318,7 +318,7 @@ const EventoDetalhe = () => {
                 </div>
 
                 {/* Descrição */}
-                <div className="mt-6">
+                  <div className="mt-6">
                   <div className="prose dark:prose-invert max-w-none">
                     <ReactMarkdown
                       components={{
@@ -350,30 +350,30 @@ const EventoDetalhe = () => {
                 </div>
 
                 {/* Divisor 1 */}
-                <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800" />
+                    <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800" />
 
                 {/* Galeria */}
                 <div className="mt-8">
-                  <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Galeria de Imagens</h2>
-                  <div className="grid grid-cols-2 gap-4">
-                    {evento.galeria.map((imagem, index) => (
-                      <div
-                        key={index}
-                        className="aspect-[3/4] cursor-pointer bg-black rounded-xl overflow-hidden"
-                        onClick={() => {
-                          setImagemAtual(index);
-                          setModalAberto(true);
-                        }}
-                      >
-                        <img
+                      <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Galeria de Imagens</h2>
+                      <div className="grid grid-cols-2 gap-4">
+                        {evento.galeria.map((imagem, index) => (
+                          <div
+                            key={index}
+                            className="aspect-[3/4] cursor-pointer bg-black rounded-xl overflow-hidden"
+                            onClick={() => {
+                              setImagemAtual(index);
+                              setModalAberto(true);
+                            }}
+                          >
+                            <img
                           src={typeof imagem === 'string' ? imagem : imagem.url}
                           alt={typeof imagem === 'string' ? `Imagem ${index + 1}` : imagem.descricao || `Imagem ${index + 1}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
 
                 {/* Divisor para Links */}
                 <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800" />
@@ -415,7 +415,7 @@ const EventoDetalhe = () => {
                 {/* Localização */}
                 {temLocalizacao && (
                   <div className="mt-8">
-                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Localização</h2>
+                      <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-4">Localização</h2>
                     <div className="flex items-center gap-2 text-zinc-800 dark:text-zinc-400 mb-4">
                       <MapPin className="h-4 w-4" />
                       <span>{evento.endereco}</span>
@@ -432,10 +432,10 @@ const EventoDetalhe = () => {
                 )}
               </div>
             </motion.div>
-          </div>
         </div>
+      </div>
 
-        {/* Modal da Galeria */}
+      {/* Modal da Galeria */}
         <Dialog open={modalAberto} onOpenChange={setModalAberto}>
           <DialogContent className="max-w-5xl p-0 bg-black border-0">
             <div className="relative flex items-center justify-center bg-black">
