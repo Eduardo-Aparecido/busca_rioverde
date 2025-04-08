@@ -21,12 +21,12 @@ function converterDataHora(dia: string, hora: string): string {
 export const eventos: Evento[] = [
   {
     id: "1",
-    titulo: "Carol Delgado",
-    imagem: "/images/eventos/carol_delgado/caroldelgado.png",
-    dataHora: converterDataHora("01/04/2024", "20:00"),
+    titulo: "Tecnoshow",
+    imagem: "/images/eventos/tecnoshow/tecnoshow1.jpg",
+    dataHora: converterDataHora("07/04/2025", "20:00"),
     duracao: 2,
-    local: "The Haus Coffee&Beer",
-    categoria: "Comédia Stand-Up",
+    local: "Rod. GO-174 Km 252,5 - Zona Rural",
+    categoria: "Tecnologia",
     patrocinado: false
   },
   {
@@ -43,7 +43,7 @@ export const eventos: Evento[] = [
     id: "3",
     titulo: "4° Edição Café Com Deus",
     imagem: "/images/eventos/cafe_com_deus/cafecomdeus.jpeg",
-    dataHora: converterDataHora("12/04/2024", "10:00"),
+    dataHora: converterDataHora("12/04/2025", "10:00"),
     duracao: 8,
     local: "Jardim Goias",
     categoria: "Espiritualidade"
@@ -56,7 +56,17 @@ export const eventos: Evento[] = [
     duracao: 2,
     local: "Centro",
     categoria: "Musica"
-  }
+  },
+  {
+    id: "5",
+    titulo: "Carol Delgado",
+    imagem: "/images/eventos/carol_delgado/caroldelgado.png",
+    dataHora: converterDataHora("01/04/2025", "20:00"),
+    duracao: 2,
+    local: "The Haus Coffee&Beer",
+    categoria: "Comédia Stand-Up",
+    patrocinado: false
+  },
 ];
 
 // Categorias disponíveis

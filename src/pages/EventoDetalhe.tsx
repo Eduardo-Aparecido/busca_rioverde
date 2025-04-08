@@ -62,23 +62,56 @@ import ReactMarkdown from 'react-markdown';
 const eventos = [
   {
     id: "1",
-    titulo: "Carol Delgado em Love is Magic",
-    imagem: "/images/eventos/carol_delgado/caroldelgado.png",
+    titulo: "Tecnoshow Comigo 2025",
+    imagem: "/images/eventos/tecnoshow/tecnoshow1.jpg",
     galeria: [
-      { url: "/images/eventos/carol_delgado/caroldelgado_01.jpeg", descricao: "Carol Delgado no palco" },
-      { url: "/images/eventos/carol_delgado/caroldelgado_02.jpeg", descricao: "Momentos de risada com Carol" }
+      { url: "/images/eventos/tecnoshow/tecnoshow6.jpg", descricao: " " },
+      { url: "/images/eventos/tecnoshow/tecnoshow2.jpg", descricao: " " },
+      { url: "/images/eventos/tecnoshow/tecnoshow3.jpg", descricao: " " },
+      { url: "/images/eventos/tecnoshow/tecnoshow4.jpg", descricao: " " },
+      { url: "/images/eventos/tecnoshow/tecnoshow5.jpg", descricao: " " },
+      { url: "/images/eventos/tecnoshow/tecnoshow6.jpg", descricao: " " }
     ] as ImagemGaleria[],
-    data: "25 de Jan 2024",
-    hora: "20:30",
-    local: "The New Coffee Shop",
-    categoria: "Comédia Stand-Up",
-    descricao: "Carol Delgado apresenta seu novo show 'Love is Magic', uma noite especial com muito humor e diversão.",
-    ingressos: "R$ 60,00 (meia solidária) / R$ 160,00 (4 lugares) / R$ 100,00 (ingresso duplo)",
+    data: "07 de Abr 2025",
+    hora: "08:00",
+    local: "Rod. GO-174 Km 252,5 - Zona Rural",
+    categoria: "Tecnologia",
+    descricao: `Tecnoshow COMIGO 2025
+De 07 a 11 de Abril
+O agro se fortalece com inovação!
+
+A maior vitrine de soluções e tecnologia para o agronegócio no Centro-Oeste está de volta!
+
+Prepare-se para viver uma experiência completa no campo com a Tecnoshow COMIGO 2025 — um dos eventos mais aguardados do agronegócio nacional. Reunindo os principais nomes do setor, a feira traz tudo o que o produtor rural precisa para otimizar, expandir e transformar sua produção.
+
+Ano após ano, a Tecnoshow se supera: são mais expositores, negócios fechados e um público cada vez maior, comprovando sua força como referência no cenário do agronegócio.
+
+ O que você vai encontrar por lá?
+
+Máquinas e implementos de última geração
+
+Experimentos agrícolas em campo (plots)
+
+Exposição de animais de diversas raças
+
+Dinâmicas com máquinas em operação
+
+Palestras técnicas e econômicas
+
+Educação ambiental no Espaço Ambiental
+
+Muito networking e oportunidades de negócios
+
+Seja você pequeno, médio ou grande produtor, a Tecnoshow é o lugar ideal para conhecer as inovações que estão moldando o futuro da produção rural.
+
+ Viva o agro no seu melhor!
+Acesse o site oficial "[@Tecnoshow](https://www.tecnoshowcomigo.com.br/)"e fique por dentro da programação, expositores e novidades da maior feira de tecnologia rural do Centro-Oeste brasileiro.`,
+    ingressos: "Gratuito",
     avaliacao: 4.7,
-    latitude: -17.79942422405687,
-    longitude: -50.93200656856998,
-    endereco: "Rua Rafael Nascimento, 219 - Centro"
-  },
+    latitude: -17.771780669145812,
+    longitude: -51.03329726817569,
+    endereco: "Rod. GO-174 Km 252,5 - Zona Rural"
+  }, 
   {
     id: "2",
     titulo: "Banda Rocco",
@@ -154,7 +187,26 @@ Reúna a galera, garanta sua presença e venha viver essa experiência única!
     latitude: -17.79838,
     longitude: -50.93026,
     endereco: "Rua Rafael Nascimento, 417 - Centro"
-  }
+  },
+  {
+    id: "5",
+    titulo: "Carol Delgado em Love is Magic",
+    imagem: "/images/eventos/carol_delgado/caroldelgado.png",
+    galeria: [
+      { url: "/images/eventos/carol_delgado/caroldelgado_01.jpeg", descricao: "Carol Delgado no palco" },
+      { url: "/images/eventos/carol_delgado/caroldelgado_02.jpeg", descricao: "Momentos de risada com Carol" }
+    ] as ImagemGaleria[],
+    data: "25 de Jan 2024",
+    hora: "20:30",
+    local: "The New Coffee Shop",
+    categoria: "Comédia Stand-Up",
+    descricao: "Carol Delgado apresenta seu novo show 'Love is Magic', uma noite especial com muito humor e diversão.",
+    ingressos: "R$ 60,00 (meia solidária) / R$ 160,00 (4 lugares) / R$ 100,00 (ingresso duplo)",
+    avaliacao: 4.7,
+    latitude: -17.79942422405687,
+    longitude: -50.93200656856998,
+    endereco: "Rua Rafael Nascimento, 219 - Centro"
+  },
 ];
 
 interface ImagemGaleria {

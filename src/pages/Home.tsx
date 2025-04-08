@@ -65,70 +65,24 @@ const storiesDestaque: Story[] = [
   },
   {
     id: "2",
-    titulo: "Classificados",
-    imagem: "/images/servicos/anuncie_aqui.png",
+    titulo: "Tecnoshow",
+    imagem: "/images/eventos/tecnoshow/tecnoshow1.jpg",
     link: "/eventos?categoria=shows",
     conteudo: [
       {
-        tipo: "imagem" as const,
-        url: "/images/classificados/iphone13promax_03.jpg",
-        duracao: 5,
-        descricao: "iPhone 13 Pro Max - 256GB"
+        tipo: "video" as const,
+        url: "/images/eventos/tecnoshow/tecnoshow.mp4",
+        duracao: 10,
+        descricao: "O Agro não para!"
       },
-      {
-        tipo: "imagem" as const,
-        url: "/images/classificados/iphone13promax_02.jpg",
-        duracao: 5,
-        descricao: "Câmera profissional com 3 lentes"
-      },
-      {
-        tipo: "imagem" as const,
-        url: "/images/classificados/iphone13promax.jpg",
-        duracao: 5,
-        descricao: "Apenas R$ 4.999,00 - Aceito cartão!"
-      }
-    ]
-  },
-  {
-    id: "3",
-    titulo: "Restaurantes",
-    imagem: "/images/onde_ir/finnegans/finnegans_06.png",
-    link: "/onde-ir?categoria=restaurantes",
-    conteudo: [
-      {
-      tipo: "imagem" as const,
-      url: "/images/onde_ir/finnegans/finnegans_07.png",
-        duracao: 5,
-        descricao: "Conheça o Finnegans!"
-      },
-      {
-        tipo: "imagem" as const,
-        url: "/images/onde_ir/finnegans/finnegans_02.png",
-        duracao: 5,
-        descricao: "Ambiente aconchegante e climatizado"
-      },
-      {
-        tipo: "imagem" as const,
-        url: "/images/onde_ir/finnegans/finnegans_03.png",
-        duracao: 5,
-        descricao: "Cardápio variado com as melhores opções"
-      }
-    ]
-  }/**,
-  {
-    id: "4",
-    titulo: "Instagram",
-    imagem: "/images/ghibli.png",
-    link: " ",
-    conteudo: [
       {
         tipo: "video" as const,
-        url: "/videos/story-instagram.mp4",
-        duracao: 5,
-        descricao: "Teste de video!"
-      }
+        url: "/images/eventos/tecnoshow/tecnoshow2.mp4",
+        duracao: 10,
+        descricao: "O Agro não para!"
+      }      
     ]
-  }*/
+  }
 ];
 
 /**
@@ -139,12 +93,12 @@ const storiesDestaque: Story[] = [
 const eventosDestaque = [
   {
     id: "1",
-    titulo: "Carol Delgado",
-    imagem: "/images/eventos/carol_delgado/caroldelgado.png",
-    data: "06 Jun 2025",
-    hora: "20:00",
-    local: "The Haus Coffee&Beer",
-    categoria: "Comédia Stand-Up",
+    titulo: "Tecnoshow",
+    imagem: "/images/eventos/tecnoshow/tecnoshow1.jpg",
+    data: "07 Abr 2025",
+    hora: "08:00",
+    local: "Rod. GO-174 Km 252,5 - Zona Rural",
+    categoria: "Tecnologia",
     patrocinado: false
   },
   {
@@ -175,7 +129,18 @@ const eventosDestaque = [
     local: "Centro",
     categoria: "Musica",
     patrocinado: false
+  },
+  {
+    id: "5",
+    titulo: "Carol Delgado",
+    imagem: "/images/eventos/carol_delgado/caroldelgado.png",
+    data: "06 Jun 2025",
+    hora: "20:00",
+    local: "The Haus Coffee&Beer",
+    categoria: "Comédia Stand-Up",
+    patrocinado: false
   }
+  
 ];
 
 /**
