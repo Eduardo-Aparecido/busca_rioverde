@@ -32,9 +32,7 @@ import { useNoticias } from "@/data/NoticiaContext"; // Importando o contexto
  * @property data - Data de publicação
  * @property categoria - Tipo da notícia
  */
-const noticias = [
-  
-];
+
 
 /**
  * Lista de categorias disponíveis

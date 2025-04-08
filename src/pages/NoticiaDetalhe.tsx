@@ -1,11 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { 
-  Calendar, 
-  ArrowLeft,
-  MapPin
-} from "lucide-react";
+import { Calendar, ArrowLeft, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -13,31 +9,8 @@ import { ImageModal } from "@/components/ui/image-modal";
 import { Map } from "@/components/ui/map";
 import { ImageGallery } from "@/components/ui/image-gallery";
 import ReactMarkdown from 'react-markdown';
-import { useNoticias } from "@/data/NoticiaContext"; // Atualize o caminho para o novo local
-import { v4 as uuidv4 } from 'uuid'; // Importar a biblioteca uuid
-
-// Interface para a estrutura de uma notícia
-interface Noticia {
-  id: string;
-  titulo: string;
-  imagem: string;
-  galeria: string[];
-  resumo: string;
-  conteudo: string;
-  data: string;
-  autor: string;
-  autorImagem: string;
-  categoria: string;
-  tags: string[];
-  endereco: string;
-  latitude: number;
-  longitude: number;
-}
-
-// Dados simulados para desenvolvimento
-const noticias: Noticia[] = [
-
-];
+import { useNoticias, Noticia } from "@/data/NoticiaContext"; // ✅ Tipo importado daqui
+import { v4 as uuidv4 } from 'uuid';
 
 const NoticiaDetalhe = () => {
   const { id } = useParams();
@@ -46,18 +19,17 @@ const NoticiaDetalhe = () => {
   const [carregando, setCarregando] = useState(true);
   const [modalAberto, setModalAberto] = useState(false);
   const [imagemSelecionadaIndex, setImagemSelecionadaIndex] = useState(0);
-  
+
   const criarNoticia = useCallback(() => {
-    // Verifica se a notícia já existe
-    if (!noticias.some(n => n.id === id)) { // Use o ID da URL
+    if (!noticias.some(n => n.id === id) && id) {
       const novaNoticia: Noticia = {
-        id: uuidv4(), // Gerar um ID único
+        id,
         titulo: "Nova Notícia",
         imagem: "/images/noticias/nova-noticia.jpg",
-        galeria: [],
+        galeria: [], // compatível com { url, descricao? }
         resumo: "Resumo da nova notícia",
         conteudo: "Conteúdo da nova notícia",
-        data: new Date().toLocaleDateString(),
+        data: new Date().toISOString(),
         autor: "Autor Exemplo",
         autorImagem: "avatar-exemplo.jpg",
         categoria: "Categoria Exemplo",
@@ -75,7 +47,7 @@ const NoticiaDetalhe = () => {
     if (noticiaEncontrada) {
       setNoticia(noticiaEncontrada);
     } else {
-      criarNoticia(); // Chame a função para adicionar a nova notícia se não encontrada
+      criarNoticia();
     }
     setCarregando(false);
   }, [id, noticias, criarNoticia]);
@@ -97,7 +69,6 @@ const NoticiaDetalhe = () => {
     }
   };
 
-  // Adicione o componente estilizado para parágrafos
   const StyledParagraph = ({ children }) => (
     <p className="text-zinc-800 dark:text-zinc-300 mb-4">{children}</p>
   );
@@ -130,7 +101,6 @@ const NoticiaDetalhe = () => {
       <div className="fixed inset-0 bg-black -z-10" />
       <div className="w-full px-0 sm:w-[90%] md:w-[60%] lg:w-[60%] xl:w-[60%] 2xl:w-[50%] mx-auto py-8">
         <div className="bg-white dark:bg-black rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800">
-          {/* Banner */}
           <div className="w-full h-[250px] sm:h-[400px] overflow-hidden">
             <img
               src={noticia.imagem}
@@ -140,7 +110,6 @@ const NoticiaDetalhe = () => {
           </div>
 
           <div className="px-8 py-6">
-            {/* Categoria e Data */}
             <div className="flex justify-between items-center mb-6">
               <Badge 
                 variant="secondary" 
@@ -150,16 +119,18 @@ const NoticiaDetalhe = () => {
               </Badge>
               <span className="text-zinc-600 dark:text-zinc-400 text-sm flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                {noticia.data}
+                {new Date(noticia.data).toLocaleDateString("pt-BR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
               </span>
             </div>
 
-            {/* Título */}
             <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-6">
               {noticia.titulo}
             </h1>
 
-            {/* Autor */}
             <div className="flex items-center gap-4 mb-8 p-4 bg-zinc-100 dark:bg-zinc-900 rounded-lg">
               <Avatar className="w-12 h-12">
                 <AvatarImage src={`/images/${noticia.autorImagem}`} alt={noticia.autor} />
@@ -170,7 +141,6 @@ const NoticiaDetalhe = () => {
               </div>
             </div>
 
-            {/* Conteúdo */}
             <div className="mt-6">
               <div className="prose dark:prose-invert max-w-none">
                 <ReactMarkdown
@@ -204,16 +174,15 @@ const NoticiaDetalhe = () => {
 
             <hr className="border-zinc-200 dark:border-zinc-800 my-8" />
 
-            {/* Galeria */}
             <div className="mb-12">
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Galeria</h2>
               <ImageGallery 
                 images={noticia.galeria}
                 title={noticia.titulo}
+                onImageClick={abrirModal}
               />
             </div>
 
-            {/* Localização */}
             <div className="mb-12">
               <h2 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Localização</h2>
               <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4">
@@ -235,17 +204,18 @@ const NoticiaDetalhe = () => {
         </div>
       </div>
 
-      {/* Modal de imagem */}
-      <ImageModal
-        isOpen={modalAberto}
-        onClose={() => setModalAberto(false)}
-        imageUrl={noticia.galeria[imagemSelecionadaIndex]}
-        alt={`${noticia.titulo} - Imagem ${imagemSelecionadaIndex + 1}`}
-        onNext={proximaImagem}
-        onPrevious={imagemAnterior}
-        hasNext={imagemSelecionadaIndex < noticia.galeria.length - 1}
-        hasPrevious={imagemSelecionadaIndex > 0}
-      />
+      {noticia.galeria.length > 0 && (
+        <ImageModal
+          isOpen={modalAberto}
+          onClose={() => setModalAberto(false)}
+          imageUrl={noticia.galeria[imagemSelecionadaIndex]?.url}
+          alt={`${noticia.titulo} - Imagem ${imagemSelecionadaIndex + 1}`}
+          onNext={proximaImagem}
+          onPrevious={imagemAnterior}
+          hasNext={imagemSelecionadaIndex < noticia.galeria.length - 1}
+          hasPrevious={imagemSelecionadaIndex > 0}
+        />
+      )}
     </div>
   );
 };

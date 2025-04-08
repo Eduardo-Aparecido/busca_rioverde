@@ -1,12 +1,12 @@
-import React, { createContext, useContext, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid'; // Importando a biblioteca para gerar IDs únicos
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { collection, getDocs, addDoc, setDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
-// Definindo a interface para uma notícia
-interface Noticia {
+export interface Noticia {
   id: string;
   titulo: string;
   imagem: string;
-  galeria: string[];
+  galeria: { url: string; descricao?: string }[];
   resumo: string;
   conteudo: string;
   data: string;
@@ -19,36 +19,58 @@ interface Noticia {
   longitude: number;
 }
 
-// Criando o contexto
-const NoticiaContext = createContext<{
+
+interface NoticiaContextType {
   noticias: Noticia[];
   adicionarNoticia: (noticia: Noticia) => void;
-  removerNoticia: (id: string) => void; // Função para remover notícia
-}>({ noticias: [], adicionarNoticia: () => {}, removerNoticia: () => {} });
+}
 
-// Provedor do contexto
+const NoticiaContext = createContext<NoticiaContextType>({
+  noticias: [],
+  adicionarNoticia: () => {},
+});
+
 export const NoticiaProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [noticias, setNoticias] = useState<Noticia[]>([]);
 
-  const adicionarNoticia = (noticia: Noticia) => {
-    // Verifica se a notícia já existe
-    if (!noticias.some(n => n.id === noticia.id)) {
-      setNoticias(prev => [...prev, { ...noticia, id: uuidv4() }]); // Gera um ID único
+  // ✅ Carrega as notícias do Firestore ao iniciar
+  useEffect(() => {
+    const fetchNoticias = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "noticias"));
+        const lista: Noticia[] = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+            data: data.data?.toDate?.() ?? null, // Converte Timestamp para Date
+          };
+        }) as Noticia[];
+        setNoticias(lista);
+      } catch (error) {
+        console.error("Erro ao buscar notícias do Firebase:", error);
+      }
+    };
+
+    fetchNoticias();
+  }, []);
+
+  // ✅ Adiciona uma nova notícia ao Firestore com id
+  const adicionarNoticia = async (noticia: Noticia) => {
+    try {
+      const docRef = await addDoc(collection(db, "noticias"), noticia);
+      await setDoc(docRef, { ...noticia, id: docRef.id });
+      setNoticias((prev) => [...prev, { ...noticia, id: docRef.id }]);
+    } catch (error) {
+      console.error("Erro ao adicionar notícia:", error);
     }
   };
 
-  const removerNoticia = (id: string) => {
-    setNoticias(prev => prev.filter(noticia => noticia.id !== id)); // Remove a notícia pelo ID
-  };
-
   return (
-    <NoticiaContext.Provider value={{ noticias, adicionarNoticia, removerNoticia }}>
+    <NoticiaContext.Provider value={{ noticias, adicionarNoticia }}>
       {children}
     </NoticiaContext.Provider>
   );
 };
 
-// Hook para usar o contexto
-export const useNoticias = () => {
-  return useContext(NoticiaContext);
-};
+export const useNoticias = () => useContext(NoticiaContext);

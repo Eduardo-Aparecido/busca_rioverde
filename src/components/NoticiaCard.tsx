@@ -42,17 +42,6 @@ interface NoticiaCardProps {
  * - Mostra data de publicação com ícone
  * - Badge de "Patrocinado" quando aplicável
  * - Link para página de detalhes da notícia
- * 
- * @example
- * <NoticiaCard
- *   id="1"
- *   titulo="Nova atração cultural"
- *   imagem="/noticias/cultura.jpg"
- *   resumo="Uma nova atração cultural chega à cidade..."
- *   data="01/04/2024"
- *   categoria="Cultura"
- *   patrocinado={false}
- * />
  */
 export function NoticiaCard({
   id,
@@ -90,7 +79,7 @@ export function NoticiaCard({
             {/* Data de publicação */}
             <div className="flex items-center gap-2 text-sm text-card-foreground/80">
               <Calendar className="h-4 w-4 text-primary" />
-              <span>{data}</span>
+              <span>{typeof data === 'string' ? data : new Date(data).toLocaleDateString("pt-BR")}</span>
             </div>
 
             {/* Badge de Patrocinado (se aplicável) */}
