@@ -105,6 +105,11 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
                           ? "text-accent font-semibold"
                           : "text-foreground/80 hover:text-accent"
                       }`}
+                      style={{ 
+                        textTransform: 'uppercase', 
+                        fontWeight: '800', 
+                        letterSpacing: '0.05em'
+                      }}
                     >
                       {link.name}
                       {/* Indicador animado da página atual */}
@@ -212,10 +217,10 @@ const Navbar = ({ isScrolled }: NavbarProps) => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`flex flex-col items-center justify-center py-3 px-1 space-y-1 text-center transition-colors ${
+                className={`flex flex-col items-center justify-center py-6 px-1 space-y-1 text-center transition-colors ${
                   location.pathname === link.path
                     ? "text-accent"
-                    : "text-foreground/60 hover:text-accent"
+                    : "text-foreground/90 hover:text-accent"
                 }`}
               >
                 <span className="text-sm font-medium">{link.name}</span>
