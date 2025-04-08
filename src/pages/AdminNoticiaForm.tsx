@@ -7,6 +7,7 @@ import {
   deleteDoc,
   onSnapshot,
   getDoc,
+  addDoc,
 } from "firebase/firestore";
 
 interface ImagemGaleria {
@@ -78,6 +79,12 @@ const AdminNoticiaForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!titulo || !conteudo || !autor) {
+    alert("Preencha todos os campos obrigatórios!");
+    return;
+  }
+
+
     if (!data.trim()) {
       alert("Por favor, preencha a data corretamente.");
       return;
@@ -88,9 +95,10 @@ const AdminNoticiaForm = () => {
       const autorImagem = autorImagemNome ? `/images/noticias/${autorImagemNome}` : "";
 
       const galeriaFormatada = galeria.map((img) => ({
-        url: img.url ? `/images/noticias/${img.url}` : "",
+        url: img.url.startsWith("/images/") ? img.url : `/images/noticias/${img.url}`,
         descricao: img.descricao,
       }));
+      
 
       const noticia = {
         titulo,

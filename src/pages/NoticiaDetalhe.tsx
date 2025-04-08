@@ -1,7 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Calendar, ArrowLeft, MapPin } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -9,48 +8,26 @@ import { ImageModal } from "@/components/ui/image-modal";
 import { Map } from "@/components/ui/map";
 import { ImageGallery } from "@/components/ui/image-gallery";
 import ReactMarkdown from 'react-markdown';
-import { useNoticias, Noticia } from "@/data/NoticiaContext"; // ✅ Tipo importado daqui
-import { v4 as uuidv4 } from 'uuid';
+import { useNoticias, Noticia } from "@/data/NoticiaContext";
 
 const NoticiaDetalhe = () => {
   const { id } = useParams();
-  const { noticias, adicionarNoticia } = useNoticias();
+  const { noticias, loadingNoticias } = useNoticias(); // ✅ Pegando o estado de loading
   const [noticia, setNoticia] = useState<Noticia | null>(null);
   const [carregando, setCarregando] = useState(true);
   const [modalAberto, setModalAberto] = useState(false);
   const [imagemSelecionadaIndex, setImagemSelecionadaIndex] = useState(0);
 
-  const criarNoticia = useCallback(() => {
-    if (!noticias.some(n => n.id === id) && id) {
-      const novaNoticia: Noticia = {
-        id,
-        titulo: "Nova Notícia",
-        imagem: "/images/noticias/nova-noticia.jpg",
-        galeria: [], // compatível com { url, descricao? }
-        resumo: "Resumo da nova notícia",
-        conteudo: "Conteúdo da nova notícia",
-        data: new Date().toISOString(),
-        autor: "Autor Exemplo",
-        autorImagem: "avatar-exemplo.jpg",
-        categoria: "Categoria Exemplo",
-        tags: [],
-        endereco: "Endereço Exemplo",
-        latitude: 0,
-        longitude: 0,
-      };
-      adicionarNoticia(novaNoticia);
-    }
-  }, [adicionarNoticia, noticias, id]);
-
   useEffect(() => {
+    if (loadingNoticias) return; // ✅ Aguarda o carregamento global
+
     const noticiaEncontrada = noticias.find(n => n.id === id);
     if (noticiaEncontrada) {
       setNoticia(noticiaEncontrada);
-    } else {
-      criarNoticia();
     }
+
     setCarregando(false);
-  }, [id, noticias, criarNoticia]);
+  }, [id, noticias, loadingNoticias]);
 
   const abrirModal = (index: number) => {
     setImagemSelecionadaIndex(index);
@@ -73,7 +50,8 @@ const NoticiaDetalhe = () => {
     <p className="text-zinc-800 dark:text-zinc-300 mb-4">{children}</p>
   );
 
-  if (carregando) {
+  // ✅ Mostra spinner enquanto carrega tudo
+  if (carregando || loadingNoticias) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -84,6 +62,7 @@ const NoticiaDetalhe = () => {
     );
   }
 
+  // ✅ Só mostra mensagem de erro se já carregou tudo e não encontrou a notícia
   if (!noticia) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
@@ -146,9 +125,7 @@ const NoticiaDetalhe = () => {
                 <ReactMarkdown
                   components={{
                     p: StyledParagraph,
-                    strong: ({ children }) => (
-                      <span className="font-bold">{children}</span>
-                    ),
+                    strong: ({ children }) => <span className="font-bold">{children}</span>,
                     a: ({ href, children }) => (
                       <a 
                         href={href} 
@@ -159,12 +136,8 @@ const NoticiaDetalhe = () => {
                         {children}
                       </a>
                     ),
-                    ul: ({ children }) => (
-                      <ul className="list-disc pl-4 space-y-2 mb-4">{children}</ul>
-                    ),
-                    li: ({ children }) => (
-                      <li className="text-zinc-800 dark:text-zinc-300">{children}</li>
-                    )
+                    ul: ({ children }) => <ul className="list-disc pl-4 space-y-2 mb-4">{children}</ul>,
+                    li: ({ children }) => <li className="text-zinc-800 dark:text-zinc-300">{children}</li>
                   }}
                 >
                   {noticia.conteudo}

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { collection, getDocs, addDoc, setDoc } from "firebase/firestore";
+import { createContext, useContext, useState, useEffect } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 export interface Noticia {
@@ -19,58 +19,45 @@ export interface Noticia {
   longitude: number;
 }
 
-
 interface NoticiaContextType {
   noticias: Noticia[];
+  loadingNoticias: boolean;
   adicionarNoticia: (noticia: Noticia) => void;
 }
 
-const NoticiaContext = createContext<NoticiaContextType>({
-  noticias: [],
-  adicionarNoticia: () => {},
-});
+const NoticiaContext = createContext<NoticiaContextType | undefined>(undefined);
 
-export const NoticiaProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const NoticiaProvider = ({ children }) => {
   const [noticias, setNoticias] = useState<Noticia[]>([]);
+  const [loadingNoticias, setLoadingNoticias] = useState(true);
 
-  // ✅ Carrega as notícias do Firestore ao iniciar
   useEffect(() => {
-    const fetchNoticias = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "noticias"));
-        const lista: Noticia[] = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            ...data,
-            data: data.data?.toDate?.() ?? null, // Converte Timestamp para Date
-          };
-        }) as Noticia[];
-        setNoticias(lista);
-      } catch (error) {
-        console.error("Erro ao buscar notícias do Firebase:", error);
-      }
-    };
+    const unsubscribe = onSnapshot(collection(db, "noticias"), (snapshot) => {
+      const novasNoticias = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Noticia[];
 
-    fetchNoticias();
+      setNoticias(novasNoticias);
+      setLoadingNoticias(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  // ✅ Adiciona uma nova notícia ao Firestore com id
-  const adicionarNoticia = async (noticia: Noticia) => {
-    try {
-      const docRef = await addDoc(collection(db, "noticias"), noticia);
-      await setDoc(docRef, { ...noticia, id: docRef.id });
-      setNoticias((prev) => [...prev, { ...noticia, id: docRef.id }]);
-    } catch (error) {
-      console.error("Erro ao adicionar notícia:", error);
-    }
+  const adicionarNoticia = (nova: Noticia) => {
+    setNoticias(prev => [...prev, nova]);
   };
 
   return (
-    <NoticiaContext.Provider value={{ noticias, adicionarNoticia }}>
+    <NoticiaContext.Provider value={{ noticias, adicionarNoticia, loadingNoticias }}>
       {children}
     </NoticiaContext.Provider>
   );
 };
 
-export const useNoticias = () => useContext(NoticiaContext);
+export const useNoticias = () => {
+  const context = useContext(NoticiaContext);
+  if (!context) throw new Error("useNoticias deve ser usado dentro de NoticiaProvider");
+  return context;
+};
